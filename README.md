@@ -1,5 +1,4 @@
-# Group Project Website
-## React Native
+# Group Project Website - React
 
 ### Run the website
 
