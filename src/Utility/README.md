@@ -1,7 +1,5 @@
 # Utility
 
-**Contains: **<br>
-	- Data
-	- All calculation, dates, ...
-<br>
-<br>
+**Contains:**
+- Data
+- All calculation, dates, ...
