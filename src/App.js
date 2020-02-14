@@ -1,26 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import {
+  BrowserRouter as Router, Route, Switch
+} from 'react-router-dom';
+import { Home } from './Components/Home';
+import { Account } from './Components/Account';
+import { Basket } from './Components/Basket';
+import { Layout } from './Components/Layout';
+import { Results } from './Components/results_view/results';
+import { NavigationBar } from './Components/NavigationBar';
+//import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Development branch test.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+      <React.Fragment>
+        <NavigationBar/>
+        <Layout>
+          <Router>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route path="/account" component={Account} />
+              <Route path="/basket" component={Basket} />
+              <Route path="/results" component={Results} />
+            </Switch>
+          </Router>
+        </Layout>
+      </React.Fragment>
+    );
+  }
 }
 
 export default App;
