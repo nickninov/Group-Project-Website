@@ -6,7 +6,7 @@ import { Home } from './Components/Home';
 import { Account } from './Components/Account';
 import { Basket } from './Components/Basket';
 import { Layout } from './Components/Layout';
-//import { Product } from (dir of component);
+import { Results } from './Components/results_view/results';
 import { NavigationBar } from './Components/NavigationBar';
 //import './App.css';
 
@@ -21,12 +21,11 @@ class App extends React.Component {
               <Route exact path="/" component={Home} />
               <Route path="/account" component={Account} />
               <Route path="/basket" component={Basket} />
-              <Route path="/product" component={Product} />
+              <Route path="/results" component={Results} />
             </Switch>
           </Router>
         </Layout>
       </React.Fragment>
-      
     );
   }
 }

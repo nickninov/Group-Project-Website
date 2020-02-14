@@ -19,7 +19,7 @@ export const NavigationBar = () => (
                 <Nav.Item><Nav.Link href="/account">Account</Nav.Link></Nav.Item>
                 <Nav.Item><Nav.Link href="/basket">Basket</Nav.Link></Nav.Item>
                 <Button>
-                    <Nav.Item><Nav.Link href="/product">Product</Nav.Link></Nav.Item>
+                    <Nav.Item><Nav.Link href="/results">Results</Nav.Link></Nav.Item>
                 </Button>
             </Nav>
         </Navbar.Collapse>
