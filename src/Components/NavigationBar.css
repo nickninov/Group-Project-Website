@@ -1,0 +1,33 @@
+.navbar {
+    background-color: #EAEFD3;
+    border-bottom-color: #A72D2D;
+    border-bottom-style: solid;
+    height: 100%;
+}
+
+.navbar-brand, .navbar-brand, .nav-link {
+    color: #bbb;
+}
+
+.navbar-brand:hover, .navbar-brand:hover, .nav-link:hover {
+    color: #A72D2D;
+}
+
+.searchbar-size {
+        width: 60vw;
+        height: 50%;
+        display: inline-flex;
+        justify-content: center;  
+        border-radius: 10cm;
+    
+    }
+
+.searchbar #search {
+    width: 50%
+}
+
+.logo {
+    max-width: 75%;
+    height: auto;
+
+}
