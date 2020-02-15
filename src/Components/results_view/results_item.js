@@ -1,59 +1,52 @@
-
 import React from 'react';
 
-import { Col } from 'react-flexbox-grid';
 import * as Icon from 'react-feather';
 import LinesEllipsis from 'react-lines-ellipsis';
+import { Col } from 'react-bootstrap';
 
-import { Grid, Row } from 'react-flexbox-grid';
+import styles from './results_item.css';
 
-export default function ResultsItem(props) {
-    const item = props.item;
+export const ResultsItem = (props) => {
 
-    return (
-        <Col style={{}} xs={6} md={3}>
-            <div style={{ marginBottom: 20, maxWidth: 1, maxWidth: '100%' }}>
-                <img src={item.image} style={{ width: '100%', height: undefined, aspectRatio: 1 }} />
+	const item = props.item;
 
-                <LinesEllipsis
-                    style={{ padding: 0, marginBottom: 5, marginTop: 5 }}
-                    text={item.name}
-                    maxLine='2'
-                    ellipsis='...'
-                    trimRight
-                    basedOn='letters'
-                />
+	const itemOriginalPrice = (Math.floor(Math.random() * 3) + 1) === 3 ? (
+		<span className="item-price-original-wrapper">  £<span className="item-price-original">
+			{(item.price * 1.1).toFixed(2)}</span>
+		</span>
+	) : <div />
 
-                <span style={{ fontWeight: 700 }}>£{item.price}</span>
+	return (
+		<Col className="item-wrapper" xs={12} md={4} lg={3}>
+			<div className="item">
 
-                {
-                    (Math.floor(Math.random() * 3) + 1) == 3 ?
-                        <span>
-                            <span style={{fontSize: 12}}>  £<span style={{ textDecoration: 'line-through' }}>{(item.price * 1.1).toFixed(2)}</span></span>
-                        </span> : <div />
-                }
+				{/* top section */}
+				<div>
+					{/* image, title, price */}
+					<img className="item-image" src={item.image} alt="Product" />
+					<LinesEllipsis className="item-title" text={item.name} maxLine='2' />
+					<h5 classname="item-price"><span style={{ fontWeight: 700 }}>£{item.price}</span>{itemOriginalPrice}</h5>
+				</div>
 
-                <div style={{
-                    display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 20, justifyContent: "space-between", marginTop: 10
-                }}>
-                    <div style={{
-                        display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 20, justifyContent: "flex-start", padding: 5, paddingLeft: 0, paddingBottom: 4, borderRadius: 5
-                    }}>
-                        <Icon.Bookmark style={{ marginRight: 10 }} size="18" color="#A72D2D" />
-                        <Icon.Share size="18" color="#A72D2D" />
-                    </div>
+				{/* bottom section */}
+				<div className="item-controls">
 
+					{/* left side */}
+					<div>
+						<Icon.Share className="icon" size="20" />
+					</div>
 
-                    <div style={{
-                        display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 20, justifyContent: "center", backgroundColor: '#EAEFD3', padding: 5, paddingBottom: 4, borderRadius: 5
-                    }}>
-                        <Icon.ShoppingCart size="18" color="#A72D2D" />
-                        <span style={{ marginLeft: 6, fontSize: 12, color: "#A72D2D", fontWeight: 600 }}>Add to Cart</span>
-                    </div>
-                </div>
+					{/* right side */}
+					<div className="item-add-cart">
+						<Icon.ShoppingCart className="icon" size="20" />
+						<span className="item-add-cart-text">Add to Cart</span>
+					</div>
 
-            </div>
-        </Col>
-    )
-
+				</div>
+				
+			</div>
+		</Col>
+	)
 }
+
+
