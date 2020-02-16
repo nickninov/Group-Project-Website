@@ -4,6 +4,7 @@ import * as Icon from 'react-feather';
 import LinesEllipsis from 'react-lines-ellipsis';
 import { Col } from 'react-bootstrap';
 
+// eslint-disable-next-line
 import styles from './results_item.css';
 
 export const ResultsItem = (props) => {
