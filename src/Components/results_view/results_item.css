@@ -46,21 +46,3 @@
     justify-content: space-between;
     align-items: 'center';
 }
-
-.item-add-cart {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    background-color: #EAEFD3;
-    padding: 7px;
-    padding-bottom: 6px;
-    border-radius: 5px;
-}
-
-.item-add-cart-text {
-    margin-left: 6px;
-    font-size: 14px;
-    color: #A72D2D;
-    font-weight: 600;
-}

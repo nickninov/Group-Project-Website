@@ -7,6 +7,8 @@ import { Col } from 'react-bootstrap';
 // eslint-disable-next-line
 import styles from './results_item.css';
 
+import { AddToCart } from '../common/add_to_cart';
+
 export const ResultsItem = (props) => {
 
 	const item = props.item;
@@ -38,10 +40,7 @@ export const ResultsItem = (props) => {
 					</div>
 
 					{/* right side */}
-					<div className="item-add-cart">
-						<Icon.ShoppingCart className="icon" size="20" />
-						<span className="item-add-cart-text">Add to Cart</span>
-					</div>
+					<AddToCart />
 
 				</div>
 				
