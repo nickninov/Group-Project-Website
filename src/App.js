@@ -7,6 +7,7 @@ import { Account } from './Components/Account';
 import { Basket } from './Components/Basket';
 import { Layout } from './Components/Layout';
 import { Results } from './Components/results_view/results';
+import { Product } from './Components/product_view/product';
 import { NavigationBar } from './Components/NavigationBar';
 //import './App.css';
 
@@ -22,6 +23,7 @@ class App extends React.Component {
               <Route path="/account" component={Account} />
               <Route path="/basket" component={Basket} />
               <Route path="/results" component={Results} />
+              <Route path="/product" component={Product} />
             </Switch>
           </Router>
         </Layout>

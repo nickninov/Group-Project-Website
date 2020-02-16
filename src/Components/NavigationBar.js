@@ -21,6 +21,9 @@ export const NavigationBar = () => (
                 <Button>
                     <Nav.Item><Nav.Link href="/results">Results</Nav.Link></Nav.Item>
                 </Button>
+                <Button>
+                    <Nav.Item><Nav.Link href="/product">Product</Nav.Link></Nav.Item>
+                </Button>
             </Nav>
         </Navbar.Collapse>
     </Navbar>
