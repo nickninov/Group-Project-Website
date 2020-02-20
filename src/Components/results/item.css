@@ -4,7 +4,7 @@
 }
 
 .item-wrapper {
-    margin-bottom: 20px;
+    margin-bottom: 40px;
 }
 
 .item {
@@ -12,6 +12,7 @@
     justify-content: space-between;
     flex-direction: column;
     height: 100%;
+    padding: 0 15px;
 }
 
 .item-image {
@@ -42,7 +43,11 @@
 .item-controls {
     display: flex;
     flex-direction: row;
-    margin-top: 7px;
+    margin-top: 15px;
     justify-content: space-between;
     align-items: 'center';
+}
+
+.item-controls-additional {
+    margin-top: 4px;
 }
