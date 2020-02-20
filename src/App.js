@@ -8,6 +8,7 @@ import { Basket } from './Components/Basket';
 import { Layout } from './Components/Layout';
 import Results from './Container/results';
 import Product from './Container/product';
+import Checkout from './Container/checkout';
 import { NavigationBar } from './Components/NavigationBar';
 //import './App.css';
 
@@ -24,6 +25,7 @@ class App extends React.Component {
               <Route path="/basket" component={Basket} />
               <Route path="/results" component={Results} />
               <Route path="/product/:id" component={Product} />
+              <Route path="/checkout" component={Checkout} />
             </Switch>
           </Router>
         </Layout>

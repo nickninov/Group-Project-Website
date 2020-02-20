@@ -2,8 +2,9 @@
 import React from 'react';
 
 import { Row } from 'react-bootstrap';
-import { Paper, IconButton } from '@material-ui/core';
-import { Check, Add, Remove, Warning } from '@material-ui/icons';
+import { Paper } from '@material-ui/core';
+import { Check, Warning } from '@material-ui/icons';
+import QuantityControls from '../common/quantity_controls';
 
 import AddToCart from '../common/buttons/add_to_cart';
 import Price from '../common/price';
@@ -44,17 +45,11 @@ const Availability = (props) => (
 
               {/* quantity */}
               <span className="header-label">Quantity</span>
-              <Row className="quantity-wrapper">
-                <IconButton onClick={props.decreaseQuantity} color="secondary">
-                  <Remove />
-                </IconButton>
-
-                <span className="quantity-number">{props.quantity}</span>
-
-                <IconButton onClick={props.increaseQuantity} color="secondary">
-                  <Add />
-                </IconButton>
-              </Row>
+              <QuantityControls
+                quantity={props.quantity}
+                increase={props.increaseQuantity}
+                decrease={props.decreaseQuantity}
+              />
 
               {/* total */}
               <span className="header-label">Total</span>

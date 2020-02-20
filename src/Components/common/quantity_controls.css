@@ -1,0 +1,14 @@
+
+.quantity.wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-number {
+    font-weight: 600;
+    font-size: 20px;
+    margin-top: 8px;
+}

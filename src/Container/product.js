@@ -39,10 +39,8 @@ export default class Product extends React.Component {
 
 	addToCart = () => {
 
-		// #TODO: save the selected product with quantity to cart and redirect user to basket
+		// #TODO: save the selected product with quantity to cart and redirect user to cart
 		alert("sku: " + this.state.product.sku + "\nquantity: " + this.state.quantity);
-
-		console.log(this.state.product);
 	}
 
 	components() {

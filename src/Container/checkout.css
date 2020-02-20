@@ -1,0 +1,16 @@
+
+.content-wrapper {
+    width: 100%;
+    padding: 20px;
+}
+
+.content-steps {
+    display: flex;
+}
+
+.content-navigator {
+    margin-top: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
