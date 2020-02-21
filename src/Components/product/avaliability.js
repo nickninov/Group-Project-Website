@@ -28,7 +28,7 @@ const Availability = (props) => (
             <div className="upper-data">
 
               {/* stock */}
-              <span className="header-label">Stock</span>
+              <span className="header-label">Availability</span>
               <Row className="stock-wrapper">
                 {
                   (props.stock > 10) ? (
