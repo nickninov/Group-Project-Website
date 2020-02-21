@@ -4,6 +4,8 @@ import React from 'react';
 import Loading from '../Components/common/loading';
 import Cart from '../Components/checkout/cart';
 
+import getCart from '../API/get_cart';
+
 export default class CheckoutCart extends React.Component {
 
     constructor(props) {
@@ -14,40 +16,8 @@ export default class CheckoutCart extends React.Component {
         };
     }
 
-    componentDidMount() {
-
-        let data = [
-            {
-                // all required cart information
-                sku: 0,
-                quantity: 2,
-
-                // retrieved from database 
-                name: 'Ray Harryhausen: Special Effects Titan',
-                price: 60.00,
-                discount: null,
-                stock: 28,
-
-                // generated after retrieved from database
-                price_subtotal: 120.00,
-                discount_subtotal: null,
-            },
-            {
-                // all required cart information
-                sku: 1,
-                quantity: 4,
-
-                // retrieved from database 
-                name: 'Trail of the Screaming Forehead',
-                price: 40.00,
-                discount: 35.00,
-                stock: 15,
-
-                // generated after retrieved from database
-                price_subtotal: 160.00,
-                discount_subtotal: 140.00,
-            }
-        ]
+    async componentDidMount() {
+        let data = await getCart();
 
         this.setState({
             loading: false,

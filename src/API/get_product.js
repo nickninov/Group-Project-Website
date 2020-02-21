@@ -1,11 +1,10 @@
 
+import { apiProduct } from './dictionary';
 
-async function getProduct(id) {
+async function getProduct() {
     try {
-        let data = await (await fetch('https://raw.githubusercontent.com/dropcmd/test/master/MOCK_DATA.json')).json();
+        let data = await (await fetch(apiProduct())).json();
         return data[0];
-        // let data = await (await fetch('localhost:3000/product/' + id)).json();
-        // return data;
     } catch (e) {
         console.log("getProduct() error:\n" + e);
     }
