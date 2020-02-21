@@ -19,16 +19,14 @@ export const CustomButton = (props) => {
         },
     })(Button);
 
-    // const icon = <Icon>{props.icon}</Icon>;
-    const icon = props.icon;
-
     return (
         <div>
             <CustomButton
                 onClick={props.script}
                 variant="contained"
                 color="primary"
-                endIcon={icon}
+                endIcon={props.icon}
+                startIcon={props.startIcon}
             >
                 {props.text}
             </CustomButton>

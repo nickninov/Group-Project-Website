@@ -1,0 +1,33 @@
+
+.checkout-wrapper {
+    margin-top: 20px;
+}
+
+.breadcrumb-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.breadcrumb-icon {
+    width: 20px;
+    height: 20;
+}
+
+.breadcrumb-text {
+    text-transform: uppercase;
+    margin-left: 5px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.content-wrapper {
+    margin-top: 20px;
+}
