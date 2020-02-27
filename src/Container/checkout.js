@@ -6,7 +6,7 @@ import ForwardButton from '../Components/common/buttons/forward_button';
 
 import Steps from '../Components/checkout/steps';
 import CheckoutCart from './checkout_cart';
-import Details from '../Components/checkout/details';
+import CheckoutDetails from './checkout_details';
 import Options from '../Components/checkout/options';
 import Confirm from '../Components/checkout/confirm';
 
@@ -25,7 +25,7 @@ export default class Checkout extends React.Component {
   initSections() {
     let sectionList = [
       <CheckoutCart />,
-      <Details />,
+      <CheckoutDetails />,
       <Options />,
       <Confirm />
     ]

@@ -1,0 +1,18 @@
+
+.checkout-details-row {
+    margin-top: 30px;
+}
+
+.checkout-details-textfield {
+    margin-bottom: 32px;
+}
+
+.checkout-details-change {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkout-details-change-button {
+    margin: 0 10px;
+}

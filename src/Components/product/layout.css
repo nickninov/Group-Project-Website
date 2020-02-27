@@ -1,4 +1,8 @@
 
+.product-wrapper {
+    max-width: 1000px !important;
+}
+
 .product-row {
     margin-top: 50px;
 }

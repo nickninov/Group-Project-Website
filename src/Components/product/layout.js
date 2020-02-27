@@ -6,7 +6,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import './layout.css';
 
 const Layout = (props) => (
-	<Container>
+	<Container className="product-wrapper">
 		<Row className="product-row">
 			<Col lg={4} className="left">
 				{props.left}
