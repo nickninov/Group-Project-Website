@@ -57,7 +57,7 @@ export const Options = () => {
                   <FormControlLabel
                     value="standard"
                     control={<Radio />}
-                    label="Standard £1.99"
+                    label="Standard Free"
                   />
                   <FormControlLabel
                     value="express"

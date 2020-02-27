@@ -1,9 +1,9 @@
 import React from "react";
 
 import Loading from "../Components/common/loading";
-import Details from "../Components/checkout/details";
+import Confirm from "../Components/checkout/confirm";
 
-export default class CheckoutDetails extends React.Component {
+export default class CheckoutConfirm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,18 +14,17 @@ export default class CheckoutDetails extends React.Component {
 
   componentDidMount() {
     this.setState({
-      loading: false,
-      data: this.props.data,
+      loading: false
     });
   }
 
   components() {
     return (
-      <div>
-        <Details
-            data={this.state.data}
-        />
-      </div>
+      <Confirm
+        cartData={this.props.cartData}
+        total={this.props.total}
+        detailsData={this.props.detailsData}
+      />
     );
   }
 

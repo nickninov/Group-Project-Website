@@ -8,7 +8,10 @@ import Steps from "../Components/checkout/steps";
 import CheckoutCart from "./checkout_cart";
 import CheckoutDetails from "./checkout_details";
 import CheckoutOptions from "./checkout_options";
-import Confirm from "../Components/checkout/confirm";
+import CheckoutConfirm from "./checkout_confirm";
+
+import getCart from "../API/get_cart";
+import getProfile from "../API/get_profile";
 
 import "./checkout.css";
 
@@ -22,12 +25,21 @@ export default class Checkout extends React.Component {
     };
   }
 
-  initSections() {
+  async initSections() {
+    let cartData = await getCart();
+    let detailsData = await getProfile();
+
+    let total = this.getTotal(cartData);
+
     let sectionList = [
-      <CheckoutCart />,
-      <CheckoutDetails />,
+      <CheckoutCart total={total} data={cartData} />,
+      <CheckoutDetails data={detailsData} />,
       <CheckoutOptions />,
-      <Confirm />
+      <CheckoutConfirm
+        cartData={cartData}
+        total={total}
+        detailsData={detailsData}
+      />
     ];
 
     this.setState({
@@ -36,6 +48,12 @@ export default class Checkout extends React.Component {
       maxIndex: sectionList.length - 1
     });
   }
+
+  getTotal(data) {
+    let total = 0;
+    data.map(obj => total += obj.discount_subtotal == null ? obj.price_subtotal : obj.discount_subtotal)
+    return total;
+}
 
   getSection(index) {
     return this.state.sectionList[index];
@@ -76,13 +94,7 @@ export default class Checkout extends React.Component {
             >
               <BackwardButton script={() => this.incrementSection(-1)} />
             </div>
-            <div
-              style={{
-                display:
-                  this.state.index == this.state.maxIndex ? "none" : "block"
-              }}
-              className="content-navigator-forwards"
-            >
+            <div className="content-navigator-forwards">
               <ForwardButton script={() => this.incrementSection()} />
             </div>
           </div>

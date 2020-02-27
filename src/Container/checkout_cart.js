@@ -4,8 +4,6 @@ import React from 'react';
 import Loading from '../Components/common/loading';
 import Cart from '../Components/checkout/cart';
 
-import getCart from '../API/get_cart';
-
 export default class CheckoutCart extends React.Component {
 
     constructor(props) {
@@ -16,12 +14,10 @@ export default class CheckoutCart extends React.Component {
         };
     }
 
-    async componentDidMount() {
-        let data = await getCart();
-
+    componentDidMount() {
         this.setState({
             loading: false,
-            data: data,
+            data: this.props.data,
         });
     }
 
@@ -44,17 +40,12 @@ export default class CheckoutCart extends React.Component {
         }
     }
 
-    getTotal(data) {
-        let total = 0;
-        data.map(obj => total += obj.discount_subtotal == null ? obj.price_subtotal : obj.discount_subtotal)
-        return total;
-    }
-
     components() {
         return (
             <Cart
                 data={this.state.data}
-                total={this.getTotal(this.state.data)}
+                total={this.props.total}
+                // total={this.getTotal(this.state.data)}
                 changeQuantity={this.changeQuantity}
             />
         )
