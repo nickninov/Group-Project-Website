@@ -1,5 +1,6 @@
 .button {
-    float: left;
     border: 1px;
-    border-color: #A72D2D;
+    border-color: #A72D2D !important;
+    padding-left: 15px;
+
 }

@@ -1,0 +1,13 @@
+    .Login {
+        padding: 10%
+    }
+
+    .Login form {
+        margin: 0 auto;
+        max-width: 320px;
+    }
+
+    .p {
+        margin-top: 1rem !important;
+        margin-bottom: 1rem
+    }
