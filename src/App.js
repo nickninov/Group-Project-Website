@@ -9,6 +9,7 @@ import { Layout } from './Components/Layout';
 import Results from './Container/results';
 import Product from './Container/product';
 import Checkout from './Container/checkout';
+import { RegisterForm }  from './Container/RegisterForm';
 import { NavigationBar } from './Components/NavigationBar';
 //import './App.css';
 
@@ -26,6 +27,7 @@ class App extends React.Component {
               <Route path="/results" component={Results} />
               <Route path="/product/:id" component={Product} />
               <Route path="/checkout" component={Checkout} />
+              <Route path="/register" component={RegisterForm} />
             </Switch>
           </Router>
         </Layout>

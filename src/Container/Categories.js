@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { Dropdown } from 'react-bootstrap';
+import { Row } from 'react-bootstrap';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
+import b from './Categories.css';
 
 export class Categories extends React.Component {
 
     render() {
         return (
             //Possibility to add onClick function for each action (redirecting for example)
+        
             <Dropdown>
+                <Row>
             <Dropdown>
                 <DropdownToggle
                 alignRight
@@ -18,9 +22,9 @@ export class Categories extends React.Component {
                     Lego
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem href="#/action-1">Boxes</DropdownItem>
-                    <DropdownItem href="#/action-2">Collectibles</DropdownItem>
-                    <DropdownItem href="#/action-3">Limited Edition</DropdownItem>
+                    <DropdownItem href="#/boxes">Boxes</DropdownItem>
+                    <DropdownItem href="#/collectibles">Collectibles</DropdownItem>
+                    <DropdownItem href="#/limited-edition">Limited Edition</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
             <Dropdown>
@@ -31,9 +35,9 @@ export class Categories extends React.Component {
                     Boardgame
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem href="#/action-1">Classics</DropdownItem>
-                    <DropdownItem href="#/action-2">New Editions</DropdownItem>
-                    <DropdownItem href="#/action-3">More..</DropdownItem>
+                    <DropdownItem href="#/classics">Classics</DropdownItem>
+                    <DropdownItem href="#/new-editions">New Editions</DropdownItem>
+                    <DropdownItem href="#/more">More..</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
             <Dropdown>
@@ -44,9 +48,9 @@ export class Categories extends React.Component {
                     D&D
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem href="#/action-1">Characters</DropdownItem>
-                    <DropdownItem href="#/action-2">Dices</DropdownItem>
-                    <DropdownItem href="#/action-3">Boards</DropdownItem>
+                    <DropdownItem href="#/characters">Characters</DropdownItem>
+                    <DropdownItem href="#/dices">Dices</DropdownItem>
+                    <DropdownItem href="#/boards">Boards</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
             <Dropdown>
@@ -57,12 +61,27 @@ export class Categories extends React.Component {
                     Whats New
                 </DropdownToggle>
                 <DropdownMenu>
-                    <DropdownItem href="#/action-1">Something</DropdownItem>
-                    <DropdownItem href="#/action-2">Something else</DropdownItem>
-                    <DropdownItem href="#/action-3">More</DropdownItem>
+                    <DropdownItem href="#/something">Something</DropdownItem>
+                    <DropdownItem href="#/something-else">Something else</DropdownItem>
+                    <DropdownItem href="#/more">More</DropdownItem>
                 </DropdownMenu>
             </Dropdown>
+            <Dropdown>
+                <DropdownToggle
+                alignRight
+                variant="Secondary"
+                id="dropdown-menu-align-right">
+                    More Categories
+                </DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem href="#/something">Something</DropdownItem>
+                    <DropdownItem href="#/something-else">Something else</DropdownItem>
+                    <DropdownItem href="#/more">More</DropdownItem>
+                </DropdownMenu>
             </Dropdown>
+            </Row>
+            </Dropdown>
+          
         );
     }
 }
