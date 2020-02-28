@@ -1,0 +1,16 @@
+
+.confirm-upper-row {
+  margin-top: 30px;
+}
+
+table, td, th {
+  border: 0px solid black;
+}
+td, th {
+  padding: 0px 15px 25px 0;
+}
+
+.confirm-total {
+  font-size: 22px;
+  font-weight: 600;
+}
