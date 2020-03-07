@@ -1,15 +1,18 @@
+import { fetchRequest } from "./fetch_methods";
+import { apiCart } from "./dictionary";
 
-import { apiCart } from './dictionary';
+/*  
 
-async function getCart() {
-    try {
-        let data = await (await fetch(apiCart())).json();
-        return data;
-        // let data = await (await fetch('localhost:3000/product/' + id)).json();
-        // return data;
-    } catch (e) {
-        console.log("getCart() error:\n" + e);
-    }
-}
+    successful expected responses:
+    - res.cart: List of Objects
+    unsuccessful expected responses:
+    - # TODO
+
+*/
+
+// auth route
+export const getCart = async token => {
+  return await fetchRequest("GET", apiCart(), null, token);
+};
 
 export default getCart;

@@ -8,13 +8,12 @@ export const Confirm = props => {
   const details = props.detailsData;
   const cart = props.cartData;
 
-  var total;
-  cart.forEach(e => {
-    total +=
-      e.discount_subtotal == null ? e.price_subtotal : e.discount_subtotal;
-  });
 
-  console.log("total: " + total);
+  // var total = 0;
+  // cart.forEach(e => {
+  //   total +=
+  //     e.discount_subtotal == null ? e.price_subtotal : e.discount_subtotal;
+  // });
 
   return (
     <Container>

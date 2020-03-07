@@ -1,7 +1,7 @@
 import React from "react";
 
-import Loading from "../Components/common/loading";
-import Confirm from "../Components/checkout/confirm";
+import Loading from "../../Components/common/loading";
+import Confirm from "../../Components/checkout/confirm";
 
 export default class CheckoutConfirm extends React.Component {
   constructor(props) {

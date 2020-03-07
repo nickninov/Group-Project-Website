@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import DropdownMenu from 'react-bootstrap/DropdownMenu';
 import DropdownItem from 'react-bootstrap/DropdownItem';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
-import b from './Categories.css';
+import './categories.css';
 
 export class Categories extends React.Component {
 
@@ -16,7 +16,7 @@ export class Categories extends React.Component {
                 <Row>
             <Dropdown>
                 <DropdownToggle
-                alignRight
+                // alignRight
                 variant="Secondary"
                 id="dropdown-menu-align-right">
                     Lego
@@ -29,7 +29,7 @@ export class Categories extends React.Component {
             </Dropdown>
             <Dropdown>
                 <DropdownToggle
-                alignRight
+                // alignRight
                 variant="Secondary"
                 id="dropdown-menu-align-right">
                     Boardgame
@@ -42,7 +42,7 @@ export class Categories extends React.Component {
             </Dropdown>
             <Dropdown>
                 <DropdownToggle
-                alignRight
+                // alignRight
                 variant="Secondary"
                 id="dropdown-menu-align-right">
                     D&D
@@ -55,7 +55,7 @@ export class Categories extends React.Component {
             </Dropdown>
             <Dropdown>
                 <DropdownToggle
-                alignRight
+                // alignRight
                 variant="Secondary"
                 id="dropdown-menu-align-right">
                     Whats New
@@ -68,7 +68,7 @@ export class Categories extends React.Component {
             </Dropdown>
             <Dropdown>
                 <DropdownToggle
-                alignRight
+                // alignRight
                 variant="Secondary"
                 id="dropdown-menu-align-right">
                     More Categories

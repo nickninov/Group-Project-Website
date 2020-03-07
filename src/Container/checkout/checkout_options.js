@@ -1,7 +1,7 @@
 import React from "react";
 
-import Loading from "../Components/common/loading";
-import Options from "../Components/checkout/options";
+import Loading from "../../Components/common/loading";
+import Options from "../../Components/checkout/options";
 
 export default class CheckoutOptions extends React.Component {
   constructor(props) {

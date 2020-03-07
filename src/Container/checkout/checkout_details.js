@@ -1,7 +1,7 @@
 import React from "react";
 
-import Loading from "../Components/common/loading";
-import Details from "../Components/checkout/details";
+import Loading from "../../Components/common/loading";
+import Details from "../../Components/checkout/details";
 
 export default class CheckoutDetails extends React.Component {
   constructor(props) {

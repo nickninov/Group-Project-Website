@@ -35,7 +35,7 @@ export const Cart = (props) => {
                     </TableHead>
 
                     <TableBody>
-                        {data.map(row => (
+                        {/* {data.map(row => (
                             <TableRow key={row.sku}>
                                 <TableCell><h5 style={{ padding: 0, margin: 0 }}>{row.name}</h5></TableCell>
                                 <TableCell>
@@ -54,7 +54,7 @@ export const Cart = (props) => {
                                     <Price oneLine={true} price={row.price_subtotal} discount={row.discount_subtotal} />
                                 </TableCell>
                             </TableRow>
-                        ))}
+                        ))} */}
                     </TableBody>
 
                     <TableFooter>
