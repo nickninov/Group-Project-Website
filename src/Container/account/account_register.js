@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import RegisterForm from "../../Components/register/register_form";
-import postRegister from "../../api/post_register";
+import postRegister from "../../API/post_register";
 
 export function AccountRegister(props) {
   const history = useHistory();

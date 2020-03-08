@@ -7,10 +7,9 @@ import Images from "../Components/product/images";
 import Info from "../Components/product/info";
 import Availability from "../Components/product/avaliability";
 
-import formatImageListURL from "../utility/formatImageListURL";
-// import getProduct from '../API/get_product';
+import formatImageListURL from "../Utility/formatImageListURL";
 
-import getSearchProductById from "../api/get_search_product_by_id";
+import getSearchProductById from "../API/get_search_product_by_id";
 
 export default class Product extends React.Component {
   constructor(props) {

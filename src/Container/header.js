@@ -2,7 +2,7 @@ import React from "react";
 
 import NavBar from "../Components/header/nav_bar";
 
-import getUser from "../api/get_user";
+import getUser from "../API/get_user";
 
 // business logic component
 export default class Header extends React.Component {

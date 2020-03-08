@@ -11,8 +11,8 @@ import CheckoutDetails from "./checkout_details";
 import CheckoutOptions from "./checkout_options";
 import CheckoutConfirm from "./checkout_confirm";
 
-import getCart from "../../api/get_cart";
-import getUserAccount from "../../api/get_user_account";
+import getCart from "../../API/get_cart";
+import getUserAccount from "../../API/get_user_account";
 
 export default class Checkout extends React.Component {
   constructor(props) {

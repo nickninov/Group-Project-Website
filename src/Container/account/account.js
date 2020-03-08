@@ -6,8 +6,8 @@ import Layout from "../../Components/account/layout";
 import Details from "../../Components/account/details";
 import Orders from "../../Components/account/orders";
 
-import getOrders from "../../api/get_orders";
-import getUserAccount from "../../api/get_user_account";
+import getOrders from "../../API/get_orders";
+import getUserAccount from "../../API/get_user_account";
 
 export default class Account extends React.Component {
   constructor(props) {
