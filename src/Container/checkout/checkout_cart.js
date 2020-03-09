@@ -1,8 +1,8 @@
 
 import React from 'react';
 
-import Loading from '../Components/common/loading';
-import Cart from '../Components/checkout/cart';
+import Loading from '../../Components/common/loading';
+import Cart from '../../Components/checkout/cart';
 
 export default class CheckoutCart extends React.Component {
 
@@ -41,6 +41,9 @@ export default class CheckoutCart extends React.Component {
     }
 
     components() {
+
+        console.log(this.state.data);
+
         return (
             <Cart
                 data={this.state.data}

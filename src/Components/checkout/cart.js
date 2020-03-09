@@ -17,7 +17,9 @@ import './cart';
 export const Cart = (props) => {
 
     const data = props.data;
-    const total = props.total;
+    // const total = props.total;
+
+    data.map(item => console.log(item.stock))
 
     return (
         <div>
@@ -36,7 +38,7 @@ export const Cart = (props) => {
 
                     <TableBody>
                         {data.map(row => (
-                            <TableRow key={row.sku}>
+                            <TableRow key={row._id}>
                                 <TableCell><h5 style={{ padding: 0, margin: 0 }}>{row.name}</h5></TableCell>
                                 <TableCell>
                                     <Price oneLine={true} price={row.price} discount={row.discount} />
@@ -44,14 +46,16 @@ export const Cart = (props) => {
                                 <TableCell>
 
                                     <QuantityControls
-                                        quantity={row.quantity}
+                                        // quantity={row.quantity}
+                                        quantity="n/a"
                                         increase={() => props.changeQuantity(row.sku, 1, row.stock, row.quantity)}
                                         decrease={() => props.changeQuantity(row.sku, -1, row.stock, row.quantity)}
                                     />
 
                                 </TableCell>
                                 <TableCell>
-                                    <Price oneLine={true} price={row.price_subtotal} discount={row.discount_subtotal} />
+                                    <h1>n/a</h1>
+                                    {/* <Price oneLine={true} price={row.price_subtotal} discount={row.discount_subtotal} /> */}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -60,7 +64,9 @@ export const Cart = (props) => {
                     <TableFooter>
                         <TableRow>
                             <TableCell align="right" colSpan={3}><span className="table-header">Total</span></TableCell>
-                            <TableCell><Price oneLine={true} price={total} /></TableCell>
+                            {/* <TableCell><Price oneLine={true} price={total} /></TableCell> */}
+                            {/* <TableCell><Price oneLine={true} price={total} /></TableCell> */}
+                            <h1>n/a</h1>
                         </TableRow>
                     </TableFooter>
 
