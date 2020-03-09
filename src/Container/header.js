@@ -24,25 +24,31 @@ export default class Header extends React.Component {
     data = await this.props.getToken();
     console.log("token: " + data);
   }
+
+  async setSomethingElse() {
+    await this.props.setCart({
+      cart: ["5e5da05f60236d003da3ed4b"]
+    });
+  }
+
+  async getSomethingElse() {
+    var data;
+    data = await this.props.getCart();
+    console.log("cart: ");
+    console.log(data);
+  }
   // DEVELOPMENT :: END
 
   async componentDidMount() {
     const token = await this.props.getToken();
 
-    console.log("token::");
-    console.log(token);
-
     if (token !== null) {
       await getUser(token).then(res => this.setState({ data: res }));
-      // await getUser(token).then(res => console.log(res));
     }
   }
 
   render() {
     const data = this.state.data;
-
-    console.log("data::");
-    console.log(data);
 
     const message = data == null ? "Account" : "Welcome " + data.firstName;
     const basketAmount =
@@ -52,6 +58,8 @@ export default class Header extends React.Component {
       <div>
         <button onClick={() => this.setSomething()}>reset</button>
         <button onClick={() => this.getSomething()}>get token</button>
+        {/* <button onClick={() => this.setSomethingElse()}>set cart</button>
+        <button onClick={() => this.getSomethingElse()}>get cart</button> */}
         <NavBar message={message} basketAmount={basketAmount} />
       </div>
     );

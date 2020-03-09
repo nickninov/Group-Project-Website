@@ -15,7 +15,7 @@ export const apiUser = () => `${_apiBase}/user`;
 export const apiUserAccount = () => `${_apiBase}/user/account`;
 
 // cart
-export const apiCart = () => `${_apiBase}/user/cart`;
+export const apiUserCart = () => `${_apiBase}/user/cart`;
 
 // order
 export const apiOrder = () => `${_apiBase}/user/order`;

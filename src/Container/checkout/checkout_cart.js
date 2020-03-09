@@ -41,6 +41,9 @@ export default class CheckoutCart extends React.Component {
     }
 
     components() {
+
+        console.log(this.state.data);
+
         return (
             <Cart
                 data={this.state.data}

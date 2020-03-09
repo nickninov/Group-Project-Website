@@ -11,7 +11,7 @@ export function AccountLogin(props) {
     await postLogin(email, password).then(res => {
       if (res.token != null) {
         props.setToken(res.token);
-        history.push("/account");
+        history.push("/");
       } else {
         alert(JSON.stringify(res)); // #TODO
       }

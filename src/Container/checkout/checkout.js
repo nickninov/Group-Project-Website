@@ -11,8 +11,10 @@ import CheckoutDetails from "./checkout_details";
 import CheckoutOptions from "./checkout_options";
 import CheckoutConfirm from "./checkout_confirm";
 
-import getCart from "../../API/get_cart";
+import getUserCart from "../../API/get_user_cart";
+import updateUserCart from "../../API/update_user_cart";
 import getUserAccount from "../../API/get_user_account";
+import postOrder from "../../API/post_order";
 
 export default class Checkout extends React.Component {
   constructor(props) {
@@ -27,7 +29,7 @@ export default class Checkout extends React.Component {
   }
 
   async getData(token) {
-    const cartData = await getCart(token);
+    const cartData = await getUserCart(token);
     const detailsData = await getUserAccount(token);
 
     if (cartData != null || detailsData != null) {
@@ -79,11 +81,83 @@ export default class Checkout extends React.Component {
     let l = this.state.maxIndex;
 
     if (num === 1 || num == null) {
+      i == l && this.finishOrder();
       this.setState({ index: i >= l ? l : i + 1 });
     } else if (num === -1) {
       this.setState({ index: i <= 0 ? 0 : i - 1 });
     }
   };
+
+  _finishOrder() {
+    this.finishOrder();
+  }
+
+  async finishOrder() {
+    // const order = {
+    //   shippingAddress: {
+    //     firstLine: "firstLine",
+    //     secondLine: "secondLine",
+    //     townCity: "townCity",
+    //     county: "county",
+    //     postcode: "postcode",
+    //     isBilling: true,
+    //     isDelivery: false
+    //   },
+    //   billingAddress: {
+    //     firstLine: "firstLine",
+    //     secondLine: "secondLine",
+    //     townCity: "townCity",
+    //     county: "county",
+    //     postcode: "postcode",
+    //     isBilling: false,
+    //     isDelivery: true
+    //   },
+    //   products: {
+    //     quantity: 2,
+    //     product: "5e5da05f60236d003da3ed4b"
+    //   }
+    // };
+
+    const token = await this.props.getToken();
+
+    let res = await postOrder(
+      {
+        shippingAddress: {
+          firstLine: "firstLine",
+          secondLine: "secondLine",
+          townCity: "townCity",
+          county: "county",
+          postcode: "postcode",
+          isBilling: true,
+          isDelivery: false
+        },
+        billingAddress: {
+          firstLine: "firstLine",
+          secondLine: "secondLine",
+          townCity: "townCity",
+          county: "county",
+          postcode: "postcode",
+          isBilling: false,
+          isDelivery: true
+        },
+        products: {
+          quantity: 2,
+          product: "5e5da05f60236d003da3ed4b"
+        }
+      },
+      token
+    );
+
+    if (res.status == "ordered") {
+      alert("Thank you for shopping. Your order has been confirmed.");
+      await updateUserCart({ cart: [] }, token).then(() =>
+        window.location.reload()
+      );
+    } else {
+      alert("err, chk console for call res");
+      console.log(res);
+    }
+  }
 
   async componentDidMount() {
     const token = await this.props.getToken();

@@ -29,6 +29,7 @@ export default class Results extends React.Component {
     const objectResults = this.state.products.map(item => <Item item={item} />);
 
     return <Layout products={objectResults} />;
+    
   }
 
   render() {

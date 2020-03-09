@@ -1,5 +1,5 @@
-import { getData } from "./fetch_methods";
-import { apiCart } from "./dictionary";
+import { fetchRequest } from "./fetch_methods";
+import { apiUserCart } from "./dictionary";
 
 /*  
 
@@ -11,11 +11,8 @@ import { apiCart } from "./dictionary";
 */
 
 // auth route
-export const updateCart = async (token, cart) => {
-  return await getData(apiCart(), {
-    token: token,
-    cart: cart
-  });
+export const updateUserCart = async (cart, token) => {
+  return await fetchRequest("PUT", apiUserCart(), cart, token);
 };
 
-export default updateCart;
+export default updateUserCart;

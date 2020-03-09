@@ -1,6 +1,3 @@
-
-// #TODO untested
-
 import { fetchRequest } from "./fetch_methods";
 import { apiOrder } from "./dictionary";
 
@@ -14,10 +11,9 @@ import { apiOrder } from "./dictionary";
 */
 
 // auth route
-export const order = async (token, cart) => {
-  return await fetchRequest("POST", apiOrder(), {
-    cart: cart
-  }, token);
+export const postOrder = async (data, token) => {
+  // return await fetchRequest("POST", apiOrder(), data, token);
+  return await fetchRequest("POST", apiOrder(), data, token);
 };
 
-export default order;
+export default postOrder;

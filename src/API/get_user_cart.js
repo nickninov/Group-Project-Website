@@ -1,5 +1,5 @@
 import { fetchRequest } from "./fetch_methods";
-import { apiCart } from "./dictionary";
+import { apiUserCart } from "./dictionary";
 
 /*  
 
@@ -11,8 +11,8 @@ import { apiCart } from "./dictionary";
 */
 
 // auth route
-export const getCart = async token => {
-  return await fetchRequest("GET", apiCart(), null, token);
+export const getUserCart = async token => {
+  return await fetchRequest("GET", apiUserCart(), null, token);
 };
 
-export default getCart;
+export default getUserCart;
