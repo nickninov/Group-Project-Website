@@ -1,11 +1,10 @@
-
 .account-wrapper {
-    margin: 0 auto;
-    max-width: 800px;
+  margin: 0 auto;
+  max-width: 10000px !important;
 }
 
 .account-row {
-    margin-top: 50px;
+  margin-top: 50px;
 }
 
 /* .details {
@@ -14,4 +13,69 @@
 
 /* .orders {
 
+
+
 } */
+
+.order-card {
+  padding: 5px;
+  background-color: #eaefd3 !important;
+  border-radius: 4px;
+  flex-direction: row !important;
+  display: flex;
+  /* align-content: center; */
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 15px;
+}
+.order-image {
+  width: 100px;
+  height: 100px;
+}
+.order-item-root {
+  border-color: #d8d8d8;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  margin: 5px;
+}
+.order-item {
+  padding: 10px;
+}
+
+.order-header {
+  padding: 10px;
+  justify-content: space-between;
+
+  display: flex;
+}
+
+.divider {
+  height: 1px;
+  background-color: black;
+}
+
+.card-item-middle {
+}
+
+.item-description {
+  font-size: 14px;
+  color: #464646;
+  letter-spacing: 0;
+  margin-top: 0px;
+}
+
+.item-title {
+  font-size: 18px;
+  color: #000000;
+  letter-spacing: 0;
+  margin-bottom: 0px;
+}
+
+.item-price {
+  font-size: 14px;
+  color: #000000;
+  letter-spacing: 0;
+  font-weight: bold;
+}

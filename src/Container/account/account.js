@@ -20,25 +20,29 @@ export default class Account extends React.Component {
     };
   }
 
-  getData = async (token) => {
-    let done = 0;
+  getData = async token => {
+    //let done = 0;
 
-    await getUserAccount(token).then(res => {
+    getUserAccount(token).then(res => {
       this.setState({ userAccountData: res });
-      done++;
+      //done++;
     });
 
-    await getOrders(token).then(res => {
+    getOrders(token).then(res => {
+      console.log(res);
       this.setState({ ordersData: res });
-      done++;
+      //done++;
     });
+    //done === 2 && this.setState({ loading: false });
 
-    done === 2 && this.setState({ loading: false });
+    await Promise.all([getOrders(token), getUserAccount(token)]).then(() =>
+      this.setState({ loading: false })
+    );
   };
 
   async componentDidMount() {
     const token = await this.props.getToken();
- 
+
     if (token !== null) {
       this.setState({ token: true });
       this.getData(token);
@@ -59,12 +63,11 @@ export default class Account extends React.Component {
   }
 
   render() {
-
     if (this.state.token === false) {
       return (
         <h1>
           {/* #TODO */}
-          <a href="/login">Log in.</a> 
+          <a href="/login">Log in.</a>
         </h1>
       );
     } else {
