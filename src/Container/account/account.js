@@ -20,25 +20,39 @@ export default class Account extends React.Component {
     };
   }
 
-  getData = async (token) => {
-    let done = 0;
+  navigateToProduct = id => {
+    return `/product/${id}`;
+  };
 
-    await getUserAccount(token).then(res => {
-      this.setState({ userAccountData: res });
-      done++;
+  getData = async token => {
+    //let done = 0;
+
+    // getUserAccount(token).then(res => {
+    //   this.setState({ userAccountData: res });
+    //   //done++;
+    // });
+
+    // getOrders(token).then(res => {
+    //   console.log(res);
+    //   this.setState({ ordersData: res });
+    //   //done++;
+    // });
+    // //done === 2 && this.setState({ loading: false });
+
+    let [accData, orderData] = await Promise.all([
+      getUserAccount(token),
+      getOrders(token)
+    ]);
+    this.setState({
+      ordersData: orderData,
+      userAccountData: accData,
+      loading: false
     });
-
-    await getOrders(token).then(res => {
-      this.setState({ ordersData: res });
-      done++;
-    });
-
-    done === 2 && this.setState({ loading: false });
   };
 
   async componentDidMount() {
     const token = await this.props.getToken();
- 
+
     if (token !== null) {
       this.setState({ token: true });
       this.getData(token);
@@ -52,19 +66,23 @@ export default class Account extends React.Component {
       <div>
         <Layout
           left={<Details data={this.state.userAccountData} />}
-          right={<Orders data={this.state.ordersData} />}
+          right={
+            <Orders
+              data={this.state.ordersData}
+              navigateToProduct={this.navigateToProduct}
+            />
+          }
         />
       </div>
     );
   }
 
   render() {
-
     if (this.state.token === false) {
       return (
         <h1>
           {/* #TODO */}
-          <a href="/login">Log in.</a> 
+          <a href="/login">Log in.</a>
         </h1>
       );
     } else {
