@@ -1,13 +1,13 @@
 import React from "react";
 
 import "./layout.css";
-import { Container, Card, Grid } from "@material-ui/core";
+import { Container, Card, Grid, CardActionArea } from "@material-ui/core";
 import { formatDate } from "../../Utility/formatDateUtility";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-const url =
-  "https://books.google.co.uk/books/content?id=-d0QtAEACAAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE707dBvGu9FRs6En58Ds_oaZPoM0Cr5y53UQ5Vy5mI-4yc7SFK9fO7o96FmDcFcImSCYhH464xe-dT_-_ZX2NCWKrPH5HqCy4npgC60QVO-niHBOUf_0-ek0SuKcpPqBVxw2bHgf";
 export const Orders = props => {
   let orders = props.data;
+  console.log(props);
 
   const renderOrderItems = item => (
     <Container className={"order-item-root"}>
@@ -18,15 +18,22 @@ export const Orders = props => {
       <div className="divider" />
       <Container className={"order-item"}>
         {item.products.map(prod => (
-          <Card className="order-card">
-            <img className="order-image" src={prod.product.images[0]} />
-            <Container className={"card-item-middle"}>
-              <div className={"item-title"}> {prod.product.name}</div>
-              <div className={"item-description"}>
-                {prod.product.description}
-              </div>
-            </Container>
-            <div className={"item-price"}>{prod.product.price}$</div>
+          <Card className="order-card-root">
+            <Link
+              className={"match-parent"}
+              to={() => props.navigateToProduct(prod.product._id)}
+            >
+              <CardActionArea className={"order-card"}>
+                <img className="order-image" src={prod.product.images[0]} />
+                <Container className={"card-item-middle"}>
+                  <div className={"item-title"}> {prod.product.name}</div>
+                  <div className={"item-description"}>
+                    {prod.product.description}
+                  </div>
+                </Container>
+                <div className={"item-price"}>{prod.product.price}$</div>
+              </CardActionArea>
+            </Link>
           </Card>
         ))}
       </Container>

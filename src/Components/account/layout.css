@@ -17,7 +17,7 @@
 
 } */
 
-.order-card {
+.order-card-root {
   padding: 5px;
   background-color: #eaefd3 !important;
   border-radius: 4px;
@@ -25,9 +25,14 @@
   display: flex;
   /* align-content: center; */
   align-items: center;
-  padding-left: 15px;
-  padding-right: 15px;
   margin-bottom: 15px;
+}
+
+.order-card {
+  display: flex !important;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 .order-image {
   width: 100px;
@@ -51,12 +56,13 @@
   display: flex;
 }
 
+.match-parent {
+  width: 100%;
+}
+
 .divider {
   height: 1px;
   background-color: black;
-}
-
-.card-item-middle {
 }
 
 .item-description {

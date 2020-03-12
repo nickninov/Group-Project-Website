@@ -20,24 +20,34 @@ export default class Account extends React.Component {
     };
   }
 
+  navigateToProduct = id => {
+    return `/product/${id}`;
+  };
+
   getData = async token => {
     //let done = 0;
 
-    getUserAccount(token).then(res => {
-      this.setState({ userAccountData: res });
-      //done++;
-    });
+    // getUserAccount(token).then(res => {
+    //   this.setState({ userAccountData: res });
+    //   //done++;
+    // });
 
-    getOrders(token).then(res => {
-      console.log(res);
-      this.setState({ ordersData: res });
-      //done++;
-    });
-    //done === 2 && this.setState({ loading: false });
+    // getOrders(token).then(res => {
+    //   console.log(res);
+    //   this.setState({ ordersData: res });
+    //   //done++;
+    // });
+    // //done === 2 && this.setState({ loading: false });
 
-    await Promise.all([getOrders(token), getUserAccount(token)]).then(() =>
-      this.setState({ loading: false })
-    );
+    let [accData, orderData] = await Promise.all([
+      getUserAccount(token),
+      getOrders(token)
+    ]);
+    this.setState({
+      ordersData: orderData,
+      userAccountData: accData,
+      loading: false
+    });
   };
 
   async componentDidMount() {
@@ -56,7 +66,12 @@ export default class Account extends React.Component {
       <div>
         <Layout
           left={<Details data={this.state.userAccountData} />}
-          right={<Orders data={this.state.ordersData} />}
+          right={
+            <Orders
+              data={this.state.ordersData}
+              navigateToProduct={this.navigateToProduct}
+            />
+          }
         />
       </div>
     );
