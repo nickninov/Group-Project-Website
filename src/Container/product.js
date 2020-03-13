@@ -55,7 +55,44 @@ export default class Product extends React.Component {
     if (token == null) {
       alert("You need to be logged in.");
     } else {
-      this._apiCart(token);
+      // this._apiCart(token);
+
+      // var cartItems = {
+      //   cart: []
+      // };
+
+      try {
+        const currentCart = await getUserCart(token);
+
+        currentCart.cart.push({
+          quantity: this.state.quantity,
+          product: this.state.product._id
+        });
+
+        const res = await updateUserCart(currentCart, token);
+        window.location.reload();
+      } catch {
+        alert("err in compiling previous basket");
+        window.location.reload();
+      }
+
+      // try {
+      //   currentCart.cart.map(i => {
+      //     cartItems.cart.push(i._id);
+      //   });
+      //   const res = await updateUserCart(cartItems, token);
+      //   if (res.cart.length == cartItems.cart.length) {
+      //     window.location.reload();
+      //   } else {
+      //     alert("error has occured");
+      //     // console.log(res);
+      //   }
+      // } catch {
+      //   console.log("err in compiling previous basket");
+      //   const res = await updateUserCart(cartItems, token);
+      //   window.location.reload();
+      // }
+
       // const currentCart = await this.props.getCart();
 
       // var newCart = {
@@ -107,8 +144,8 @@ export default class Product extends React.Component {
 
   _tmp = async token => {
     const value = this.props.getCart();
-    console.log(value);
-    console.log(token);
+    // console.log(value);
+    // console.log(token);
   };
 
   _apiCart = async token => {
@@ -141,7 +178,7 @@ export default class Product extends React.Component {
         window.location.reload();
       } else {
         alert("error has occured");
-        console.log(res);
+        // console.log(res);
       }
     } catch {
       console.log("err in compiling previous basket");

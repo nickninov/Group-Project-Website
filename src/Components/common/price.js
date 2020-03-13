@@ -22,7 +22,8 @@ const Price = (props) => {
 	return props.discount == null ? noDiscount : withDiscount;
 }
 
-const CurrentPrice = (props) => <span className="item-price-current">£{(props.price).toFixed(2)}</span>;
+const CurrentPrice = (props) => <span className="item-price-current">£{(props.price)}</span>;
+// const CurrentPrice = (props) => <span className="item-price-current">£{(props.price).toFixed(2)}</span>;
 
 const PreviousPrice = (props) => (
 	<span className="item-price-original-wrapper">

@@ -6,10 +6,10 @@ import PersonIcon from "@material-ui/icons/Person";
 
 import CustomButton from "../common/custom_button";
 
-import "./details.css";
+import "./account.css";
 
-export const Details = props => {
-  let data = props.data;
+export const Account = props => {
+  let data = props.userAccount;
 
   return (
     <div>
@@ -120,4 +120,4 @@ export const Details = props => {
   );
 };
 
-export default Details;
+export default Account;

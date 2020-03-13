@@ -7,7 +7,7 @@ import Home from "./Components/home/home";
 import Layout from "./Components/core/layout";
 import Results from "./Container/results";
 import Product from "./Container/product";
-import Checkout from "./Container/checkout/checkout";
+import Checkout from "./Container/checkout";
 import Account from "./Container/account/account";
 
 import Header from "./Container/header";
@@ -158,7 +158,7 @@ class App extends React.Component {
               />
               <Route
                 path="/checkout"
-                render={() => <Checkout getToken={this.getToken} />}
+                render={(props) => <Checkout history={props.history} getToken={this.getToken} />}
               />
 
               {/* requires no token */}
