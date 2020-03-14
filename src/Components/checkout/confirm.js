@@ -5,15 +5,8 @@ import { Container, Col, Row } from "react-bootstrap";
 import "./confirm.css";
 
 export const Confirm = props => {
-  const details = props.detailsData;
-  const cart = props.cartData;
-
-
-  // var total = 0;
-  // cart.forEach(e => {
-  //   total +=
-  //     e.discount_subtotal == null ? e.price_subtotal : e.discount_subtotal;
-  // });
+  const cart = props.userCart;
+  const account = props.userAccount;
 
   return (
     <Container>
@@ -28,19 +21,19 @@ export const Confirm = props => {
       <Row>
         <Col lg={6}>
           <p>
-            To: {details.firstName} {details.lastName},<br />
-            {details.addresses.addressLine1}
-            {details.addresses.addressLine2}, <br />
-            {details.addresses.townCity}, {details.addresses.county}, <br />
-            {details.addresses.postcode}
+            To: {account.firstName} {account.lastName},<br />
+            {account.addresses.addressLine1}
+            {account.addresses.addressLine2}, <br />
+            {account.addresses.townCity}, {account.addresses.county}, <br />
+            {account.addresses.postcode}
           </p>
         </Col>
         <Col lg={6}>
           <table>
-            {cart.map(e => (
+            {cart.cart.map(e => (
               <tr>
                 <td>
-                  {e.quantity}x {e.name}
+                  {e.quantity}x {e.product.name}
                 </td>
                 <td>
                   £
@@ -56,7 +49,7 @@ export const Confirm = props => {
             </tr>
             <tr>
               <td></td>
-              <td className="confirm-total">£{props.total}</td>
+              <td className="confirm-total">£{cart.total}</td>
             </tr>
           </table>
         </Col>

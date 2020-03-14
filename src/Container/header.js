@@ -34,8 +34,8 @@ export default class Header extends React.Component {
   async getSomethingElse() {
     var data;
     data = await this.props.getCart();
-    console.log("cart: ");
-    console.log(data);
+    // console.log("cart: ");
+    // console.log(data);
   }
   // DEVELOPMENT :: END
 

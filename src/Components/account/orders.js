@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export const Orders = props => {
   let orders = props.data;
-  console.log(props);
+  // console.log(props);
 
   const renderOrderItems = item => (
     <Container className={"order-item-root"}>
