@@ -14,10 +14,12 @@ import Options from "../Components/checkout/options";
 import Confirm from "../Components/checkout/confirm";
 
 // api calls
-import getUserCart from "../API/get_user_cart";
-import updateUserCart from "../API/update_user_cart";
-import getUserAccount from "../API/get_user_account";
-import postOrder from "../API/post_order";
+import {
+  getUserCart,
+  updateUserCart,
+  getUserAccount,
+  postOrder
+} from "../API/api";
 
 export default class Checkout extends React.Component {
   constructor(props) {

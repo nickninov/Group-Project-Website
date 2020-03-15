@@ -2,7 +2,7 @@ import React from "react";
 
 import NavBar from "../Components/header/nav_bar";
 
-import getUser from "../API/get_user";
+import { getUser } from "../API/api";
 
 import { withRouter } from "react-router-dom";
 

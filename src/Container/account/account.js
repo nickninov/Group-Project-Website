@@ -7,9 +7,7 @@ import Details from "../../Components/account/details";
 import Orders from "../../Components/account/orders";
 import Address from "../../Components/account/address";
 
-import getOrders from "../../API/get_orders";
-import getUserAccount from "../../API/get_user_account";
-import updateUserAccount from "../../API/update_user_account";
+import { getOrders, getUserAccount, updateUserAccount } from "../../API/api";
 
 export default class Account extends React.Component {
   constructor(props) {
@@ -23,7 +21,8 @@ export default class Account extends React.Component {
   }
 
   navigateToProduct = id => {
-    return `/product/${id}`;
+    // return `/product/${id}`;
+    console.log(id);
   };
 
   getData = async token => {

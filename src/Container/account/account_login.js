@@ -2,7 +2,8 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import LoginForm from "../../Components/login/login_form";
-import postLogin from "../../API/post_login";
+
+import { postLogin } from "../../API/api";
 
 export function AccountLogin(props) {
   const history = useHistory();
