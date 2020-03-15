@@ -13,7 +13,7 @@ export const Wrapper = props => (
       <div className="content-navigator">
         <div
           style={{
-            display: props.index == 0 ? "none" : "block"
+            display: props.index === 0 ? "none" : "block"
           }}
           className="content-navigator-backwards"
         >

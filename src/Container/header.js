@@ -4,8 +4,10 @@ import NavBar from "../Components/header/nav_bar";
 
 import getUser from "../API/get_user";
 
+import { withRouter } from "react-router-dom";
+
 // business logic component
-export default class Header extends React.Component {
+export class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,29 +15,16 @@ export default class Header extends React.Component {
     };
   }
 
-  // DEVELOPMENT :: START
-  async setSomething() {
+  async logout() {
     await this.props.resetToken(null);
     console.log("token reset");
   }
 
+  // DEVELOPMENT :: START
   async getSomething() {
     var data;
     data = await this.props.getToken();
     console.log("token: " + data);
-  }
-
-  async setSomethingElse() {
-    await this.props.setCart({
-      cart: ["5e5da05f60236d003da3ed4b"]
-    });
-  }
-
-  async getSomethingElse() {
-    var data;
-    data = await this.props.getCart();
-    // console.log("cart: ");
-    // console.log(data);
   }
   // DEVELOPMENT :: END
 
@@ -56,12 +45,16 @@ export default class Header extends React.Component {
 
     return (
       <div>
-        <button onClick={() => this.setSomething()}>reset</button>
         <button onClick={() => this.getSomething()}>get token</button>
-        {/* <button onClick={() => this.setSomethingElse()}>set cart</button>
-        <button onClick={() => this.getSomethingElse()}>get cart</button> */}
-        <NavBar message={message} basketAmount={basketAmount} />
+        <NavBar
+          history={this.props.history}
+          logout={() => this.logout()}
+          message={message}
+          basketAmount={basketAmount}
+        />
       </div>
     );
   }
 }
+
+export default withRouter(Header);

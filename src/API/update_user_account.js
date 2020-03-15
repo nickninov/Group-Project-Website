@@ -1,6 +1,4 @@
 
-// #TODO untest
-
 import { fetchRequest } from "./fetch_methods";
 import { apiUserAccount } from "./dictionary";
 
@@ -17,21 +15,11 @@ import { apiUserAccount } from "./dictionary";
 
 */
 
-export const updateUserAccount = async (  email,
-  password,
-  confirm_passowrd,
-  firstName,
-  lastName,
-  phone, token) => {
-  return await fetchRequest("GET", apiUserAccount(id), {    email: email,
-    password: password,
-    confirm_passowrd: confirm_passowrd,
-    firstName: firstName,
-    lastName: lastName,
-    phone: phone}, token);
+export const updateUserAccount = async (account, token) => {
+  return await fetchRequest("PUT", apiUserAccount(), account, token);
 };
 
-export default getSearchProductById;
+export default updateUserAccount;
 
 // // auth route
 // export const updateUserAccount = async (

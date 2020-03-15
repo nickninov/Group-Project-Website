@@ -7,16 +7,6 @@
   margin-top: 50px;
 }
 
-/* .details {
-
-} */
-
-/* .orders {
-
-
-
-} */
-
 .order-card-root {
   padding: 5px;
   background-color: #eaefd3 !important;
@@ -65,23 +55,27 @@
   background-color: black;
 }
 
-.item-description {
+.order-item-description {
   font-size: 14px;
   color: #464646;
   letter-spacing: 0;
   margin-top: 0px;
 }
 
-.item-title {
+.order-item-title {
   font-size: 18px;
   color: #000000;
   letter-spacing: 0;
   margin-bottom: 0px;
 }
 
-.item-price {
+.order-item-price {
   font-size: 14px;
   color: #000000;
   letter-spacing: 0;
   font-weight: bold;
+}
+
+.details-textfield {
+  margin: 10px;
 }

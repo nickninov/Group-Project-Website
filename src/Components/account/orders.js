@@ -3,7 +3,7 @@ import React from "react";
 import "./layout.css";
 import { Container, Card, Grid, CardActionArea } from "@material-ui/core";
 import { formatDate } from "../../Utility/formatDateUtility";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Link } from "react-router-dom";
 
 export const Orders = props => {
   let orders = props.data;
@@ -24,14 +24,14 @@ export const Orders = props => {
               to={() => props.navigateToProduct(prod.product._id)}
             >
               <CardActionArea className={"order-card"}>
-                <img className="order-image" src={prod.product.images[0]} />
+                <img className="order-image" src={prod.product.images[0]} alt="Product" />
                 <Container className={"card-item-middle"}>
-                  <div className={"item-title"}> {prod.product.name}</div>
-                  <div className={"item-description"}>
+                  <div className={"order-item-title"}> {prod.product.name}</div>
+                  <div className={"order-item-description"}>
                     {prod.product.description}
                   </div>
                 </Container>
-                <div className={"item-price"}>{prod.product.price}$</div>
+                <div className={"order-item-price"}>{prod.product.price}$</div>
               </CardActionArea>
             </Link>
           </Card>
@@ -47,7 +47,7 @@ export const Orders = props => {
         <p>You have no orders.</p>
       ) : (
         <Grid container direction="column" justify="center" alignItems="center">
-          {orders.map(item => renderOrderItems(item))}
+          {orders.slice(0).reverse().map(item => renderOrderItems(item))}
         </Grid>
       )}
     </div>
