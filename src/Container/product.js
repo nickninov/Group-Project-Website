@@ -1,7 +1,5 @@
 import React from "react";
 
-import { useHistory } from "react-router-dom";
-
 import Loading from "../Components/common/loading";
 
 import Layout from "../Components/product/layout";
@@ -55,11 +53,6 @@ export default class Product extends React.Component {
     if (token == null) {
       alert("You need to be logged in.");
     } else {
-      // this._apiCart(token);
-
-      // var cartItems = {
-      //   cart: []
-      // };
 
       try {
         const currentCart = await getUserCart(token);
@@ -69,98 +62,16 @@ export default class Product extends React.Component {
           product: this.state.product._id
         });
 
-        const res = await updateUserCart(currentCart, token);
+        await updateUserCart(currentCart, token);
         window.location.reload();
       } catch {
         alert("err in compiling previous basket");
         window.location.reload();
       }
-
-      // try {
-      //   currentCart.cart.map(i => {
-      //     cartItems.cart.push(i._id);
-      //   });
-      //   const res = await updateUserCart(cartItems, token);
-      //   if (res.cart.length == cartItems.cart.length) {
-      //     window.location.reload();
-      //   } else {
-      //     alert("error has occured");
-      //     // console.log(res);
-      //   }
-      // } catch {
-      //   console.log("err in compiling previous basket");
-      //   const res = await updateUserCart(cartItems, token);
-      //   window.location.reload();
-      // }
-
-      // const currentCart = await this.props.getCart();
-
-      // var newCart = {
-      //   cart: []
-      // };
-
-      // newCart.cart.push(this.state.product._id);
-
-      // if (currentCart.cart != null) {
-      //   currentCart.cart.map(item => {
-      //     newCart.cart.push(item);
-      //   });
-      // }
-
-      // await this.props.setCart(newCart);
-
-      // console.log(newCart);
-
-      // newCart.push(this.state.product._id);
-
-      // console.log(typeof currentCart);
-      // console.log(currentCart);
-
-      // if (currentCart != null) {
-      //   currentCart.map(item => {
-      //     newCart.push(item);
-      //   })
-      // }
-
-      // await this.props.setCart(["hello", "there"]);
-
-      // console.log(value);
-
-      // const productId = this.state.product._id;
-      // const currentCart = await this.props.getCart();
-
-      // var newCart = [];
-      // newCart.push(productId);
-
-      // if (currentCart != null) {
-      //   currentCart.map(item => {
-      //     newCart.push(item);
-      //   })
-      // }
-
-      // console.log(newCart)
     }
   };
 
-  _tmp = async token => {
-    const value = this.props.getCart();
-    // console.log(value);
-    // console.log(token);
-  };
-
   _apiCart = async token => {
-    // var newCart = [this.state.product._id];
-
-    // console.log("refrsh crt");
-
-    // var currentCart = await this.props.getCart();
-
-    // currentCart != [] && newCart.concat(currentCart);
-
-    // await this.props.setCart(newCart).then(async () => await this._tmp());
-
-    // console.log(res);
-
     const currentCart = await getUserCart(token);
 
     var cartItems = {
@@ -170,30 +81,24 @@ export default class Product extends React.Component {
     cartItems.cart.push(this.state.product._id);
 
     try {
-      currentCart.cart.map(i => {
+      currentCart.cart.forEach(i => {
         cartItems.cart.push(i._id);
       });
+
       const res = await updateUserCart(cartItems, token);
-      if (res.cart.length == cartItems.cart.length) {
+
+      if (res.cart.length === cartItems.cart.length) {
         window.location.reload();
+        return null;
       } else {
         alert("error has occured");
-        // console.log(res);
+        return null;
       }
     } catch {
       console.log("err in compiling previous basket");
-      const res = await updateUserCart(cartItems, token);
+      await updateUserCart(cartItems, token);
       window.location.reload();
     }
-
-    // const res = await updateUserCart(cartItems, token);
-
-    // if (res.cart.length == cartItems.cart.length) {
-    //   window.location.reload();
-    // } else {
-    //   alert("error has occured");
-    //   console.log(res);
-    // }
   };
 
   components() {

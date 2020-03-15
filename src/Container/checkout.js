@@ -10,7 +10,6 @@ import ForwardButton from "../Components/common/buttons/forward_button";
 
 // checkout sections
 import Cart from "../Components/checkout/cart";
-import Account from "../Components/checkout/account";
 import Options from "../Components/checkout/options";
 import Confirm from "../Components/checkout/confirm";
 
@@ -31,18 +30,18 @@ export default class Checkout extends React.Component {
   }
 
   changeQuantity = (_id, quanChange, curStock, curQuan) => {
-    // parameters passed in so no need to find with for loop
-
-    // console.log(_id + " / " + quanChange + " / " + curStock + " / " + curQuan);
-
     if (curQuan >= curStock && quanChange === 1) {
       alert("You hit the max.");
     } else if (curQuan <= 1 && quanChange === -1) {
-      alert("Do you wish to delete the item?");
+      // alert("Do you wish to delete the item?");
+
+      if (window.confirm("Delete the item?")) {
+        this.deleteCartItem(_id);
+      }
     } else {
       let currentCart = this.state.cart;
       currentCart.cart.forEach(e => {
-        if (e._id == _id) {
+        if (e._id === _id) {
           e.quantity += quanChange;
         }
       });
@@ -51,6 +50,32 @@ export default class Checkout extends React.Component {
         cart: this.reformulateData(currentCart)
       });
     }
+  };
+
+  deleteCartItem = async _id => {
+    console.log("id to delete " + _id);
+
+    console.log("cart");
+    var cart = this.state.cart;
+
+    var indexToDelete = 0;
+    {
+      let index = 0;
+      cart.cart.forEach(e => {
+        delete e._id;
+        e._id === _id ? (indexToDelete = index) : index++;
+      });
+    }
+
+    cart.cart.splice(indexToDelete, indexToDelete + 1);
+
+    const token = await this.props.getToken();
+    const res = await updateUserCart(cart, token).then(() => {
+      window.location.reload();
+    });
+
+    console.log("server response: ");
+    console.log(res);
   };
 
   reformulateData = cartData => {
@@ -82,10 +107,10 @@ export default class Checkout extends React.Component {
 
   incrementSection = num => {
     let i = this.state.index;
-    let l = 3;
+    let l = 2;
 
     if (num === 1 || num == null) {
-      i == l && this.finishOrder();
+      i === l && this.finishOrder();
       this.setState({ index: i >= l ? l : i + 1 });
     } else if (num === -1) {
       this.setState({ index: i <= 0 ? 0 : i - 1 });
@@ -101,7 +126,7 @@ export default class Checkout extends React.Component {
       const userCart = await getUserCart(token);
       const userAccount = await getUserAccount(token);
 
-      if (userCart.cart.length == 0 || userCart.cart == null) {
+      if (userCart.cart.length === 0 || userCart.cart == null) {
         this.setState({
           empty: true
         });
@@ -119,48 +144,61 @@ export default class Checkout extends React.Component {
   finishOrder = async () => {
     const token = await this.props.getToken();
 
-    var formattedCart = [];
+    var billing = null;
+    var delivery = null;
+    const account = this.state.account;
 
-    this.state.cart.cart.forEach(e => {
-      formattedCart.push({
-        quantity: e.quantity,
-        product: e.product._id
-      });
+    account.addresses.forEach(e => {
+      e.isBilling && (billing = e);
+      e.isDelivery && (delivery = e);
     });
 
-    let res = await postOrder(
-      {
-        shippingAddress: {
-          firstLine: "firstLine",
-          secondLine: "secondLine",
-          townCity: "townCity",
-          county: "county",
-          postcode: "postcode",
-          isBilling: true,
-          isDelivery: false
-        },
-        billingAddress: {
-          firstLine: "firstLine",
-          secondLine: "secondLine",
-          townCity: "townCity",
-          county: "county",
-          postcode: "postcode",
-          isBilling: false,
-          isDelivery: true
-        },
-        products: formattedCart
-      },
-      token
-    );
+    if (billing != null && delivery != null) {
+      var formattedCart = [];
 
-    if (res.status == "ordered") {
-      alert("Thank you for shopping. Your order has been confirmed.");
-      await updateUserCart({ cart: [] }, token).then(() => {
-        window.location.reload();
+      this.state.cart.cart.forEach(e => {
+        formattedCart.push({
+          quantity: e.quantity,
+          product: e.product._id
+        });
       });
+
+      let res = await postOrder(
+        {
+          shippingAddress: {
+            firstLine: delivery.firstLine,
+            secondLine: delivery.secondLine === "" ? "-" : delivery.secondLine,
+            townCity: delivery.townCity,
+            county: delivery.county,
+            postcode: delivery.postcode,
+            isBilling: false,
+            isDelivery: true
+          },
+          billingAddress: {
+            firstLine: billing.firstLine,
+            secondLine: billing.secondLine === "" ? "-" : billing.secondLine,
+            townCity: billing.townCity,
+            county: billing.county,
+            postcode: billing.postcode,
+            isBilling: true,
+            isDelivery: false
+          },
+          products: formattedCart
+        },
+        token
+      );
+
+      if (res.status === "ordered") {
+        alert("Thank you for shopping. Your order has been confirmed.");
+        await updateUserCart({ cart: [] }, token).then(() => {
+          this.props.history.push("/account");
+        });
+      } else {
+        alert("err, chk console for call res");
+        console.log(res);
+      }
     } else {
-      alert("err, chk console for call res");
-      console.log(res);
+      alert("A billing and delivery address is required.");
     }
   };
 
@@ -171,9 +209,13 @@ export default class Checkout extends React.Component {
 
     var sections = [
       <Cart userCart={cart} changeQuantity={this.changeQuantity} />,
-      <Account userAccount={account} />,
       <Options />,
-      <Confirm userAccount={account} userCart={cart} total={cart.cart.total} />
+      <Confirm
+        history={this.props.history}
+        userAccount={account}
+        userCart={cart}
+        total={cart.cart.total}
+      />
     ];
 
     return (

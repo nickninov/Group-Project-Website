@@ -1,6 +1,6 @@
 
 .confirm-upper-row {
-  margin-top: 30px;
+  margin-top: 15px;
 }
 
 table, td, th {
@@ -10,7 +10,53 @@ td, th {
   padding: 0px 15px 25px 0;
 }
 
+.confirm-address-error {
+  margin: 20px 0;
+  text-align: center;
+}
+
 .confirm-total {
   font-size: 22px;
   font-weight: 600;
+}
+
+.confirm-address-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 35px 0;
+}
+
+.confirm-address {
+  background-color: #F5F5F5;
+  padding: 0px;
+  margin: 0px;
+  width: 225px;
+  border-radius: 10px;
+}
+
+.confirm-address-header {
+  background-color: #E8E8E8;
+  color: #A0A0A0;
+  font-size: 13px;
+  padding: 5px;
+  font-weight: 700;color: #A0A0A0;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-align: center;
+}
+
+.confirm-address-details {
+  padding: 15px;
+}
+
+.checkout-details-change {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-details-change-button {
+  margin: 0 10px;
 }

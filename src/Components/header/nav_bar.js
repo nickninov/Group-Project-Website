@@ -1,5 +1,5 @@
 import React from "react";
-import { Nav, Navbar, Form, Col, Row } from "react-bootstrap";
+import { Nav, Navbar, Form, Col, Row, NavDropdown } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import { Categories } from "./categories";
 import b from "./categories.css";
@@ -7,7 +7,15 @@ import s from "./nav_bar.css";
 import "mdbreact/dist/css/mdb.css";
 // create two different div after navBrand and before Nav, with row and coloumn structure
 
-export const NavBar = props => {
+export function NavBar(props) {
+  function account() {
+    props.history.push("/account");
+  }
+
+  function logout() {
+    props.logout();
+  }
+
   return (
     <Navbar className={s.navbar} expand="lg" sticky="top">
       <Navbar.Brand href="/" className="navbar-brand">
@@ -27,18 +35,29 @@ export const NavBar = props => {
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
           <Nav.Item>
-            <Nav.Link href="/account">{props.message}</Nav.Link>
+            {props.message === "Account" ? (
+              <NavDropdown title="Account" id="collasible-nav-dropdown">
+                <NavDropdown.Item onClick={() => props.history.push("/login")}>
+                  Login
+                </NavDropdown.Item>
+                <NavDropdown.Item onClick={() => props.history.push("/register")}>
+                  Register
+                </NavDropdown.Item>
+              </NavDropdown>
+            ) : (
+              <NavDropdown title={props.message} id="collasible-nav-dropdown">
+                <NavDropdown.Item onClick={account}>Account</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+              </NavDropdown>
+            )}
           </Nav.Item>
           <Nav.Item>
             <Nav.Link href="/checkout">{props.basketAmount}</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link href="/results">Products</Nav.Link>
           </Nav.Item>
         </Nav>
       </Navbar.Collapse>
     </Navbar>
   );
-};
-
+}
 export default NavBar;

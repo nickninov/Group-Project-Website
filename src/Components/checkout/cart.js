@@ -54,7 +54,6 @@ export const Cart = props => {
                 <TableCell>
                   <QuantityControls
                     quantity={obj.quantity}
-                    // increase={() => props.changeQuantity(obj._id, 1, obj.product.stock, obj.quantity)}
                     increase={() => {
                       props.changeQuantity(
                         obj._id,
