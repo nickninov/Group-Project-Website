@@ -25,7 +25,7 @@ class App extends React.Component {
   async getToken() {
     // #TODO replace and use asyncGet("token") for value, some reason it wasn't working for me
     const value = await AsyncStorage.getItem("token");
-    if (value !== null && value.split(" ")[0] === "Bearer") {
+    if (value != null && value.split(" ")[0] === "Bearer") {
       return value;
     } else {
       return null;
