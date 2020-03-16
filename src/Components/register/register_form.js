@@ -3,7 +3,12 @@ import { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./register_form.css";
 
+import { useHistory } from "react-router-dom";
+import CustomButton from "../../Components/common/custom_button";
+
 export default function RegisterForm(props) {
+  const history = useHistory();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -27,7 +32,14 @@ export default function RegisterForm(props) {
   }
 
   function handleCallback() {
-    props.callback(firstName, lastName, email, phone, password, confirm_password);
+    props.callback(
+      firstName,
+      lastName,
+      email,
+      phone,
+      password,
+      confirm_password
+    );
   }
 
   return (
@@ -82,13 +94,26 @@ export default function RegisterForm(props) {
             onChange={e => setConfirmPassword(e.target.value)}
           />
         </FormGroup>
-        <Button onClick={handleCallback} block bsSize="large" disabled={!validateForm()}>
-          Register
-        </Button>
+        <CustomButton
+          fullWidth={true}
+          script={handleCallback}
+          bgColor="#A72D2D"
+          textColor="#da7272"
+          text="Register"
+          disabled={!validateForm()}
+        />
         <p className="p">
-          {" "}
-          Already have an account?
-          <a href="/login"> LogIn Now! </a>
+          <div className="checkout-details-change">
+            <span>Already have an account? </span>
+            <div className="checkout-details-change-button">
+              <CustomButton
+                bgColor="#da7272"
+                textColor="#A72D2D"
+                text="Login"
+                script={() => history.push("/login")}
+              />
+            </div>
+          </div>
         </p>
       </form>
     </div>

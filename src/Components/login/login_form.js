@@ -3,7 +3,12 @@ import { useState } from "react";
 import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
 import "./login_form.css";
 
+import { useHistory } from "react-router-dom";
+import CustomButton from "../../Components/common/custom_button";
+
 export const LoginForm = props => {
+  const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -39,19 +44,27 @@ export const LoginForm = props => {
             type="password"
           />
         </FormGroup>
-
-        <Button
-          onClick={handleCallback}
-          block
-          bsSize="large"
+        <CustomButton
+          fullWidth={true}
+          script={handleCallback}
+          bgColor="#A72D2D"
+          textColor="#da7272"
+          text="Login"
           disabled={!validateForm()}
-        >
-          Login
-        </Button>
+        />
+
         <p className="p">
-          {" "}
-          Don't have an account?
-          <a href="/register"> Register Now! </a>
+          <div className="checkout-details-change">
+            <span>Don't have an account? </span>
+            <div className="checkout-details-change-button">
+              <CustomButton
+                bgColor="#da7272"
+                textColor="#A72D2D"
+                text="Register"
+                script={() => history.push("/register")}
+              />
+            </div>
+          </div>
         </p>
       </form>
     </div>

@@ -17,15 +17,18 @@ export const CustomButton = props => {
     }
   })(Button);
 
+  console.log()
+
   return (
     <div>
       <CustomButton
+        fullWidth={props.fullWidth}
         onClick={props.script}
         variant="contained"
         color="primary"
         endIcon={props.icon}
         startIcon={props.startIcon}
-        disabled={props.disabled == null ? false : true}
+        disabled={props.disabled == null ? false : props.disabled}
       >
         {props.text}
       </CustomButton>
