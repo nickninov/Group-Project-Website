@@ -5,7 +5,7 @@ import Loading from "../Components/common/loading";
 import Layout from "../Components/results/layout";
 import Item from "../Components/results/item";
 
-import getSearchProduct from "../API/get_search_product";
+import { getSearchProduct } from "../API/api";
 
 export default class Results extends React.Component {
   constructor(props) {

@@ -9,9 +9,7 @@ import Availability from "../Components/product/avaliability";
 
 import formatImageListURL from "../Utility/formatImageListURL";
 
-import getSearchProductById from "../API/get_search_product_by_id";
-import getUserCart from "../API/get_user_cart";
-import updateUserCart from "../API/update_user_cart";
+import { getSearchProductById, getUserCart, updateUserCart } from "../API/api";
 
 export default class Product extends React.Component {
   constructor(props) {
@@ -53,7 +51,6 @@ export default class Product extends React.Component {
     if (token == null) {
       alert("You need to be logged in.");
     } else {
-
       try {
         const currentCart = await getUserCart(token);
 
