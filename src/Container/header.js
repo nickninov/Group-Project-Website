@@ -32,7 +32,7 @@ export class Header extends React.Component {
     const token = await this.props.getToken();
 
     if (token !== null) {
-      await getUser(token).then(res => this.setState({ data: res }));
+      await getUser(token).then(res => this.setState({ data: res.body }));
     }
   }
 

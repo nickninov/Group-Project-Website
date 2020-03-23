@@ -1,10 +1,15 @@
 export const _fetch = async req => {
-  let res;
+  var res = {};
 
   await fetch(req)
-    .then(res => res.json())
+    .then(raw => {
+      res.ok = raw.ok;
+      res.status = raw.status;
+      res.statusText = raw.statusText;
+      return raw.json();
+    })
     .then(json => {
-      res = json;
+      res.body = json;
     })
     .catch(err => {
       res = err;

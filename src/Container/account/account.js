@@ -31,8 +31,8 @@ export default class Account extends React.Component {
       getOrders(token)
     ]);
     this.setState({
-      ordersData: orderData,
-      userAccountData: accData,
+      ordersData: orderData.body,
+      userAccountData: accData.body,
       loading: false
     });
   };
@@ -103,12 +103,12 @@ export default class Account extends React.Component {
 
     currentData.addresses.push({
       firstLine: address.firstLine,
-      secondLine: address.secondLine,
+      secondLine: address.secondLine == null ? "-" : address.secondLine,
       townCity: address.townCity,
       county: address.county,
       postcode: address.postcode,
-      isBilling: address.isBilling,
-      isDelivery: address.isDelivery
+      isBilling: address.isBilling == "" ? false : true,
+      isDelivery: address.isDelivery == "" ? false : true
     });
 
     const token = await this.props.getToken();

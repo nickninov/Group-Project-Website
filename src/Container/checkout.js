@@ -77,10 +77,11 @@ export default class Checkout extends React.Component {
     });
 
     console.log("server response: ");
-    console.log(res);
+    console.log(res.body);
   };
 
   reformulateData = cartData => {
+    console.log(cartData);
     // to reformulate the prices when quantity is changed
 
     cartData.cart.forEach(e => {
@@ -128,14 +129,14 @@ export default class Checkout extends React.Component {
       const userCart = await getUserCart(token);
       const userAccount = await getUserAccount(token);
 
-      if (userCart.cart.length === 0 || userCart.cart == null) {
+      if (userCart.body.cart.length === 0 || userCart.body.cart == null) {
         this.setState({
           empty: true
         });
       } else {
         this.setState({
-          cart: this.reformulateData(userCart),
-          account: userAccount,
+          cart: this.reformulateData(userCart.body),
+          account: userAccount.body,
           loading: false,
           message: "not empty"
         });
@@ -190,14 +191,14 @@ export default class Checkout extends React.Component {
         token
       );
 
-      if (res.status === "ordered") {
+      if (res.body.status === "ordered") {
         alert("Thank you for shopping. Your order has been confirmed.");
         await updateUserCart({ cart: [] }, token).then(() => {
           this.props.history.push("/account");
         });
       } else {
         alert("err, chk console for call res");
-        console.log(res);
+        console.log(res.body);
       }
     } else {
       alert("A billing and delivery address is required.");

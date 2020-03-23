@@ -10,11 +10,11 @@ export function AccountLogin(props) {
 
   async function apiCall(email, password) {
     await postLogin(email, password).then(res => {
-      if (res.token != null) {
-        props.setToken(res.token);
+      if (res.body.token != null) {
+        props.setToken(res.body.token);
         history.push("/");
       } else {
-        alert(JSON.stringify(res)); // #TODO
+        alert(JSON.stringify(res.body)); // #TODO
       }
     });
   }
