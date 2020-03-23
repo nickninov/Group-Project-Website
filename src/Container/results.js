@@ -21,7 +21,7 @@ export default class Results extends React.Component {
 
     this.setState({
       loading: false,
-      products: data,
+      products: data.body,
     });
   }
 

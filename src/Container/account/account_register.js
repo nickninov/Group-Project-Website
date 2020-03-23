@@ -24,11 +24,11 @@ export function AccountRegister(props) {
       password,
       confirm_password
     ).then(res => {
-      if (res.token != null) {
-        props.setToken(res.token);
+      if (res.body.token != null) {
+        props.setToken(res.body.token);
         history.push("/account");
       } else {
-        alert(JSON.stringify(res)); // #TODO
+        alert(JSON.stringify(res.body)); // #TODO
       }
     });
   }

@@ -32,7 +32,7 @@ export default class Product extends React.Component {
     let data = await getSearchProductById(id);
 
     this.setState({
-      product: data[0],
+      product: data.body[0],
       loading: false
     });
   }
@@ -54,12 +54,12 @@ export default class Product extends React.Component {
       try {
         const currentCart = await getUserCart(token);
 
-        currentCart.cart.push({
+        currentCart.body.cart.push({
           quantity: this.state.quantity,
           product: this.state.product._id
         });
 
-        await updateUserCart(currentCart, token);
+        await updateUserCart(currentCart.body, token);
         window.location.reload();
       } catch {
         alert("err in compiling previous basket");
@@ -78,13 +78,13 @@ export default class Product extends React.Component {
     cartItems.cart.push(this.state.product._id);
 
     try {
-      currentCart.cart.forEach(i => {
+      currentCart.body.cart.forEach(i => {
         cartItems.cart.push(i._id);
       });
 
       const res = await updateUserCart(cartItems, token);
 
-      if (res.cart.length === cartItems.cart.length) {
+      if (res.body.cart.length === cartItems.cart.length) {
         window.location.reload();
         return null;
       } else {
