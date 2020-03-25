@@ -5,6 +5,8 @@ import PersonIcon from "@material-ui/icons/Person";
 
 import CustomButton from "../common/custom_button";
 
+import { AddressBoxes } from "../common/address_box";
+
 import "./confirm.css";
 
 export const Confirm = props => {
@@ -24,44 +26,66 @@ export const Confirm = props => {
 
   var addresses;
   if (billing == null && delivery == null) {
-    addresses = (<div className="confirm-address-error">There is no <b>billing</b> and no <b>delivery</b> address in your account.</div>)
-  } else if(billing == null) {
-    addresses = (<div className="confirm-address-error">There is no <b>billing</b> address in your account.</div>)
-  } else if(delivery == null) {
-    addresses = (<div className="confirm-address-error">There is no <b>delivery</b> address in your account.</div>)
+    addresses = (
+      <div className="confirm-address-error">
+        There is no <b>billing</b> and no <b>delivery</b> address in your
+        account.
+      </div>
+    );
+  } else if (billing == null) {
+    addresses = (
+      <div className="confirm-address-error">
+        There is no <b>billing</b> address in your account.
+      </div>
+    );
+  } else if (delivery == null) {
+    addresses = (
+      <div className="confirm-address-error">
+        There is no <b>delivery</b> address in your account.
+      </div>
+    );
   } else {
     addresses = (
-      <div className="confirm-address-wrapper">
-        <div className="confirm-address">
-          <div className="confirm-address-header">
-            {same ? "BILLING + DELIVERY" : "BILLING"}
-          </div>
-          <div className="confirm-address-details">
-            To: {account.firstName} {account.lastName},<br />
-            {billing.firstLine},<br />
-            {billing.secondLine},<br />
-            {billing.townCity},<br />
-            {billing.county},<br />
-            {billing.postcode}
-            <br />
-          </div>
-        </div>
-        {!same && (
-          <div className="confirm-address">
-            <div className="confirm-address-header">DELIVERY</div>
-            <div className="confirm-address-details">
-              To: {account.firstName} {account.lastName},<br />
-              {delivery.firstLine},<br />
-              {delivery.secondLine},<br />
-              {delivery.townCity},<br />
-              {delivery.county},<br />
-              {delivery.postcode}
-              <br />
-            </div>
-          </div>
-        )}
+      <div className="confirm-addresses-wrapper">
+        <AddressBoxes
+          firstName={account.firstName}
+          lastName={account.lastName}
+          shipping={delivery}
+          billing={billing}
+        />
       </div>
-    )
+    );
+    // addresses = (
+    //   <div className="confirm-address-wrapper">
+    //     <div className="confirm-address">
+    //       <div className="confirm-address-header">
+    //         {same ? "BILLING + DELIVERY" : "BILLING"}
+    //       </div>
+    //       <div className="confirm-address-details">
+    //         To: {account.firstName} {account.lastName},<br />
+    //         {billing.firstLine},<br />
+    //         {billing.secondLine},<br />
+    //         {billing.townCity},<br />
+    //         {billing.county},<br />
+    //         {billing.postcode}
+    //         <br />
+    //       </div>
+    //     </div>
+    //     {!same && (
+    //       <div className="confirm-address">
+    //         <div className="confirm-address-header">DELIVERY</div>
+    //         <div className="confirm-address-details">
+    //           To: {account.firstName} {account.lastName},<br />
+    //           {delivery.firstLine},<br />
+    //           {delivery.secondLine},<br />
+    //           {delivery.townCity},<br />
+    //           {delivery.county},<br />
+    //           {delivery.postcode}
+    //           <br />
+    //         </div>
+    //       </div>
+    //     )}
+    //   </div>
   }
 
   return (

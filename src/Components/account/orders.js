@@ -1,53 +1,63 @@
 import React from "react";
 
 import "./layout.css";
-import { Container, Card, Grid, CardActionArea } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+
+import CustomButton from "../common/custom_button";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+
 import { formatDate } from "../../Utility/formatDateUtility";
-import { BrowserRouter as Link } from "react-router-dom";
+
+import "./orders.css";
 
 export const Orders = props => {
   let orders = props.data;
-  // console.log(props);
 
   const renderOrderItems = item => (
-    <Container className={"order-item-root"}>
-      <Container className={"order-header"}>
-        <div>Order Date: {formatDate(item.date)}</div>
-        <div>{item.status}</div>
-      </Container>
-      <div className="divider" />
-      <Container className={"order-item"}>
-        {item.products.map(prod => (
-          <Card className="order-card-root">
-            <Link
-              className={"match-parent"}
-              to={() => props.navigateToProduct(prod.product._id)}
-            >
-              <CardActionArea className={"order-card"}>
-                <img className="order-image" src={prod.product.images[0]} alt="Product" />
-                <Container className={"card-item-middle"}>
-                  <div className={"order-item-title"}> {prod.product.name}</div>
-                  <div className={"order-item-description"}>
-                    {prod.product.description}
-                  </div>
-                </Container>
-                <div className={"order-item-price"}>{prod.product.price}$</div>
-              </CardActionArea>
-            </Link>
-          </Card>
+    <div className="sm-order-item-wrapper">
+      <div className="sm-order-item-metadata">
+        {/* <span className="sm-order-item-attribute">{formatDate(item.date)}</span>
+        <span className="sm-order-item-attribute">{item.status}</span> */}
+        <div className="order-attribute">
+          <p className="order-attribute-title">Date</p>
+          <p className="order-attribute-value">{formatDate(item.date)}</p>
+        </div>
+        <div className="order-attribute">
+          <p className="order-attribute-title">Status</p>
+          <p className="order-attribute-value">{item.status}</p>
+        </div>
+        <CustomButton
+          text="View Order"
+          textColor="#535c68"
+          bgColor="#95afc0"
+          script={() => props.history.push(`/order/${item._id}`)}
+          icon={<ListAltIcon />}
+        />
+      </div>
+      <div className="sm-order-item-products">
+        {/* {item.products.product.images[0]} */}
+        {item.products.map(i => (
+          <img
+            className="sm-order-item-thumbnail"
+            src={i.product.images[0]}
+            alt="product thumbnail"
+          />
         ))}
-      </Container>
-    </Container>
+      </div>
+    </div>
   );
 
   return (
     <div>
-      <h1>Orders</h1>
+      <h1 style={{ marginBottom: 20 }}>Orders</h1>
       {orders.length === 0 ? (
         <p>You have no orders.</p>
       ) : (
         <Grid container direction="column" justify="center" alignItems="center">
-          {orders.slice(0).reverse().map(item => renderOrderItems(item))}
+          {orders
+            .slice(0)
+            .reverse()
+            .map(item => renderOrderItems(item))}
         </Grid>
       )}
     </div>

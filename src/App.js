@@ -9,6 +9,7 @@ import Results from "./Container/results";
 import Product from "./Container/product";
 import Checkout from "./Container/checkout";
 import Account from "./Container/account/account";
+import Order from "./Container/order";
 
 import Header from "./Container/header";
 import AccountLogin from "./Container/account/account_login";
@@ -68,12 +69,24 @@ class App extends React.Component {
             />
             <Route
               path="/account"
-              render={() => <Account getToken={this.getToken} />}
+              render={props => (
+                <Account history={props.history} getToken={this.getToken} />
+              )}
             />
             <Route
               path="/checkout"
               render={props => (
                 <Checkout history={props.history} getToken={this.getToken} />
+              )}
+            />
+            <Route
+              path="/order/:id"
+              render={props => (
+                <Order
+                  match={props.match}
+                  history={props.history}
+                  getToken={this.getToken}
+                />
               )}
             />
             <Route
