@@ -9,6 +9,8 @@ import SaveIcon from "@material-ui/icons/Save";
 import EditIcon from "@material-ui/icons/Edit";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
 
+import { AddressBox } from "../common/address_box";
+
 import CustomButton from "../../Components/common/custom_button";
 
 import "./details.css";
@@ -21,59 +23,35 @@ export default function Details(props) {
   const [email, setEmail] = useState(user.email);
   const [phone, setPhone] = useState(user.phone);
 
-  const delivery = <span className="details-box-special">DELIVERY</span>;
-  const connector = <span className="details-box-special">+</span>;
-  const billing = <span className="details-box-special">BILLING</span>;
-
   var addresses = user.addresses.map(e => {
-    var special = null;
-
+    var eTitle = null;
     if (e.isDelivery && e.isBilling) {
-      special = (
-        <div>
-          {delivery} {connector} {billing}
-        </div>
-      );
+      eTitle = "DELIVERY + BILLING";
     } else if (e.isDelivery) {
-      special = <div>{delivery}</div>;
+      eTitle = "DELIVERY";
     } else if (e.isBilling) {
-      special = <div>{billing}</div>;
-    } else {
-      special = <div />;
+      eTitle = "BILLING";
     }
 
     return (
-      <div className="details-box">
-        {special != null && (
-          <div className="details-box-special-wrapper">{special}</div>
-        )}
-        <div className="details-box-text-wrapper">
-          {e.firstLine},<br />
-          {e.secondLine},<br />
-          {e.townCity},<br />
-          {e.county},<br />
-          {e.postcode}
-        </div>
-        <div className="details-box-button-wrapper">
+      <div className="details-address-wrapper">
+        <AddressBox title={eTitle} address={e} fullHeight={true}>
           <CustomButton
             script={() => props.updateTrigger(e)}
             text="Edit"
-            // bgColor="#A72D2D"
-            // textColor="#EAEFD3"
             bgColor="#95afc0"
             textColor="#535c68"
             icon={<EditIcon />}
           />
-        </div>
+        </AddressBox>
       </div>
     );
   });
+
   addresses.push(
-    <div className="details-box details-box-add">
+    <div className="details-box-add">
       <CustomButton
         text="Add"
-        // bgColor="#EAEFD3"
-        // textColor="#A72D2D"
         bgColor="#535c68"
         textColor="#95afc0"
         script={props.createTrigger}
@@ -88,7 +66,7 @@ export default function Details(props) {
 
   return (
     <div>
-      <h1>Account</h1>
+      <h1 style={{ marginBottom: 20 }}>Account</h1>
       <div className="details-basic-credentials-wrapper">
         <div>
           <div>
@@ -146,7 +124,7 @@ export default function Details(props) {
         </div>
       </div>
 
-      <h1 style={{ marginTop: 40 }}>Addresses</h1>
+      <h1 style={{ marginTop: 60, marginBottom: 20 }}>Addresses</h1>
       <div className="details-content">{addresses}</div>
     </div>
   );

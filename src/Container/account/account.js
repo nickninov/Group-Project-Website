@@ -143,7 +143,8 @@ export default class Account extends React.Component {
       this.setState({ token: true });
       this.getData(token);
     } else {
-      this.setState({ token: false });
+      // this.setState({ token: false });
+      this.props.history.push("/login");
     }
   }
 
@@ -161,6 +162,7 @@ export default class Account extends React.Component {
           }
           right={
             <Orders
+              history={this.props.history}
               data={this.state.ordersData}
               navigateToProduct={this.navigateToProduct}
             />
@@ -184,12 +186,8 @@ export default class Account extends React.Component {
 
   render() {
     if (this.state.token === false) {
-      return (
-        <h1>
-          {/* #TODO */}
-          <a href="/login">Log in.</a>
-        </h1>
-      );
+      this.props.history.push("/login");
+      return <div />;
     } else {
       return this.state.loading ? <Loading /> : this.components();
     }

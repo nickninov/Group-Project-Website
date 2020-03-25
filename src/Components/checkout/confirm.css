@@ -35,6 +35,11 @@ td, th {
   border-radius: 10px;
 }
 
+.confirm-addresses-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 .confirm-address-header {
   background-color: #E8E8E8;
   color: #A0A0A0;

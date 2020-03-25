@@ -1,0 +1,30 @@
+.sm-order-item-wrapper {
+  border: 1px solid #d3d3d3;
+  border-radius: 2px;
+  width: 477px;
+  margin-bottom: 15px;
+}
+
+.sm-order-item-metadata {
+  padding: 15px;
+  border-bottom: 1px solid #d3d3d3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sm-order-item-attribute {
+  font-weight: 700;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.sm-order-item-products {
+  padding: 0px 15px 15px 0px;
+}
+
+.sm-order-item-thumbnail {
+  width: 100px;
+  height: 100px;
+  margin: 15px 0px 0px 15px;
+}
