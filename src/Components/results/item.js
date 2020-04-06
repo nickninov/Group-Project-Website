@@ -10,7 +10,7 @@ import Price from "../common/price";
 
 import "./item.css";
 
-export const Item = props => {
+export const Item = (props) => {
   const item = props.item;
 
   return (
@@ -26,12 +26,6 @@ export const Item = props => {
 
         {/* bottom section */}
         <div className="item-controls">
-          {/* left side */}
-          <div className="item-controls-additional">
-            <FeatherIcon.Share className="icon" size="20" />
-          </div>
-
-          {/* right side */}
           <Link style={{ textDecoration: "none" }} to={"product/" + item._id}>
             <ViewProduct />
           </Link>

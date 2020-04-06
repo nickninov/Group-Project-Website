@@ -7,6 +7,7 @@ import Wrapper from "../Components/checkout/wrapper";
 import Steps from "../Components/checkout/steps";
 import BackwardButton from "../Components/common/buttons/backward_button";
 import ForwardButton from "../Components/common/buttons/forward_button";
+import CentredText from "../Components/common/centred_text";
 
 // checkout sections
 import Cart from "../Components/checkout/cart";
@@ -18,7 +19,7 @@ import {
   getUserCart,
   updateUserCart,
   getUserAccount,
-  postOrder
+  postOrder,
 } from "../API/api";
 
 export default class Checkout extends React.Component {
@@ -27,7 +28,9 @@ export default class Checkout extends React.Component {
     this.state = {
       loading: true,
       empty: false,
-      index: 0
+      index: 0,
+      deliveryValue: "economy",
+      giftValue: false,
     };
   }
 
@@ -42,28 +45,25 @@ export default class Checkout extends React.Component {
       }
     } else {
       let currentCart = this.state.cart;
-      currentCart.cart.forEach(e => {
+      currentCart.cart.forEach((e) => {
         if (e._id === _id) {
           e.quantity += quanChange;
         }
       });
 
       this.setState({
-        cart: this.reformulateData(currentCart)
+        cart: this.reformulateData(currentCart),
       });
     }
   };
 
-  deleteCartItem = async _id => {
-    console.log("id to delete " + _id);
-
-    console.log("cart");
+  deleteCartItem = async (_id) => {
     var cart = this.state.cart;
 
     var indexToDelete = 0;
     {
       let index = 0;
-      cart.cart.forEach(e => {
+      cart.cart.forEach((e) => {
         delete e._id;
         e._id === _id ? (indexToDelete = index) : index++;
       });
@@ -75,16 +75,12 @@ export default class Checkout extends React.Component {
     const res = await updateUserCart(cart, token).then(() => {
       window.location.reload();
     });
-
-    console.log("server response: ");
-    console.log(res.body);
   };
 
-  reformulateData = cartData => {
-    console.log(cartData);
+  reformulateData = (cartData) => {
     // to reformulate the prices when quantity is changed
 
-    cartData.cart.forEach(e => {
+    cartData.cart.forEach((e) => {
       // price subtotal
       e.price_subtotal = e.product.price * e.quantity;
 
@@ -100,7 +96,7 @@ export default class Checkout extends React.Component {
 
     // total
     let total = 0;
-    cartData.cart.forEach(e => {
+    cartData.cart.forEach((e) => {
       let ds = e.discount_subtotal;
       ds != null ? (total += ds) : (total += e.price_subtotal);
     });
@@ -108,7 +104,7 @@ export default class Checkout extends React.Component {
     return cartData;
   };
 
-  incrementSection = num => {
+  incrementSection = (num) => {
     let i = this.state.index;
     let l = 2;
 
@@ -131,18 +127,30 @@ export default class Checkout extends React.Component {
 
       if (userCart.body.cart.length === 0 || userCart.body.cart == null) {
         this.setState({
-          empty: true
+          empty: true,
         });
       } else {
         this.setState({
           cart: this.reformulateData(userCart.body),
           account: userAccount.body,
           loading: false,
-          message: "not empty"
+          message: "not empty",
         });
       }
     }
   }
+
+  changeDeliveryOption = (value) => {
+    this.setState({
+      deliveryValue: value,
+    });
+  };
+
+  changeGiftOption = (bool) => {
+    this.setState({
+      giftValue: bool,
+    });
+  };
 
   finishOrder = async () => {
     const token = await this.props.getToken();
@@ -151,42 +159,19 @@ export default class Checkout extends React.Component {
     var delivery = null;
     const account = this.state.account;
 
-    account.addresses.forEach(e => {
+    account.addresses.forEach((e) => {
       e.isBilling && (billing = e);
       e.isDelivery && (delivery = e);
     });
 
+    // #TODO need to remove .toString()
     if (billing != null && delivery != null) {
-      var formattedCart = [];
-
-      this.state.cart.cart.forEach(e => {
-        formattedCart.push({
-          quantity: e.quantity,
-          product: e.product._id
-        });
-      });
-
       let res = await postOrder(
         {
-          shippingAddress: {
-            firstLine: delivery.firstLine,
-            secondLine: delivery.secondLine === "" ? "-" : delivery.secondLine,
-            townCity: delivery.townCity,
-            county: delivery.county,
-            postcode: delivery.postcode,
-            isBilling: false,
-            isDelivery: true
-          },
-          billingAddress: {
-            firstLine: billing.firstLine,
-            secondLine: billing.secondLine === "" ? "-" : billing.secondLine,
-            townCity: billing.townCity,
-            county: billing.county,
-            postcode: billing.postcode,
-            isBilling: true,
-            isDelivery: false
-          },
-          products: formattedCart
+          shippingAddress: delivery._id,
+          billingAddress: billing._id,
+          isGift: this.state.giftValue.toString(),
+          deliveryType: this.state.deliveryValue.toString(),
         },
         token
       );
@@ -194,11 +179,11 @@ export default class Checkout extends React.Component {
       if (res.body.status === "ordered") {
         alert("Thank you for shopping. Your order has been confirmed.");
         await updateUserCart({ cart: [] }, token).then(() => {
-          this.props.history.push("/account");
+          this.props.history.push("/order/" + res.body._id);
+          window.location.reload();
         });
       } else {
-        alert("err, chk console for call res");
-        console.log(res.body);
+        alert("Error, try again later.");
       }
     } else {
       alert("A billing and delivery address is required.");
@@ -212,13 +197,21 @@ export default class Checkout extends React.Component {
 
     var sections = [
       <Cart userCart={cart} changeQuantity={this.changeQuantity} />,
-      <Options />,
+      <Options
+        deliveryValue={this.state.deliveryValue}
+        giftValue={this.state.giftValue}
+        changeDeliveryOption={this.changeDeliveryOption}
+        changeGiftOption={this.changeGiftOption}
+      />,
       <Confirm
         history={this.props.history}
         userAccount={account}
         userCart={cart}
+        deliveryText={this.state.deliveryValue}
+        deliveryCost={this.state.deliveryValue == "economy" ? 0 : 3.99}
+        giftEnabled={this.state.giftValue}
         total={cart.cart.total}
-      />
+      />,
     ];
 
     return (
@@ -235,7 +228,8 @@ export default class Checkout extends React.Component {
 
   render() {
     if (this.state.empty) {
-      return <h1>Empty</h1>;
+      // return <h1>Empty</h1>;
+      return <CentredText text="Empty" />
     } else if (this.state.loading) {
       return <Loading />;
     } else {

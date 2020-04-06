@@ -21,3 +21,11 @@
 .product-desc {
     text-align: justify;
 }
+
+.product-share {
+    margin-bottom: 20px;
+}
+
+.product-share:hover {
+    cursor: pointer;
+}

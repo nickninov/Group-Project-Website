@@ -19,7 +19,7 @@ const Price = (props) => {
 		</h5>
 	)
 
-	return props.discount == null ? noDiscount : withDiscount;
+	return (props.discount == null || props.discount === 0) ? noDiscount : withDiscount;
 }
 
 const CurrentPrice = (props) => <span className="item-price-current">£{(props.price)}</span>;

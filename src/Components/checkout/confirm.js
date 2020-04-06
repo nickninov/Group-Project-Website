@@ -9,15 +9,18 @@ import { AddressBoxes } from "../common/address_box";
 
 import "./confirm.css";
 
-export const Confirm = props => {
+export const Confirm = (props) => {
   const cart = props.userCart;
   const account = props.userAccount;
+  const deliveryText = props.deliveryText;
+  const deliveryCost = props.deliveryCost;
+  const giftEnabled = props.giftEnabled;
 
   var billing = null;
   var delivery = null;
   var same = false;
 
-  account.addresses.forEach(e => {
+  account.addresses.forEach((e) => {
     e.isBilling && (billing = e);
     e.isDelivery && (delivery = e);
   });
@@ -55,51 +58,17 @@ export const Confirm = props => {
         />
       </div>
     );
-    // addresses = (
-    //   <div className="confirm-address-wrapper">
-    //     <div className="confirm-address">
-    //       <div className="confirm-address-header">
-    //         {same ? "BILLING + DELIVERY" : "BILLING"}
-    //       </div>
-    //       <div className="confirm-address-details">
-    //         To: {account.firstName} {account.lastName},<br />
-    //         {billing.firstLine},<br />
-    //         {billing.secondLine},<br />
-    //         {billing.townCity},<br />
-    //         {billing.county},<br />
-    //         {billing.postcode}
-    //         <br />
-    //       </div>
-    //     </div>
-    //     {!same && (
-    //       <div className="confirm-address">
-    //         <div className="confirm-address-header">DELIVERY</div>
-    //         <div className="confirm-address-details">
-    //           To: {account.firstName} {account.lastName},<br />
-    //           {delivery.firstLine},<br />
-    //           {delivery.secondLine},<br />
-    //           {delivery.townCity},<br />
-    //           {delivery.county},<br />
-    //           {delivery.postcode}
-    //           <br />
-    //         </div>
-    //       </div>
-    //     )}
-    //   </div>
   }
 
   return (
     <Container>
       <Row className="confirm-upper-row">
-        <Col lg={8}>
-          <h1>Address</h1>
-        </Col>
-        <Col lg={4}>
-          <h1>Products</h1>
+        <Col lg={12}>
+          <h1>Confirm</h1>
         </Col>
       </Row>
       <Row>
-        <Col lg={8}>
+        <Col lg={7}>
           {addresses}
           <div className="checkout-details-change">
             <span>Change these details in your</span>
@@ -115,30 +84,40 @@ export const Confirm = props => {
             <span>settings.</span>
           </div>
         </Col>
-        <Col lg={4}>
-          <table>
-            {cart.cart.map(e => (
-              <tr>
-                <td>
+        <Col lg={5}>
+          <div>
+            {cart.cart.map((e) => (
+              <div className="checkout-confirm-item">
+                <div>
                   {e.quantity}x {e.product.name}
-                </td>
-                <td>
+                </div>
+                <div>
                   £
                   {e.discount_subtotal == null
-                    ? e.price_subtotal
-                    : e.discount_subtotal}
-                </td>
-              </tr>
+                    ? e.price_subtotal.toFixed(2)
+                    : e.discount_subtotal.toFixed(2)}
+                </div>
+              </div>
             ))}
-            <tr>
-              <td>Standard Delivery</td>
-              <td>Free</td>
-            </tr>
-            <tr>
-              <td></td>
-              <td className="confirm-total">£{cart.total}</td>
-            </tr>
-          </table>
+            <div className="checkout-confirm-item">
+              <div style={{ textTransform: "capitalize" }}>
+                {deliveryText} Shipping
+              </div>
+              <div>£{deliveryCost.toFixed(2)}</div>
+            </div>
+            {giftEnabled && (
+              <div className="checkout-confirm-item">
+                <div>Gift</div>
+                <div>Free</div>
+              </div>
+            )}
+          </div>
+          <div>
+            <div className="checkout-confirm-total">
+              <div>Total</div>
+              <div>£{(cart.total + deliveryCost).toFixed(2)}</div>
+            </div>
+          </div>
         </Col>
       </Row>
     </Container>

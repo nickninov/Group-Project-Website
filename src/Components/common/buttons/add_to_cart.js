@@ -10,7 +10,7 @@ export const AddToCart = (props) => {
     return (
         <CustomButton
             script={props.script}
-            bgColor="#EAEFD3"
+            bgColor="#da7272"
             textColor="#A72D2D"
             text="Add to Cart"
             icon={<AddShoppingCartIcon />}

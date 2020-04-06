@@ -9,21 +9,25 @@ import { Container, Col, Row } from "react-bootstrap";
 
 import "./options.css";
 
-export const Options = () => {
+export const Options = props => {
 
-  const [value, setValue] = React.useState("standard");
+  let deliveryValue = props.deliveryValue;
+  let giftValue = props.giftValue;
+
+  const [value, setValue] = React.useState(deliveryValue);
+  const [state, setState] = React.useState({ gift: giftValue });
 
   const handleDeliveryChange = event => {
     setValue(event.target.value);
+    props.changeDeliveryOption(event.target.value);
   };
 
-//   const [state, setState] = React.useState({ gift: false });
+  const handleGiftChange = name => event => {
+    setState({ ...state, [name]: event.target.checked });
+    props.changeGiftOption(event.target.checked);
+  };
 
-//   const handleGiftChange = name => event => {
-//     setState({ ...state, [name]: event.target.checked });
-//   };
-
-//   const { gift } = state;
+  const { gift } = state;
 
   return (
     <Container className="option-wrapper">
@@ -55,15 +59,14 @@ export const Options = () => {
                   onChange={handleDeliveryChange}
                 >
                   <FormControlLabel
-                    value="standard"
+                    value="economy"
                     control={<Radio />}
-                    label="Standard Free"
+                    label="Free Economic"
                   />
                   <FormControlLabel
-                    value="express"
+                    value="priority"
                     control={<Radio />}
-                    label="Express £3.99 (Unavaliable)"
-                    disabled
+                    label="Priority £3.99"
                   />
                 </RadioGroup>
               </div>
@@ -93,10 +96,9 @@ export const Options = () => {
                   <FormControlLabel
                     control={
                       <Checkbox
-                        // checked={gift}
-                        // onChange={handleGiftChange("gift")}
+                        checked={gift}
+                        onChange={handleGiftChange("gift")}
                         value="gift"
-                        disabled
                       />
                     }
                     label="Gift"

@@ -41,8 +41,9 @@ export default function OrderComponent(props) {
 
   var productList = [];
 
-  order.products.forEach(e => {
+  order.products.forEach((e) => {
     let product = e.product;
+    
     productList.push(
       <div>
         <div className="order-item">
@@ -52,11 +53,12 @@ export default function OrderComponent(props) {
           <div className="order-item-content">
             <div className="order-item-details">
               <div className="order-item-picture-wrapper">
-                <img
+                <p>#TODO</p>
+                {/* <img
                   className="order-item-picture"
                   src={product.images[0]}
                   alt="product thumbnail"
-                />
+                /> */}
               </div>
               <div className="order-item-text">
                 <p className="order-item-name">{product.name}</p>
@@ -85,6 +87,7 @@ export default function OrderComponent(props) {
                 text="View Product"
                 bgColor="#5d646f"
                 textColor="#a4b0be"
+                // #TODO
                 script={() => props.history.push(`/product/${product._id}`)}
                 icon={<ArtTrackIcon />}
               />
@@ -99,7 +102,7 @@ export default function OrderComponent(props) {
           closeAfterTransition
           BackdropComponent={Backdrop}
           BackdropProps={{
-            timeout: 500
+            timeout: 500,
           }}
         >
           <div className="order-item-rate-modal">
@@ -108,7 +111,7 @@ export default function OrderComponent(props) {
               fullSymbol={<StarIcon />}
               fractions={2}
               initialRating={value}
-              onChange={rate => setValue(rate)}
+              onChange={(rate) => setValue(rate)}
             />
             <div style={{ marginBottom: 25 }} />
             <CustomButton
@@ -140,6 +143,14 @@ export default function OrderComponent(props) {
           <p className="order-attribute-value">{order.status}</p>
         </div>
         <div className="order-attribute">
+          <p className="order-attribute-title">Delivery</p>
+          <p className="order-attribute-value">£{(order.isGift ? 3.99 : 0).toFixed(2)}</p>
+        </div>
+        <div className="order-attribute">
+          <p className="order-attribute-title">Gift</p>
+          <p className="order-attribute-value">{order.isGift ? "Yes" : "No"}</p>
+        </div>
+        <div className="order-attribute">
           <p className="order-attribute-title">Addresses</p>
           <p className="order-attribute-value">
             <NavDropdown
@@ -156,7 +167,7 @@ export default function OrderComponent(props) {
         </div>
         <div className="order-attribute">
           <p className="order-attribute-title">Total</p>
-          <p className="order-attribute-value">n/a</p>
+          <p className="order-attribute-value">£{((order.isGift ? 3.99 : 0) + order.total).toFixed(2)}</p>
         </div>
       </Container>
       <Container className="order-item-wrapper">{productList}</Container>

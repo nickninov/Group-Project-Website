@@ -13,7 +13,7 @@ import Price from "../common/price";
 
 import "./cart";
 
-export const Cart = props => {
+export const Cart = (props) => {
   const cart = props.userCart;
 
   return (
@@ -39,7 +39,7 @@ export const Cart = props => {
           </TableHead>
 
           <TableBody>
-            {cart.cart.map(obj => (
+            {cart.cart.map((obj) => (
               <TableRow key={obj._id}>
                 <TableCell>
                   <h5 style={{ padding: 0, margin: 0 }}>{obj.product.name}</h5>

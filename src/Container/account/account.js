@@ -20,11 +20,6 @@ export default class Account extends React.Component {
     };
   }
 
-  navigateToProduct = id => {
-    // return `/product/${id}`;
-    console.log(id);
-  };
-
   getData = async token => {
     let [accData, orderData] = await Promise.all([
       getUserAccount(token),

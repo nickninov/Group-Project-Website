@@ -1,0 +1,101 @@
+.home-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 40px;
+}
+
+.home-section-slideshow {
+  margin-bottom: 30px;
+}
+
+.home-section-login {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
+.home-section-hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 100%;
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+  margin-bottom: 40px;
+}
+
+.home-section-hero-alt {
+    background-image: url("https://thumbs.dreamstime.com/b/topographic-map-geographical-location-lines-cartography-contour-line-nature-trails-relief-texture-image-mapping-grid-topography-151957787.jpg");
+}
+
+.home-section-hero img {
+  height: 300px;
+  -webkit-box-shadow: 0px 0px 38px 13px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 0px 38px 13px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 38px 13px rgba(0, 0, 0, 0.25);
+}
+
+.home-section-hero h2 {
+  margin-left: -50px;
+  background-color: whitesmoke;
+  padding: 0px 15px 10px 15px;
+  font-size: 50px;
+  font-weight: bold;
+  -webkit-box-shadow: 0px 0px 38px 13px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0px 0px 38px 13px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 38px 13px rgba(0, 0, 0, 0.25);
+}
+
+.home-section-hero h2 span {
+    font-size: 28px;
+}
+
+.home-section {
+  margin: 0 20px;
+  padding: 40px;
+  background: linear-gradient(90deg, white, whitesmoke);
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-section-invert {
+  background: linear-gradient(90deg, whitesmoke, white);
+}
+
+.home-section h2 {
+  margin: 0px;
+  font-size: 42px;
+  font-weight: bold;
+  color: #a72d2d;
+  background-color: #da7272;
+  padding: 10px 15px;
+}
+
+.home-section div {
+  display: flex;
+}
+
+.home-section-icon {
+  background-color: #a72d2d;
+  color: #da7272;
+  padding: 0px 13px;
+  margin: -20px 0 70px -40px;
+  font-size: 40px;
+  -webkit-box-shadow: 0px 6px 14px -1px rgba(0, 0, 0, 0.17);
+  -moz-box-shadow: 0px 6px 14px -1px rgba(0, 0, 0, 0.17);
+  box-shadow: 0px 6px 14px -1px rgba(0, 0, 0, 0.17);
+}
+
+.home-section-item {
+  width: 170px;
+  height: 170px;
+  background-color: white;
+  margin-left: 40px;
+}
+
+.home-section-invert-item-last {
+  margin-left: 0px;
+  margin-right: 40px;
+}

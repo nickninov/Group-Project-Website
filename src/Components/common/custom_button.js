@@ -17,8 +17,6 @@ export const CustomButton = props => {
     }
   })(Button);
 
-  console.log()
-
   return (
     <div>
       <CustomButton

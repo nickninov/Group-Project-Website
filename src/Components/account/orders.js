@@ -36,13 +36,14 @@ export const Orders = props => {
       </div>
       <div className="sm-order-item-products">
         {/* {item.products.product.images[0]} */}
-        {item.products.map(i => (
+        <p>#TODO</p>
+        {/* {item.products.map(i => (
           <img
             className="sm-order-item-thumbnail"
             src={i.product.images[0]}
             alt="product thumbnail"
           />
-        ))}
+        ))} */}
       </div>
     </div>
   );

@@ -105,17 +105,8 @@ export default function Details(props) {
         <div className="details-basic-credentials-button-wrapper">
           <div className="details-basic-credentials-button">
             <CustomButton
-              bgColor="#ff7675"
-              textColor="#d63031"
-              text="Password"
-              icon={<VpnKeyIcon />}
-              script={() => alert("reset password")}
-            />
-          </div>
-          <div className="details-basic-credentials-button">
-            <CustomButton
-              bgColor="#A72D2D"
-              textColor="#EAEFD3"
+              bgColor="#da7272"
+              textColor="#A72D2D"
               text="Save"
               icon={<SaveIcon />}
               script={saveDetails}
