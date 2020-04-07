@@ -87,15 +87,12 @@ export const Confirm = (props) => {
         <Col lg={5}>
           <div>
             {cart.cart.map((e) => (
-              <div className="checkout-confirm-item">
+              <div className="checkout-confirm-item" style={{fontWeight: "bold"}}>
                 <div>
                   {e.quantity}x {e.product.name}
                 </div>
                 <div>
-                  £
-                  {e.discount_subtotal == null
-                    ? e.price_subtotal.toFixed(2)
-                    : e.discount_subtotal.toFixed(2)}
+                  £{e.subTotal}
                 </div>
               </div>
             ))}

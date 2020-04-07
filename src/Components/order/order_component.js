@@ -53,12 +53,11 @@ export default function OrderComponent(props) {
           <div className="order-item-content">
             <div className="order-item-details">
               <div className="order-item-picture-wrapper">
-                <p>#TODO</p>
-                {/* <img
+                <img
                   className="order-item-picture"
                   src={product.images[0]}
                   alt="product thumbnail"
-                /> */}
+                />
               </div>
               <div className="order-item-text">
                 <p className="order-item-name">{product.name}</p>

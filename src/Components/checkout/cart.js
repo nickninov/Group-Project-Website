@@ -75,8 +75,7 @@ export const Cart = (props) => {
                 <TableCell>
                   <Price
                     oneLine={true}
-                    price={obj.price_subtotal}
-                    discount={obj.discount_subtotal}
+                    price={obj.subTotal}
                   />
                 </TableCell>
               </TableRow>

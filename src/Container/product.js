@@ -22,10 +22,6 @@ export default class Product extends React.Component {
   }
 
   async componentDidMount() {
-    //! KEEP THIS FOR REFERENCE, #TODO REMOVE AT PRODUCTION:
-    // const {
-    //   match: { params }
-    // } = this.props;
     const params = this.props.match.params;
     const { id } = params;
 
@@ -51,30 +47,27 @@ export default class Product extends React.Component {
     if (token == null) {
       alert("You need to be logged in.");
     } else {
-      try {
-        const currentCart = await getUserCart(token);
+      let currentCart = await getUserCart(token);
+      let newCart = [];
 
-        // # TODO, IDs aren't in cart items
-        let inCart = false;
-        currentCart.body.cart.forEach((e) => {
-          if (e.product._id == this.state.product._id) {
-            inCart = true;
-          }
+      currentCart.body.cart.forEach((e) => {
+        newCart.push({
+          product: e.product._id,
+          quantity: e.quantity,
         });
+      });
 
-        if (inCart) {
-          alert("Product is in cart.");
-        } else {
-          currentCart.body.cart.push({
-            quantity: this.state.quantity,
-            product: this.state.product._id,
-          });
-          await updateUserCart(currentCart.body, token);
-          window.location.reload();
-        }
-      } catch {
-        alert("Error, please try again later.");
+      newCart.push({
+        product: this.state.product._id,
+        quantity: this.state.quantity,
+      });
+
+      const res = await updateUserCart({ cart: newCart }, token);
+
+      if (res.status == 200) {
         window.location.reload();
+      } else {
+        alert("Something went wrong.");
       }
     }
   };

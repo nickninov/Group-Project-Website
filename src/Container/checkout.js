@@ -38,8 +38,6 @@ export default class Checkout extends React.Component {
     if (curQuan >= curStock && quanChange === 1) {
       alert("You hit the max.");
     } else if (curQuan <= 1 && quanChange === -1) {
-      // alert("Do you wish to delete the item?");
-
       if (window.confirm("Delete the item?")) {
         this.deleteCartItem(_id);
       }
@@ -57,50 +55,46 @@ export default class Checkout extends React.Component {
     }
   };
 
-  deleteCartItem = async (_id) => {
-    var cart = this.state.cart;
-
-    var indexToDelete = 0;
-    {
-      let index = 0;
-      cart.cart.forEach((e) => {
-        delete e._id;
-        e._id === _id ? (indexToDelete = index) : index++;
-      });
-    }
-
-    cart.cart.splice(indexToDelete, indexToDelete + 1);
-
+  deleteCartItem = async (id) => {
     const token = await this.props.getToken();
-    const res = await updateUserCart(cart, token).then(() => {
-      window.location.reload();
-    });
-  };
+    const currentCart = await getUserCart(token);
+    let newCart = [];
 
-  reformulateData = (cartData) => {
-    // to reformulate the prices when quantity is changed
-
-    cartData.cart.forEach((e) => {
-      // price subtotal
-      e.price_subtotal = e.product.price * e.quantity;
-
-      // discount subtotal
-      let ds = e.product.discount;
-      if (typeof ds === "undefined" || ds === null) {
-        e.product.discount = null;
-        e.discount_subtotal = null;
-      } else {
-        e.discount_subtotal = e.product.discount * e.quantity;
+    currentCart.body.cart.forEach((e) => {
+      if (e._id != id) {
+        newCart.push({
+          product: e.product._id,
+          quantity: e.quantity,
+        });
       }
     });
 
-    // total
+    const res = await updateUserCart({ cart: newCart }, token);
+
+    if (res.status == 200) {
+      window.location.reload();
+    } else {
+      alert("Something went wrong.");
+    }
+  };
+
+  reformulateData = (cartData) => {
+    // finding subtotal for each item
+    cartData.cart.forEach((e) => {
+      if (e.product.discount == 0) {
+        e.subTotal = e.product.price * e.quantity;
+      } else {
+        e.subTotal = e.product.discount * e.quantity;
+      }
+    });
+
+    // finding the total
     let total = 0;
     cartData.cart.forEach((e) => {
-      let ds = e.discount_subtotal;
-      ds != null ? (total += ds) : (total += e.price_subtotal);
+      total += e.subTotal;
     });
     cartData.total = total;
+
     return cartData;
   };
 
@@ -164,14 +158,20 @@ export default class Checkout extends React.Component {
       e.isDelivery && (delivery = e);
     });
 
-    // #TODO need to remove .toString()
     if (billing != null && delivery != null) {
+      console.log({
+        shippingAddress: delivery._id,
+        billingAddress: billing._id,
+        isGift: this.state.giftValue,
+        deliveryType: this.state.deliveryValue,
+      });
+
       let res = await postOrder(
         {
           shippingAddress: delivery._id,
           billingAddress: billing._id,
-          isGift: this.state.giftValue.toString(),
-          deliveryType: this.state.deliveryValue.toString(),
+          isGift: this.state.giftValue,
+          deliveryType: this.state.deliveryValue,
         },
         token
       );
@@ -228,8 +228,7 @@ export default class Checkout extends React.Component {
 
   render() {
     if (this.state.empty) {
-      // return <h1>Empty</h1>;
-      return <CentredText text="Empty" />
+      return <CentredText text="Empty" />;
     } else if (this.state.loading) {
       return <Loading />;
     } else {

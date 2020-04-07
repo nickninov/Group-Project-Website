@@ -37,19 +37,19 @@ export default class Home extends React.Component {
       ],
       highlight: {
         newProducts: [
-          "5e5da05f60236d003da3ed4b",
-          "5e5da05f60236d003da3ed4b",
-          "5e5da05f60236d003da3ed4b",
+          "5e8b73052f6f7e7aa030db71",
+          "5e8b73052f6f7e7aa030db75",
+          "5e8b73052f6f7e7aa030db80",
         ],
         trendingProducts: [
-          "5e5da05f60236d003da3ed4b",
-          "5e5da05f60236d003da3ed4b",
-          "5e5da05f60236d003da3ed4b",
+          "5e8b73052f6f7e7aa030db80",
+          "5e8b73052f6f7e7aa030db7b",
+          "5e8b73052f6f7e7aa030db7f",
         ],
         favouriteProducts: [
-          "5e5da05f60236d003da3ed4b",
-          "5e5da05f60236d003da3ed4b",
-          "5e5da05f60236d003da3ed4b",
+          "5e8b73052f6f7e7aa030db7a",
+          "5e8b73052f6f7e7aa030db81",
+          "5e8b73052f6f7e7aa030db79",
         ]
       },
     };

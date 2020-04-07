@@ -4,7 +4,6 @@ import React from 'react';
 import './price.css';
 
 const Price = (props) => {
-
 	const noDiscount = (
 		<h5 className="item-price">
 			<CurrentPrice price={props.price} />
@@ -19,11 +18,10 @@ const Price = (props) => {
 		</h5>
 	)
 
-	return (props.discount == null || props.discount === 0) ? noDiscount : withDiscount;
+	return (props.discount == 0 || props.discount == null) ? noDiscount : withDiscount;
 }
 
-const CurrentPrice = (props) => <span className="item-price-current">£{(props.price)}</span>;
-// const CurrentPrice = (props) => <span className="item-price-current">£{(props.price).toFixed(2)}</span>;
+const CurrentPrice = (props) => <span className="item-price-current">£{(props.price).toFixed(2)}</span>;
 
 const PreviousPrice = (props) => (
 	<span className="item-price-original-wrapper">

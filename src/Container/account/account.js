@@ -1,12 +1,17 @@
 import React from "react";
 
-import Loading from "../../Components/common/loading";
+// containers
+import AccountAddresses from "./account_addresses";
 
+// components
 import Layout from "../../Components/account/layout";
 import Details from "../../Components/account/details";
 import Orders from "../../Components/account/orders";
-import Address from "../../Components/account/address";
 
+// common
+import Loading from "../../Components/common/loading";
+
+// api
 import { getOrders, getUserAccount, updateUserAccount } from "../../API/api";
 
 export default class Account extends React.Component {
@@ -14,177 +19,95 @@ export default class Account extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      token: true,
-      userAccountData: null,
-      ordersData: null
+      account: null,
+      errors: null,
+      order: null,
     };
   }
 
-  getData = async token => {
-    let [accData, orderData] = await Promise.all([
-      getUserAccount(token),
-      getOrders(token)
-    ]);
-    this.setState({
-      ordersData: orderData.body,
-      userAccountData: accData.body,
-      loading: false
-    });
-  };
+  onSave = async (firstName, lastName, email, phone) => {
+    let acc = JSON.parse(JSON.stringify(this.state.account));
 
-  triggerDetailsUpdate = async (firstName, lastName, email, phone) => {
-    var currentData = this.state.userAccountData;
+    console.log("acc in onSave");
+    console.log(acc);
 
-    currentData.firstName = firstName;
-    currentData.lastName = lastName;
-    currentData.email = email;
-    currentData.phone = phone;
+    acc.firstName = firstName;
+    acc.lastName = lastName;
+    acc.email = email;
+    acc.phone = phone;
 
     const token = await this.props.getToken();
-    await updateUserAccount(currentData, token).then(() =>
-      window.location.reload()
-    );
-  };
+    const res = await updateUserAccount(acc, token);
 
-  triggerAddressUpdate = address => {
-    this.setState({ address: address, showModal: true });
-  };
+    if (res.status == 200) {
+      window.location.reload();
+    } else if (res.status == 400) {
+      let rawErrors = res.body;
 
-  discardAddress = () => {
-    this.setState({ showModal: false });
-  };
+      const errors = {
+        firstName: rawErrors.firstName != null ? rawErrors.firstName : "",
+        lastName: rawErrors.lastName != null ? rawErrors.lastName : "",
+        email: rawErrors.email != null ? rawErrors.email : "",
+        phone: rawErrors.phone != null ? rawErrors.phone : "",
+      };
 
-  saveAddress = async address => {
-    var currentData = this.state.userAccountData;
-
-    var indexToChange = 0;
-    {
-      let index = 0;
-      currentData.addresses.forEach(e =>
-        e._id === address._id ? (indexToChange = index) : index++
-      );
+      this.setState({
+        errors,
+      });
+    } else {
+      alert("Something went wrong.");
     }
-
-    // removing billing from other addresses
-    address.isBilling &&
-      currentData.addresses.forEach(e => (e.isBilling = false));
-
-    // removing delivery from other addresses
-    address.isDelivery &&
-      currentData.addresses.forEach(e => (e.isDelivery = false));
-
-    currentData.addresses[indexToChange] = address;
-
-    const token = await this.props.getToken();
-    await updateUserAccount(currentData, token).then(
-      this.setState({ showModal: false })
-    );
-  };
-
-  triggerAddressCreation = () => {
-    this.setState({ address: null, showModal: true });
-  };
-
-  createAddress = async address => {
-    var currentData = this.state.userAccountData;
-
-    // removing billing from other addresses
-    address.isBilling &&
-      currentData.addresses.forEach(e => (e.isBilling = false));
-
-    // removing delivery from other addresses
-    address.isDelivery &&
-      currentData.addresses.forEach(e => (e.isDelivery = false));
-
-    currentData.addresses.push({
-      firstLine: address.firstLine,
-      secondLine: address.secondLine == null ? "-" : address.secondLine,
-      townCity: address.townCity,
-      county: address.county,
-      postcode: address.postcode,
-      isBilling: address.isBilling == "" ? false : true,
-      isDelivery: address.isDelivery == "" ? false : true
-    });
-
-    const token = await this.props.getToken();
-    await updateUserAccount(currentData, token).then(
-      this.setState({ showModal: false })
-    );
-  };
-
-  deleteAddress = async address => {
-    var currentData = this.state.userAccountData;
-
-    var indexToDelete = 0;
-    {
-      let index = 0;
-      currentData.addresses.forEach(e =>
-        e._id === address._id ? (indexToDelete = index) : index++
-      );
-    }
-
-    currentData.addresses.splice(indexToDelete, indexToDelete + 1);
-
-    const token = await this.props.getToken();
-    await updateUserAccount(currentData, token).then(
-      this.setState({ showModal: false })
-    );
   };
 
   async componentDidMount() {
     const token = await this.props.getToken();
 
     if (token !== null) {
-      this.setState({ token: true });
-      this.getData(token);
+      let [account, orders] = await Promise.all([
+        getUserAccount(token),
+        getOrders(token),
+      ]);
+
+      this.setState({
+        token: token,
+        account: account.body,
+        orders: orders.body,
+        loading: false,
+      });
     } else {
-      // this.setState({ token: false });
       this.props.history.push("/login");
     }
   }
 
   components() {
     return (
-      <div>
-        <Layout
-          left={
-            <Details
-              userAccount={this.state.userAccountData}
-              triggerDetailsUpdate={this.triggerDetailsUpdate}
-              updateTrigger={this.triggerAddressUpdate}
-              createTrigger={this.triggerAddressCreation}
-            />
-          }
-          right={
-            <Orders
-              history={this.props.history}
-              data={this.state.ordersData}
-              navigateToProduct={this.navigateToProduct}
-            />
-          }
-        />
-        {this.state.showModal ? (
-          <Address
-            show={this.state.showModal}
-            address={this.state.address}
-            onDiscard={this.discardAddress}
-            onSave={this.saveAddress}
-            onCreation={this.createAddress}
-            onDelete={this.deleteAddress}
+      <Layout
+        details={
+          <Details
+            account={this.state.account}
+            onSave={this.onSave}
+            errors={this.state.errors}
           />
-        ) : (
-          <div />
-        )}
-      </div>
+        }
+        addresses={
+          <AccountAddresses
+            token={this.state.token}
+            history={this.props.history}
+            account={this.state.account}
+          />
+        }
+        orders={
+          <Orders history={this.props.history} orders={this.state.orders} />
+        }
+      />
     );
   }
 
   render() {
-    if (this.state.token === false) {
-      this.props.history.push("/login");
-      return <div />;
+    if (this.state.loading) {
+      return <Loading />;
     } else {
-      return this.state.loading ? <Loading /> : this.components();
+      return this.components();
     }
   }
 }
