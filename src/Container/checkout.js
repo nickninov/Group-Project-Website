@@ -27,6 +27,7 @@ export default class Checkout extends React.Component {
     super(props);
     this.state = {
       loading: true,
+      networkLoad: false,
       empty: false,
       index: 0,
       deliveryValue: "economy",
@@ -34,24 +35,58 @@ export default class Checkout extends React.Component {
     };
   }
 
-  changeQuantity = (_id, quanChange, curStock, curQuan) => {
+  changeQuantity = async (_id, quanChange, curStock, curQuan) => {
     if (curQuan >= curStock && quanChange === 1) {
-      alert("You hit the max.");
+      alert("You've hit the maximum number of items.");
     } else if (curQuan <= 1 && quanChange === -1) {
       if (window.confirm("Delete the item?")) {
         this.deleteCartItem(_id);
       }
     } else {
-      let currentCart = this.state.cart;
-      currentCart.cart.forEach((e) => {
-        if (e._id === _id) {
-          e.quantity += quanChange;
-        }
+      this.setState({
+        networkLoad: true,
       });
 
-      this.setState({
-        cart: this.reformulateData(currentCart),
+      const token = await this.props.getToken();
+      const currentCart = await getUserCart(token);
+      let newCart = [];
+
+      currentCart.body.cart.forEach((e) => {
+        newCart.push({
+          product: e.product._id,
+          quantity: e._id == _id ? (e.quantity += quanChange) : e.quantity,
+        });
       });
+
+      const res = await updateUserCart({ cart: newCart }, token);
+
+      if (res.status == 200) {
+        this.setState({
+          networkLoad: false,
+          cart: res.body,
+        });
+      } else {
+        alert("Something went wrong.");
+        // window.location.reload();
+      }
+
+      // let currentCart = this.state.cart;
+      // currentCart.cart.forEach((e) => {
+      //   if (e._id === _id) {
+      //     e.quantity += quanChange;
+      //   }
+      // });
+
+      // const res = await updateUserCart({ cart: currentCart.cart }, token);
+
+      // if (res.status == 200) {
+      //   alert("ok!")
+      //   this.setState({
+      //     cart: this.reformulateData(currentCart),
+      //   });
+      // } else {
+      //   alert("Something went wrong.");
+      // }
     }
   };
 
@@ -84,7 +119,9 @@ export default class Checkout extends React.Component {
       if (e.product.discount == 0) {
         e.subTotal = e.product.price * e.quantity;
       } else {
-        e.subTotal = e.product.discount * e.quantity;
+        e.subTotal =
+          (e.product.price - (e.product.discount / 100) * e.product.price) *
+          e.quantity;
       }
     });
 
@@ -106,6 +143,7 @@ export default class Checkout extends React.Component {
       i === l && this.finishOrder();
       this.setState({ index: i >= l ? l : i + 1 });
     } else if (num === -1) {
+      i == 0 && alert("end");
       this.setState({ index: i <= 0 ? 0 : i - 1 });
     }
   };
@@ -158,15 +196,15 @@ export default class Checkout extends React.Component {
       e.isDelivery && (delivery = e);
     });
 
-    if (billing != null && delivery != null) {
-      console.log({
-        shippingAddress: delivery._id,
-        billingAddress: billing._id,
-        isGift: this.state.giftValue,
-        deliveryType: this.state.deliveryValue,
-      });
+    console.log({
+      shippingAddress: delivery._id,
+      billingAddress: billing._id,
+      isGift: this.state.giftValue,
+      deliveryType: this.state.deliveryValue,
+    });
 
-      let res = await postOrder(
+    if (billing != null && delivery != null) {
+      const res = await postOrder(
         {
           shippingAddress: delivery._id,
           billingAddress: billing._id,
@@ -176,12 +214,20 @@ export default class Checkout extends React.Component {
         token
       );
 
-      if (res.body.status === "ordered") {
+      if (res.status == 200) {
         alert("Thank you for shopping. Your order has been confirmed.");
-        await updateUserCart({ cart: [] }, token).then(() => {
-          this.props.history.push("/order/" + res.body._id);
-          window.location.reload();
-        });
+        this.props.history.push("/order/" + res.body._id);
+        window.location.reload();
+      } else if (res.status == 400) {
+        const userCart = await getUserCart(token);
+
+        userCart.body.cart.forEach(e => {
+          res.body.cart.forEach(f => {
+            if (e._id == f._id) {
+              alert(`Maximum quantity for "${e.product.name}" is ${e.product.stock}.`);
+            }
+          });
+        })
       } else {
         alert("Error, try again later.");
       }
@@ -196,7 +242,11 @@ export default class Checkout extends React.Component {
     const index = this.state.index;
 
     var sections = [
-      <Cart userCart={cart} changeQuantity={this.changeQuantity} />,
+      <Cart
+        userCart={cart}
+        changeQuantity={this.changeQuantity}
+        networkLoad={this.state.networkLoad}
+      />,
       <Options
         deliveryValue={this.state.deliveryValue}
         giftValue={this.state.giftValue}
@@ -219,7 +269,11 @@ export default class Checkout extends React.Component {
         steps={<Steps index={index} />}
         section={sections[index]}
         backwardButton={
-          <BackwardButton script={() => this.incrementSection(-1)} />
+          index == 0 ? (
+            <div />
+          ) : (
+            <BackwardButton script={() => this.incrementSection(-1)} />
+          )
         }
         forwardButton={<ForwardButton script={() => this.incrementSection()} />}
       />

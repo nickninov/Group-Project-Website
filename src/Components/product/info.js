@@ -32,13 +32,13 @@ const Info = (props) => {
 	document.getElementById("vis").style.display = "inline";
   }
 
-  // const productCategories = props.categories.map((cat) => (
-  //   <span className="chip">{cat.name.toUpperCase()}</span>
-  // ));
+  const productCategories = props.categories.map((cat) => (
+    <span className="chip">{cat.name.toUpperCase()}</span>
+  ));
 
   return (
     <div>
-      {/* <div className="chip-wrapper">{productCategories}</div> */}
+      <div className="chip-wrapper">{productCategories}</div>
 
       <h1>{props.name}</h1>
       <p className="product-desc">{props.description}</p>

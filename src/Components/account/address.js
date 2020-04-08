@@ -28,7 +28,7 @@ export default function Address(props) {
   const [county, setCounty] = useState(edit ? addr.county : "");
   const [postcode, setPostcode] = useState(edit ? addr.postcode : "");
   const [isBilling, setIsBilling] = useState(edit ? addr.isBilling : false);
-  const [isDelivery, setIsDelivery] = useState(edit ? addr.isBilling : false);
+  const [isDelivery, setIsDelivery] = useState(edit ? addr.isDelivery : false);
 
   function onHide() {
     props.onHide();

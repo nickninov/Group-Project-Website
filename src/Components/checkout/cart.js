@@ -7,9 +7,13 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { TableFooter } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 import QuantityControls from "../common/quantity_controls";
 import Price from "../common/price";
+
+import AnnouncementIcon from "@material-ui/icons/Announcement";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 import "./cart";
 
@@ -42,7 +46,23 @@ export const Cart = (props) => {
             {cart.cart.map((obj) => (
               <TableRow key={obj._id}>
                 <TableCell>
-                  <h5 style={{ padding: 0, margin: 0 }}>{obj.product.name}</h5>
+                  <Link
+                    style={{ textDecoration: "underline", color: "black" }}
+                    to={"product/" + obj.product._id}
+                  >
+                    <h5 style={{ padding: 0, margin: 0 }}>
+                      {obj.product.name}
+                    </h5>
+                  </Link>
+                  {obj.quantity > obj.product.stock && (
+                    <div>
+                      <br />
+                      <span style={{ color: "red" }}>
+                        <AnnouncementIcon /> Maximum quantity for this item is{" "}
+                        {obj.product.stock}.
+                      </span>
+                    </div>
+                  )}
                 </TableCell>
                 <TableCell>
                   <Price
@@ -53,6 +73,7 @@ export const Cart = (props) => {
                 </TableCell>
                 <TableCell>
                   <QuantityControls
+                    networkLoad={props.networkLoad}
                     quantity={obj.quantity}
                     increase={() => {
                       props.changeQuantity(
@@ -73,10 +94,7 @@ export const Cart = (props) => {
                   />
                 </TableCell>
                 <TableCell>
-                  <Price
-                    oneLine={true}
-                    price={obj.subTotal}
-                  />
+                  <Price price={obj.subTotal} />
                 </TableCell>
               </TableRow>
             ))}
@@ -88,7 +106,7 @@ export const Cart = (props) => {
                 <span className="table-header">Total</span>
               </TableCell>
               <TableCell>
-                <Price oneLine={true} price={cart.total} />
+                <Price price={cart.total} />
               </TableCell>
             </TableRow>
           </TableFooter>

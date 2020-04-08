@@ -13,7 +13,7 @@ import './avaliability.css';
 
 const Availability = (props) => (
   <Paper elevation={3} style={{
-    height: '100%',
+    // height: '100%',
     borderRadius: '10px',
     backgroundColor: '#F8F8F8',
   }}>

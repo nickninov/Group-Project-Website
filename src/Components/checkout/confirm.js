@@ -92,7 +92,7 @@ export const Confirm = (props) => {
                   {e.quantity}x {e.product.name}
                 </div>
                 <div>
-                  £{e.subTotal}
+                  £{e.subTotal.toFixed(2)}
                 </div>
               </div>
             ))}

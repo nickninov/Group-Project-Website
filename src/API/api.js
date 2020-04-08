@@ -49,18 +49,7 @@ export const getUserAccount = async (token) => {
 };
 
 export const getUserCart = async (token) => {
-  const getRes = await fetchRequest("GET", apiUserCart(), null, token);
-
-  if(Object.keys(getRes.body).length === 0) {
-    return {
-      status: 200,
-      body: {
-        cart: []
-      }
-    };
-  } else {
-    return getRes;
-  }
+  return await fetchRequest("GET", apiUserCart(), null, token);
 };
 
 export const getUser = async (token) => {

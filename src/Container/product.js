@@ -21,7 +21,7 @@ export default class Product extends React.Component {
     };
   }
 
-  async componentDidMount() {
+  async componentDidMount() {    
     const params = this.props.match.params;
     const { id } = params;
 
@@ -107,8 +107,7 @@ export default class Product extends React.Component {
 
     const productImages = formatImageListURL(product.images);
 
-    const totalDiscount =
-      product.discount == null ? null : product.discount * this.state.quantity;
+    const totalDiscount = product.discount;
     const totalPrice = product.price * this.state.quantity;
 
     return (

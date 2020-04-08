@@ -23,6 +23,8 @@ import "./order_component.css";
 export default function OrderComponent(props) {
   const order = props.order;
 
+  console.log(order);
+
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
 
@@ -43,7 +45,7 @@ export default function OrderComponent(props) {
 
   order.products.forEach((e) => {
     let product = e.product;
-    
+
     productList.push(
       <div>
         <div className="order-item">
@@ -143,7 +145,9 @@ export default function OrderComponent(props) {
         </div>
         <div className="order-attribute">
           <p className="order-attribute-title">Delivery</p>
-          <p className="order-attribute-value">£{(order.isGift ? 3.99 : 0).toFixed(2)}</p>
+          <p className="order-attribute-value">
+            £{(order.deliveryType == "priority" ? 3.99 : 0).toFixed(2)}
+          </p>
         </div>
         <div className="order-attribute">
           <p className="order-attribute-title">Gift</p>
@@ -166,7 +170,12 @@ export default function OrderComponent(props) {
         </div>
         <div className="order-attribute">
           <p className="order-attribute-title">Total</p>
-          <p className="order-attribute-value">£{((order.isGift ? 3.99 : 0) + order.total).toFixed(2)}</p>
+          <p className="order-attribute-value">
+            £
+            {(
+              (order.deliveryType == "priority" ? 3.99 : 0) + order.total
+            ).toFixed(2)}
+          </p>
         </div>
       </Container>
       <Container className="order-item-wrapper">{productList}</Container>
