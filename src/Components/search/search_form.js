@@ -27,7 +27,7 @@ export default class SearchForm extends React.Component {
 
       render() {
         return (
-        <div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
            <form className="form-inline">
 
                     <div className="form-group">

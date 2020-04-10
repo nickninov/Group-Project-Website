@@ -22,11 +22,11 @@ export function NavBar(props) {
       <Navbar.Brand href="/" className="navbar-brand">
         <img className="logo" src={logo} alt="Logo"></img>
       </Navbar.Brand>
-      <div>
+      <div id="header-mid">
         <Col>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <SearchForm history={props.history}/>
-          <Row>
+          <Row style={{ display: "flex", justifyContent: "center", marginTop: 10 }}>
             <Categories className={b.button} 
             category = {props.category}/>
           </Row>
