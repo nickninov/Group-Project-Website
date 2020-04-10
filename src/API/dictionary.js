@@ -2,7 +2,7 @@
  * all routes used for api are functions, e.g. apiCart() instead of apiCart
  */
 
-const _serverDomain = "http://localhost:5000";
+const _serverDomain = "http://localhost:80";
 const _apiVersion = "/v1";
 const _apiBase = `${_serverDomain}${_apiVersion}`;
 
