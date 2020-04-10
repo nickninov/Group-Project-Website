@@ -8,3 +8,8 @@
 .dropdown-toggle::after {
     display: none;
 }
+
+#dropdown-menu-align-right {
+    padding: 0 !important;
+    padding-right: 10px;
+}
