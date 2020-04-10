@@ -68,7 +68,6 @@ class App extends React.Component {
                 <Home history={props.history} getToken={this.getToken} />
               )}
             />
-
             <Route
               path="/search/:id"
               render={(props) => (

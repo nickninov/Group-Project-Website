@@ -3,6 +3,7 @@ import React from "react";
 import NavBar from "../Components/header/nav_bar";
 
 import { getUser, getSearchCategories } from "../API/api";
+import { Badge } from "@material-ui/core";
 
 import { withRouter } from "react-router-dom";
 
@@ -21,7 +22,7 @@ export class Header extends React.Component {
     console.log("token reset");
   }
 
-  // DEVELOPMENT :: START
+  // #TODO DEVELOPMENT :: START
   async getSomething() {
     var data;
     data = await this.props.getToken();
@@ -32,15 +33,15 @@ export class Header extends React.Component {
   async componentDidMount() {
     const token = await this.props.getToken();
 
-    if (token !== null) {
-      await getUser(token).then(res => this.setState({ data: res.body }));
+    if (token != null) {
+      await getUser(token).then((res) => this.setState({ data: res.body }));
     }
 
-    var icon = await getSearchCategories();
+    var res = await getSearchCategories();
     // Check if items are successfully returned
-    if(icon.status == 200){
+    if(res.status == 200){
       this.setState({
-        category: icon.body
+        category: res.body
       })
     }
   }
@@ -49,8 +50,15 @@ export class Header extends React.Component {
     const data = this.state.data;
 
     const message = data == null ? "Account" : "Welcome " + data.firstName;
+
     const basketAmount =
-      data == null ? "Cart" : "Cart (" + data.cartAmount + ")";
+      data == null ? (
+        "Cart"
+      ) : (
+        <Badge color="secondary" badgeContent={data.cartAmount} max={99}>
+          Cart
+        </Badge>
+      );
 
     return (
       <div>

@@ -26,7 +26,7 @@ export const Item = (props) => {
 
         {/* bottom section */}
         <div className="item-controls">
-          <Link style={{ textDecoration: "none" }} to={"product/" + item._id}>
+          <Link style={{ textDecoration: "none" }} to={"/product/" + item._id}>
             <ViewProduct />
           </Link>
         </div>

@@ -2,6 +2,7 @@ import React from "react";
 import { Nav, Navbar, Form, Col, Row, NavDropdown } from "react-bootstrap";
 import logo from "../../assets/logo.png";
 import { Categories } from "./categories";
+import SearchForm from "../search/search_form";
 import b from "./categories.css";
 import s from "./nav_bar.css";
 import "mdbreact/dist/css/mdb.css";
@@ -24,9 +25,7 @@ export function NavBar(props) {
       <div>
         <Col>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Form inline>
-            <input className="searchbar-size" placeholder="Search" />
-          </Form>
+          <SearchForm history={props.history}/>
           <Row>
             <Categories className={b.button} 
             category = {props.category}/>

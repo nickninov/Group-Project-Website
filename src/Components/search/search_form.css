@@ -1,0 +1,12 @@
+.form-control {
+    border-radius: 10px !important;
+    margin-right: 10px;
+    width: 500px;
+    margin-left: 90px;
+}
+
+@media (min-width: 576px){
+    .form-inline .form-control {
+      width: 500px !important;
+    }
+  }
