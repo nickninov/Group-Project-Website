@@ -4,6 +4,7 @@ import NavBar from "../Components/header/nav_bar";
 
 import { getUser, getSearchCategories } from "../API/api";
 import { Badge } from "@material-ui/core";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 import { withRouter } from "react-router-dom";
 
@@ -13,7 +14,7 @@ export class Header extends React.Component {
     super(props);
     this.state = {
       data: null,
-      category: []
+      category: [],
     };
   }
 
@@ -26,7 +27,7 @@ export class Header extends React.Component {
   async getSomething() {
     var data;
     data = await this.props.getToken();
-    console.log("The icon of sin!")
+    console.log("The icon of sin!");
   }
   // DEVELOPMENT :: END
 
@@ -39,10 +40,10 @@ export class Header extends React.Component {
 
     var res = await getSearchCategories();
     // Check if items are successfully returned
-    if(res.status == 200){
+    if (res.status == 200) {
       this.setState({
-        category: res.body
-      })
+        category: res.body,
+      });
     }
   }
 
@@ -56,7 +57,7 @@ export class Header extends React.Component {
         "Cart"
       ) : (
         <Badge color="secondary" badgeContent={data.cartAmount} max={99}>
-          Cart
+          <ShoppingCartIcon />
         </Badge>
       );
 

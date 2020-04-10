@@ -11,7 +11,7 @@ export class Categories extends React.Component {
     const category = this.props.category;
 
     return (
-      <Dropdown>
+      <Dropdown className="pretty-categories">
         {category.map((item) => {
           var link = "/search/" + item._id;
           return (

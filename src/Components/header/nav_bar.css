@@ -42,3 +42,9 @@
   justify-content: center !important;
   align-items: center !important;
 }
+
+.pretty-categories {
+  display: flex !important;
+  justify-content: space-evenly;
+  width: 669px;
+}
