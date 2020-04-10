@@ -65,3 +65,19 @@ td, th {
 .checkout-details-change-button {
   margin: 0 10px;
 }
+
+.checkout-confirm-item {
+  border-bottom: 1px solid rgb(245, 245, 245);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.checkout-confirm-total {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 20px;
+}

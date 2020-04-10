@@ -40,7 +40,9 @@ export function NavBar(props) {
                 <NavDropdown.Item onClick={() => props.history.push("/login")}>
                   Login
                 </NavDropdown.Item>
-                <NavDropdown.Item onClick={() => props.history.push("/register")}>
+                <NavDropdown.Item
+                  onClick={() => props.history.push("/register")}
+                >
                   Register
                 </NavDropdown.Item>
               </NavDropdown>

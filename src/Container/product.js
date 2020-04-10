@@ -17,15 +17,11 @@ export default class Product extends React.Component {
     this.state = {
       loading: true,
       quantity: 1,
-      product: null
+      product: null,
     };
   }
 
-  async componentDidMount() {
-    //! KEEP THIS FOR REFERENCE, #TODO REMOVE AT PRODUCTION:
-    // const {
-    //   match: { params }
-    // } = this.props;
+  async componentDidMount() {    
     const params = this.props.match.params;
     const { id } = params;
 
@@ -33,7 +29,7 @@ export default class Product extends React.Component {
 
     this.setState({
       product: data.body[0],
-      loading: false
+      loading: false,
     });
   }
 
@@ -51,34 +47,42 @@ export default class Product extends React.Component {
     if (token == null) {
       alert("You need to be logged in.");
     } else {
-      try {
-        const currentCart = await getUserCart(token);
+      let currentCart = await getUserCart(token);
+      let newCart = [];
 
-        currentCart.body.cart.push({
-          quantity: this.state.quantity,
-          product: this.state.product._id
+      currentCart.body.cart.forEach((e) => {
+        newCart.push({
+          product: e.product._id,
+          quantity: e.quantity,
         });
+      });
 
-        await updateUserCart(currentCart.body, token);
+      newCart.push({
+        product: this.state.product._id,
+        quantity: this.state.quantity,
+      });
+
+      const res = await updateUserCart({ cart: newCart }, token);
+
+      if (res.status == 200) {
         window.location.reload();
-      } catch {
-        alert("err in compiling previous basket");
-        window.location.reload();
+      } else {
+        alert("Something went wrong.");
       }
     }
   };
 
-  _apiCart = async token => {
+  _apiCart = async (token) => {
     const currentCart = await getUserCart(token);
 
     var cartItems = {
-      cart: []
+      cart: [],
     };
 
     cartItems.cart.push(this.state.product._id);
 
     try {
-      currentCart.body.cart.forEach(i => {
+      currentCart.body.cart.forEach((i) => {
         cartItems.cart.push(i._id);
       });
 
@@ -88,11 +92,11 @@ export default class Product extends React.Component {
         window.location.reload();
         return null;
       } else {
-        alert("error has occured");
+        alert("An error has occured.");
         return null;
       }
     } catch {
-      console.log("err in compiling previous basket");
+      console.log("Cannot get previous basket.");
       await updateUserCart(cartItems, token);
       window.location.reload();
     }
@@ -103,8 +107,7 @@ export default class Product extends React.Component {
 
     const productImages = formatImageListURL(product.images);
 
-    const totalDiscount =
-      product.discount == null ? null : product.discount * this.state.quantity;
+    const totalDiscount = product.discount;
     const totalPrice = product.price * this.state.quantity;
 
     return (
@@ -112,6 +115,7 @@ export default class Product extends React.Component {
         left={<Images data={productImages} />}
         mid={
           <Info
+            id={product._id}
             name={product.name}
             description={product.description}
             currentPrice={product.price}

@@ -7,6 +7,7 @@ import Wrapper from "../Components/checkout/wrapper";
 import Steps from "../Components/checkout/steps";
 import BackwardButton from "../Components/common/buttons/backward_button";
 import ForwardButton from "../Components/common/buttons/forward_button";
+import CentredText from "../Components/common/centred_text";
 
 // checkout sections
 import Cart from "../Components/checkout/cart";
@@ -18,7 +19,7 @@ import {
   getUserCart,
   updateUserCart,
   getUserAccount,
-  postOrder
+  postOrder,
 } from "../API/api";
 
 export default class Checkout extends React.Component {
@@ -26,89 +27,115 @@ export default class Checkout extends React.Component {
     super(props);
     this.state = {
       loading: true,
+      networkLoad: false,
       empty: false,
-      index: 0
+      index: 0,
+      deliveryValue: "economy",
+      giftValue: false,
     };
   }
 
-  changeQuantity = (_id, quanChange, curStock, curQuan) => {
+  changeQuantity = async (_id, quanChange, curStock, curQuan) => {
     if (curQuan >= curStock && quanChange === 1) {
-      alert("You hit the max.");
+      alert("You've hit the maximum number of items.");
     } else if (curQuan <= 1 && quanChange === -1) {
-      // alert("Do you wish to delete the item?");
-
       if (window.confirm("Delete the item?")) {
         this.deleteCartItem(_id);
       }
     } else {
-      let currentCart = this.state.cart;
-      currentCart.cart.forEach(e => {
-        if (e._id === _id) {
-          e.quantity += quanChange;
-        }
-      });
-
       this.setState({
-        cart: this.reformulateData(currentCart)
+        networkLoad: true,
       });
-    }
-  };
 
-  deleteCartItem = async _id => {
-    console.log("id to delete " + _id);
+      const token = await this.props.getToken();
+      const currentCart = await getUserCart(token);
+      let newCart = [];
 
-    console.log("cart");
-    var cart = this.state.cart;
-
-    var indexToDelete = 0;
-    {
-      let index = 0;
-      cart.cart.forEach(e => {
-        delete e._id;
-        e._id === _id ? (indexToDelete = index) : index++;
+      currentCart.body.cart.forEach((e) => {
+        newCart.push({
+          product: e.product._id,
+          quantity: e._id == _id ? (e.quantity += quanChange) : e.quantity,
+        });
       });
-    }
 
-    cart.cart.splice(indexToDelete, indexToDelete + 1);
+      const res = await updateUserCart({ cart: newCart }, token);
 
-    const token = await this.props.getToken();
-    const res = await updateUserCart(cart, token).then(() => {
-      window.location.reload();
-    });
-
-    console.log("server response: ");
-    console.log(res.body);
-  };
-
-  reformulateData = cartData => {
-    console.log(cartData);
-    // to reformulate the prices when quantity is changed
-
-    cartData.cart.forEach(e => {
-      // price subtotal
-      e.price_subtotal = e.product.price * e.quantity;
-
-      // discount subtotal
-      let ds = e.product.discount;
-      if (typeof ds === "undefined" || ds === null) {
-        e.product.discount = null;
-        e.discount_subtotal = null;
+      if (res.status == 200) {
+        this.setState({
+          networkLoad: false,
+          cart: res.body,
+        });
       } else {
-        e.discount_subtotal = e.product.discount * e.quantity;
+        alert("Something went wrong.");
+        // window.location.reload();
+      }
+
+      // let currentCart = this.state.cart;
+      // currentCart.cart.forEach((e) => {
+      //   if (e._id === _id) {
+      //     e.quantity += quanChange;
+      //   }
+      // });
+
+      // const res = await updateUserCart({ cart: currentCart.cart }, token);
+
+      // if (res.status == 200) {
+      //   alert("ok!")
+      //   this.setState({
+      //     cart: this.reformulateData(currentCart),
+      //   });
+      // } else {
+      //   alert("Something went wrong.");
+      // }
+    }
+  };
+
+  deleteCartItem = async (id) => {
+    const token = await this.props.getToken();
+    const currentCart = await getUserCart(token);
+    let newCart = [];
+
+    currentCart.body.cart.forEach((e) => {
+      if (e._id != id) {
+        newCart.push({
+          product: e.product._id,
+          quantity: e.quantity,
+        });
       }
     });
 
-    // total
+    const res = await updateUserCart({ cart: newCart }, token);
+
+    if (res.status == 200) {
+      window.location.reload();
+    } else {
+      alert("Something went wrong.");
+    }
+  };
+
+  reformulateData = (cartData) => {
+    // finding subtotal for each item
+    cartData.cart.forEach((e) => {
+      if (e.product.discount == 0) {
+        e.subTotal = e.product.price * e.quantity;
+      } else {
+        e.subTotal =
+          (e.product.price - (e.product.discount / 100) * e.product.price) *
+          e.quantity;
+      }
+    });
+
+    // finding the total
     let total = 0;
-    cartData.cart.forEach(e => {
-      let ds = e.discount_subtotal;
-      ds != null ? (total += ds) : (total += e.price_subtotal);
+    cartData.cart.forEach((e) => {
+      total += e.subTotal;
     });
     cartData.total = total;
+
     return cartData;
   };
 
-  incrementSection = num => {
+  incrementSection = (num) => {
     let i = this.state.index;
     let l = 2;
 
@@ -116,6 +143,7 @@ export default class Checkout extends React.Component {
       i === l && this.finishOrder();
       this.setState({ index: i >= l ? l : i + 1 });
     } else if (num === -1) {
+      i == 0 && alert("end");
       this.setState({ index: i <= 0 ? 0 : i - 1 });
     }
   };
@@ -131,18 +159,30 @@ export default class Checkout extends React.Component {
 
       if (userCart.body.cart.length === 0 || userCart.body.cart == null) {
         this.setState({
-          empty: true
+          empty: true,
         });
       } else {
         this.setState({
           cart: this.reformulateData(userCart.body),
           account: userAccount.body,
           loading: false,
-          message: "not empty"
+          message: "not empty",
         });
       }
     }
   }
+
+  changeDeliveryOption = (value) => {
+    this.setState({
+      deliveryValue: value,
+    });
+  };
+
+  changeGiftOption = (bool) => {
+    this.setState({
+      giftValue: bool,
+    });
+  };
 
   finishOrder = async () => {
     const token = await this.props.getToken();
@@ -151,54 +191,45 @@ export default class Checkout extends React.Component {
     var delivery = null;
     const account = this.state.account;
 
-    account.addresses.forEach(e => {
+    account.addresses.forEach((e) => {
       e.isBilling && (billing = e);
       e.isDelivery && (delivery = e);
     });
 
+    console.log({
+      shippingAddress: delivery._id,
+      billingAddress: billing._id,
+      isGift: this.state.giftValue,
+      deliveryType: this.state.deliveryValue,
+    });
+
     if (billing != null && delivery != null) {
-      var formattedCart = [];
-
-      this.state.cart.cart.forEach(e => {
-        formattedCart.push({
-          quantity: e.quantity,
-          product: e.product._id
-        });
-      });
-
-      let res = await postOrder(
+      const res = await postOrder(
         {
-          shippingAddress: {
-            firstLine: delivery.firstLine,
-            secondLine: delivery.secondLine === "" ? "-" : delivery.secondLine,
-            townCity: delivery.townCity,
-            county: delivery.county,
-            postcode: delivery.postcode,
-            isBilling: false,
-            isDelivery: true
-          },
-          billingAddress: {
-            firstLine: billing.firstLine,
-            secondLine: billing.secondLine === "" ? "-" : billing.secondLine,
-            townCity: billing.townCity,
-            county: billing.county,
-            postcode: billing.postcode,
-            isBilling: true,
-            isDelivery: false
-          },
-          products: formattedCart
+          shippingAddress: delivery._id,
+          billingAddress: billing._id,
+          isGift: this.state.giftValue,
+          deliveryType: this.state.deliveryValue,
         },
         token
       );
 
-      if (res.body.status === "ordered") {
+      if (res.status == 200) {
         alert("Thank you for shopping. Your order has been confirmed.");
-        await updateUserCart({ cart: [] }, token).then(() => {
-          this.props.history.push("/account");
-        });
+        this.props.history.push("/order/" + res.body._id);
+        window.location.reload();
+      } else if (res.status == 400) {
+        const userCart = await getUserCart(token);
+
+        userCart.body.cart.forEach(e => {
+          res.body.cart.forEach(f => {
+            if (e._id == f._id) {
+              alert(`Maximum quantity for "${e.product.name}" is ${e.product.stock}.`);
+            }
+          });
+        })
       } else {
-        alert("err, chk console for call res");
-        console.log(res.body);
+        alert("Error, try again later.");
       }
     } else {
       alert("A billing and delivery address is required.");
@@ -211,14 +242,26 @@ export default class Checkout extends React.Component {
     const index = this.state.index;
 
     var sections = [
-      <Cart userCart={cart} changeQuantity={this.changeQuantity} />,
-      <Options />,
+      <Cart
+        userCart={cart}
+        changeQuantity={this.changeQuantity}
+        networkLoad={this.state.networkLoad}
+      />,
+      <Options
+        deliveryValue={this.state.deliveryValue}
+        giftValue={this.state.giftValue}
+        changeDeliveryOption={this.changeDeliveryOption}
+        changeGiftOption={this.changeGiftOption}
+      />,
       <Confirm
         history={this.props.history}
         userAccount={account}
         userCart={cart}
+        deliveryText={this.state.deliveryValue}
+        deliveryCost={this.state.deliveryValue == "economy" ? 0 : 3.99}
+        giftEnabled={this.state.giftValue}
         total={cart.cart.total}
-      />
+      />,
     ];
 
     return (
@@ -226,7 +269,11 @@ export default class Checkout extends React.Component {
         steps={<Steps index={index} />}
         section={sections[index]}
         backwardButton={
-          <BackwardButton script={() => this.incrementSection(-1)} />
+          index == 0 ? (
+            <div />
+          ) : (
+            <BackwardButton script={() => this.incrementSection(-1)} />
+          )
         }
         forwardButton={<ForwardButton script={() => this.incrementSection()} />}
       />
@@ -235,7 +282,7 @@ export default class Checkout extends React.Component {
 
   render() {
     if (this.state.empty) {
-      return <h1>Empty</h1>;
+      return <CentredText text="Empty" />;
     } else if (this.state.loading) {
       return <Loading />;
     } else {

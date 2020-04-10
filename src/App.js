@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AsyncStorage } from "AsyncStorage";
 
-import Home from "./Components/home/home";
+import Home from "./Container/home";
 import Layout from "./Components/core/layout";
 import Results from "./Container/results";
 import Product from "./Container/product";
@@ -19,7 +19,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      token: true
+      token: true,
     };
   }
 
@@ -59,29 +59,36 @@ class App extends React.Component {
         <Header resetToken={this.setToken} getToken={this.getToken} />
         <Layout>
           <Switch>
-            <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/"
+              render={(props) => (
+                <Home history={props.history} getToken={this.getToken} />
+              )}
+            />
+
             <Route path="/results" component={Results} />
             <Route
               path="/product/:id"
-              render={props => (
+              render={(props) => (
                 <Product match={props.match} getToken={this.getToken} />
               )}
             />
             <Route
               path="/account"
-              render={props => (
+              render={(props) => (
                 <Account history={props.history} getToken={this.getToken} />
               )}
             />
             <Route
               path="/checkout"
-              render={props => (
+              render={(props) => (
                 <Checkout history={props.history} getToken={this.getToken} />
               )}
             />
             <Route
               path="/order/:id"
-              render={props => (
+              render={(props) => (
                 <Order
                   match={props.match}
                   history={props.history}
@@ -99,6 +106,18 @@ class App extends React.Component {
             />
           </Switch>
         </Layout>
+        <footer
+          style={{
+            margin: "50px 0",
+            // position: "absolute",
+            // bottom: 0,
+            width: "100%",
+          }}
+        >
+          <p style={{ textAlign: "center" }}>
+            © 2020 - Nerd Station. All rights reserved.
+          </p>
+        </footer>
       </Router>
     );
   }

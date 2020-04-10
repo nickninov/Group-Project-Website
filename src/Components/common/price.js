@@ -1,42 +1,31 @@
+import React from "react";
 
-import React from 'react';
-
-import './price.css';
+import "./price.css";
 
 const Price = (props) => {
+  const price = props.price;
+  const discountPerc = props.discount;
 
-	const noDiscount = (
-		<h5 className="item-price">
-			<CurrentPrice price={props.price} />
-		</h5>
-	)
+  function currentPrice(price) {
+    return <span className="item-price-current">£{price.toFixed(2)}</span>;
+  }
 
-	const withDiscount = (
-		<h5 style={{ textAlign: props.oneLine ? 'start' : 'center' }} className="item-price">
-			<CurrentPrice price={props.discount} />
-			{ (props.oneLine) ? " " : <br /> }
-			<PreviousPrice price={props.price} discount={props.discount} />
-		</h5>
-	)
+  if (discountPerc != 0 && discountPerc != null) {
+    const discountPrice = price - (props.discount / 100) * price;
 
-	return props.discount == null ? noDiscount : withDiscount;
-}
-
-const CurrentPrice = (props) => <span className="item-price-current">£{(props.price)}</span>;
-// const CurrentPrice = (props) => <span className="item-price-current">£{(props.price).toFixed(2)}</span>;
-
-const PreviousPrice = (props) => (
-	<span className="item-price-original-wrapper">
-		<DiscountPrct price={props.price} discount={props.discount} />
-		&nbsp;
-		£<span className="item-price-original">{(props.price).toFixed(2)}</span>
-	</span>
-)
-
-const DiscountPrct = (props) => (
-	<span className="item-prct-off">
-		-{(((props.price - props.discount) / props.price) * 100).toFixed(0)}%
-	</span>
-)
+    return (
+      <h5 className="item-price">
+        {currentPrice(discountPrice)}
+        {props.oneLine ? " " : <br />}
+        <span className="item-price-original-wrapper">
+          <span className="item-prct-off">-{discountPerc}%</span>
+          &nbsp; £<span className="item-price-original">{price.toFixed(2)}</span>
+        </span>
+      </h5>
+    );
+  } else {
+    return <h5 className="item-price">{currentPrice(price)}</h5>;
+  }
+};
 
 export default Price;

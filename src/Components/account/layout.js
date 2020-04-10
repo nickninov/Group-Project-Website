@@ -9,10 +9,14 @@ export const Layout = props => (
     <Container>
       <Row className="account-row">
         <Col lg={6} className="details">
-          {props.left}
+        <h1 style={{ marginTop: 30, marginBottom: 20 }}>Details</h1>
+          {props.details}
+          <h1 style={{ marginTop: 60, marginBottom: 20 }}>Addresses</h1>
+          {props.addresses}
         </Col>
         <Col lg={6} className="orders">
-          {props.right}
+          <h1 style={{ marginTop: 30, marginBottom: 20 }}>Orders</h1>
+          {props.orders}
         </Col>
       </Row>
     </Container>

@@ -7,6 +7,9 @@ export const AddressBox = props => {
   const lastName = props.lastName;
   const title = props.title;
   const addr = props.address;
+
+  console.log(addr);
+
   return (
     <div className="address-box-wrapper" style={{height: '100%'}}>
       {title != null && <div className="address-box-title">{title}</div>}
@@ -19,7 +22,7 @@ export const AddressBox = props => {
         )}
         {addr.firstLine},
         <br />
-        {addr.secondLine != null && (
+        {addr.secondLine != "" && (
           <div>
             {addr.secondLine},
             <br />
