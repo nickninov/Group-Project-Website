@@ -2,7 +2,7 @@ import React from "react";
 
 import NavBar from "../Components/header/nav_bar";
 
-import { getUser } from "../API/api";
+import { getUser, getSearchCategories } from "../API/api";
 
 import { withRouter } from "react-router-dom";
 
@@ -11,7 +11,8 @@ export class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null,
+      category: []
     };
   }
 
@@ -24,7 +25,7 @@ export class Header extends React.Component {
   async getSomething() {
     var data;
     data = await this.props.getToken();
-    console.log("token: " + data);
+    console.log("The icon of sin!")
   }
   // DEVELOPMENT :: END
 
@@ -33,6 +34,14 @@ export class Header extends React.Component {
 
     if (token !== null) {
       await getUser(token).then(res => this.setState({ data: res.body }));
+    }
+
+    var icon = await getSearchCategories();
+    // Check if items are successfully returned
+    if(icon.status == 200){
+      this.setState({
+        category: icon.body
+      })
     }
   }
 
@@ -51,6 +60,7 @@ export class Header extends React.Component {
           logout={() => this.logout()}
           message={message}
           basketAmount={basketAmount}
+          category={this.state.category}
         />
       </div>
     );

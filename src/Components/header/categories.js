@@ -9,79 +9,81 @@ import './categories.css';
 export class Categories extends React.Component {
 
     render() {
-        return (
-            //Possibility to add onClick function for each action (redirecting for example)
+        const category = this.props.category
         
-            <Dropdown>
-                <Row>
-            <Dropdown>
-                <DropdownToggle
-                // alignRight
-                variant="Secondary"
-                id="dropdown-menu-align-right">
-                    Lego
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem href="#/boxes">Boxes</DropdownItem>
-                    <DropdownItem href="#/collectibles">Collectibles</DropdownItem>
-                    <DropdownItem href="#/limited-edition">Limited Edition</DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-                <DropdownToggle
-                // alignRight
-                variant="Secondary"
-                id="dropdown-menu-align-right">
-                    Boardgame
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem href="#/classics">Classics</DropdownItem>
-                    <DropdownItem href="#/new-editions">New Editions</DropdownItem>
-                    <DropdownItem href="#/more">More..</DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-                <DropdownToggle
-                // alignRight
-                variant="Secondary"
-                id="dropdown-menu-align-right">
-                    D&D
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem href="#/characters">Characters</DropdownItem>
-                    <DropdownItem href="#/dices">Dices</DropdownItem>
-                    <DropdownItem href="#/boards">Boards</DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-                <DropdownToggle
-                // alignRight
-                variant="Secondary"
-                id="dropdown-menu-align-right">
-                    Whats New
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem href="#/something">Something</DropdownItem>
-                    <DropdownItem href="#/something-else">Something else</DropdownItem>
-                    <DropdownItem href="#/more">More</DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-                <DropdownToggle
-                // alignRight
-                variant="Secondary"
-                id="dropdown-menu-align-right">
-                    More Categories
-                </DropdownToggle>
-                <DropdownMenu>
-                    <DropdownItem href="#/something">Something</DropdownItem>
-                    <DropdownItem href="#/something-else">Something else</DropdownItem>
-                    <DropdownItem href="#/more">More</DropdownItem>
-                </DropdownMenu>
-            </Dropdown>
-            </Row>
-            </Dropdown>
-          
-        );
+        // Check if category is returned from back end
+        if(category.length == 0){
+            return (
+                <Dropdown>
+                    <Row>
+                <Dropdown>
+                    <DropdownToggle
+                    // alignRight
+                    variant="link"
+                    id="dropdown-menu-align-right">
+                        Lego
+                    </DropdownToggle>
+                    
+                </Dropdown>
+                <Dropdown>
+                    <DropdownToggle
+                    // alignRight
+                    variant="link"
+                    id="dropdown-menu-align-right">
+                        Boardgame
+                    </DropdownToggle>
+                </Dropdown>
+                <Dropdown>
+                    <DropdownToggle
+                    // alignRight
+                    variant="link"
+                    id="dropdown-menu-align-right">
+                        D&D
+                    </DropdownToggle>
+                </Dropdown>
+                <Dropdown>
+                    <DropdownToggle
+                    // alignRight
+                    variant="link"
+                    id="dropdown-menu-align-right">
+                        Whats New
+                    </DropdownToggle>
+                </Dropdown>
+                <Dropdown>
+                    <DropdownToggle
+                    // alignRight
+                    variant="link"
+                    id="dropdown-menu-align-right">
+                        More Categories
+                    </DropdownToggle>
+                </Dropdown>
+                </Row>
+                </Dropdown>
+              
+            );
+        }
+        // Display categorie from the back end
+        else {
+            return (
+                <Dropdown>
+                    <Row>
+                
+                <Dropdown>
+                    {category.map((item) => {
+                        var link = "/search/"+item._id
+                        return(
+                            <DropdownToggle variant="link" id="dropdown-menu-align-right" href={link}>
+                                {item.name}
+                            </DropdownToggle>
+                        );
+                    })}
+                </Dropdown>
+                
+                </Row>
+                </Dropdown>
+              
+            );
+        }
+        
     }
 }

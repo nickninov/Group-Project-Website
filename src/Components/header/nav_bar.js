@@ -15,7 +15,7 @@ export function NavBar(props) {
   function logout() {
     props.logout();
   }
-
+  
   return (
     <Navbar className={s.navbar} expand="lg" sticky="top">
       <Navbar.Brand href="/" className="navbar-brand">
@@ -28,7 +28,8 @@ export function NavBar(props) {
             <input className="searchbar-size" placeholder="Search" />
           </Form>
           <Row>
-            <Categories className={b.button} />
+            <Categories className={b.button} 
+            category = {props.category}/>
           </Row>
         </Col>
       </div>
