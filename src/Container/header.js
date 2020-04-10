@@ -2,6 +2,9 @@ import React from "react";
 
 import NavBar from "../Components/header/nav_bar";
 
+import { Typography } from "@material-ui/core";
+import { Badge } from "@material-ui/core";
+
 import { getUser } from "../API/api";
 
 import { withRouter } from "react-router-dom";
@@ -11,7 +14,7 @@ export class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      data: null,
     };
   }
 
@@ -32,7 +35,7 @@ export class Header extends React.Component {
     const token = await this.props.getToken();
 
     if (token !== null) {
-      await getUser(token).then(res => this.setState({ data: res.body }));
+      await getUser(token).then((res) => this.setState({ data: res.body }));
     }
   }
 
@@ -40,8 +43,15 @@ export class Header extends React.Component {
     const data = this.state.data;
 
     const message = data == null ? "Account" : "Welcome " + data.firstName;
+
     const basketAmount =
-      data == null ? "Cart" : "Cart (" + data.cartAmount + ")";
+      data == null ? (
+        "Cart"
+      ) : (
+        <Badge color="secondary" badgeContent={data.cartAmount} max={99}>
+          Cart
+        </Badge>
+      );
 
     return (
       <div>
