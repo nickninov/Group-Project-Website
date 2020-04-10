@@ -1,8 +1,7 @@
 import React from "react";
-
-import {getSearchProductByName} from "../../API/api";
-
-import { Link } from "react-router-dom";
+import SearchIcon from '@material-ui/icons/Search';
+import CustomButton from '../../Components/common/custom_button';
+import './search_form.css';
 
 export default class SearchForm extends React.Component {
   
@@ -36,16 +35,24 @@ export default class SearchForm extends React.Component {
            <form className="form-inline">
 
                     <div className="form-group">
-                        <input type="text"
+
+                        <input 
+                        type="text"
+                        borderRadius={10}
                         value={this.state.value}
                         onChange={this.handleChange}
                         className="form-control"
                         name="search"
                         placeholder="Search..." />
 
-                          
-                            <button className="btn btn-primary"
-                            onClick={this.handleSubmit}>Search</button>
+                        <CustomButton
+                          script={this.handleSubmit}
+                          bgColor="#EAEFD3"
+                          textColor="#A72D2D"
+                          text="Search"
+                          startIcon={<SearchIcon />} />
+                            
+                            
                      
                     </div>
                 </form>
