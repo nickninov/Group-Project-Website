@@ -2,7 +2,7 @@
  * all routes used for api are functions, e.g. apiCart() instead of apiCart
  */
 
-const _serverDomain = "http://localhost:80";
+const _serverDomain = "http://localhost:5000";
 const _apiVersion = "/v1";
 const _apiBase = `${_serverDomain}${_apiVersion}`;
 
@@ -19,6 +19,9 @@ export const apiUserCart = () => `${_apiBase}/user/cart`;
 
 // order
 export const apiOrder = () => `${_apiBase}/user/order`;
+
+// Update stars
+export const apiRating = () => `${_apiBase}/user/rate`;
 
 // products
 export const apiSearchCategory = () => `${_apiBase}/search/category`;

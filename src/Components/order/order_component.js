@@ -20,10 +20,11 @@ import { formatDate } from "../../Utility/formatDateUtility";
 
 import "./order_component.css";
 
+import { updateRating } from "../../API/api";
+
 export default function OrderComponent(props) {
   const order = props.order;
-
-  console.log(order);
+  const token = props.token;
 
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState(0);
@@ -36,96 +37,168 @@ export default function OrderComponent(props) {
     setOpen(false);
   };
 
-  function submitRating(product) {
-    alert(product.name + " / " + value);
-    setOpen(false);
+  async function submitRating(product) {
+    // Check selected stars
+    if(value > 0){
+      // Push to database
+      var productRequest = {
+        product: product._id,
+        rating: value
+      }
+      
+      var test = await updateRating(productRequest, token);
+      console.log(test)
+      // Reload page
+      window.location.reload(false);
+    }
+    else {
+      alert("Please rate product.")
+    }
+
   }
 
   var productList = [];
 
   order.products.forEach((e) => {
     let product = e.product;
-
-    productList.push(
-      <div>
-        <div className="order-item">
-          <span className="order-item-ids">
-            SKU: {product.sku}, ID: {product._id}
-          </span>
-          <div className="order-item-content">
-            <div className="order-item-details">
-              <div className="order-item-picture-wrapper">
-                <img
-                  className="order-item-picture"
-                  src={product.images[0]}
-                  alt="product thumbnail"
+    
+    // Product has no rating
+    if(product.rating == 0){
+      productList.push(
+        <div>
+          <div className="order-item">
+            <span className="order-item-ids">
+              SKU: {product.sku}, ID: {product._id}
+            </span>
+            <div className="order-item-content">
+              <div className="order-item-details">
+                <div className="order-item-picture-wrapper">
+                  <img
+                    className="order-item-picture"
+                    src={product.images[0]}
+                    alt="product thumbnail"
+                  />
+                </div>
+                <div className="order-item-text">
+                  <p className="order-item-name">{product.name}</p>
+                  <p className="order-item-price">
+                    <Price
+                      price={product.price}
+                      discount={product.discount}
+                      oneLine={true}
+                    />
+                    <span style={{ fontSize: 13, fontWeight: 400 }}>
+                      Amount: {e.quantity}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div className="order-rating-wrapper">
+                <CustomButton
+                  text="Rate"
+                  bgColor="#a4b0be"
+                  textColor="#5d646f"
+                  script={handleOpen}
+                  icon={<StarIcon />}
+                />
+                <div style={{ marginRight: 25 }} />
+                <CustomButton
+                  text="View Product"
+                  bgColor="#5d646f"
+                  textColor="#a4b0be"
+                  // #TODO
+                  script={() => props.history.push(`/product/${product._id}`)}
+                  icon={<ArtTrackIcon />}
                 />
               </div>
-              <div className="order-item-text">
-                <p className="order-item-name">{product.name}</p>
-                <p className="order-item-price">
-                  <Price
-                    price={product.price}
-                    discount={product.discount}
-                    oneLine={true}
-                  />
-                  <span style={{ fontSize: 13, fontWeight: 400 }}>
-                    Amount: {e.quantity}
-                  </span>
-                </p>
-              </div>
             </div>
-            <div className="order-rating-wrapper">
-              <CustomButton
-                text="Rate"
-                bgColor="#a4b0be"
-                textColor="#5d646f"
-                script={handleOpen}
-                icon={<StarIcon />}
+          </div>
+          <Modal
+            aria-labelledby="simple-modal-title"
+            aria-describedby="simple-modal-description"
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropComponent={Backdrop}
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <div className="order-item-rate-modal">
+              <Rating
+                emptySymbol={<StarBorderIcon />}
+                fullSymbol={<StarIcon />}
+                fractions={1}
+                initialRating={value}
+                onChange={(rate) => setValue(rate)}
               />
-              <div style={{ marginRight: 25 }} />
+              <div style={{ marginBottom: 25 }} />
               <CustomButton
-                text="View Product"
+                text="Submit Rating"
                 bgColor="#5d646f"
                 textColor="#a4b0be"
-                // #TODO
-                script={() => props.history.push(`/product/${product._id}`)}
-                icon={<ArtTrackIcon />}
+                script={() => submitRating(product)}
+                icon={<LocalActivityIcon />}
               />
+            </div>
+          </Modal>
+        </div>
+      );
+    }
+    else {
+      // Product is rated
+      productList.push(
+        <div>
+          <div className="order-item">
+            <span className="order-item-ids">
+              SKU: {product.sku}, ID: {product._id}
+            </span>
+            <div className="order-item-content">
+              <div className="order-item-details">
+                <div className="order-item-picture-wrapper">
+                  <img
+                    className="order-item-picture"
+                    src={product.images[0]}
+                    alt="product thumbnail"
+                  />
+                </div>
+                <div className="order-item-text">
+                  <p className="order-item-name">{product.name}</p>
+                  <p className="order-item-price">
+                    <Price
+                      price={product.price}
+                      discount={product.discount}
+                      oneLine={true}
+                    />
+                    <span style={{ fontSize: 13, fontWeight: 400 }}>
+                      Amount: {e.quantity}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div className="order-rating-wrapper">
+                <Rating
+                  emptySymbol={<StarBorderIcon />}
+                  fullSymbol={<StarIcon />}
+                  
+                  initialRating = {product.rating}
+                  readonly = {true}
+                />
+                <div style={{ marginRight: 25 }} />
+                <CustomButton
+                  text="View Product"
+                  bgColor="#5d646f"
+                  textColor="#a4b0be"
+                  // #TODO
+                  script={() => props.history.push(`/product/${product._id}`)}
+                  icon={<ArtTrackIcon />}
+                />
+              </div>
             </div>
           </div>
         </div>
-        <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
-          open={open}
-          onClose={handleClose}
-          closeAfterTransition
-          BackdropComponent={Backdrop}
-          BackdropProps={{
-            timeout: 500,
-          }}
-        >
-          <div className="order-item-rate-modal">
-            <Rating
-              emptySymbol={<StarBorderIcon />}
-              fullSymbol={<StarIcon />}
-              fractions={2}
-              initialRating={value}
-              onChange={(rate) => setValue(rate)}
-            />
-            <div style={{ marginBottom: 25 }} />
-            <CustomButton
-              text="Submit Rating"
-              bgColor="#5d646f"
-              textColor="#a4b0be"
-              script={() => submitRating(product)}
-              icon={<LocalActivityIcon />}
-            />
-          </div>
-        </Modal>
-      </div>
-    );
+      );
+    }
   });
 
   return (

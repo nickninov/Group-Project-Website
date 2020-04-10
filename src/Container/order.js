@@ -12,16 +12,20 @@ export default class Order extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      modalVisible: false
+      modalVisible: false,
+      token: ''
     };
   }
 
   async componentDidMount() {
     const token = await this.props.getToken();
-
+    
     if (token == null) {
       this.props.history.push("/login");
     } else {
+      this.setState({
+        token: token
+      })
       const { id } = this.props.match.params;
 
       this.initialiseOrder(token, id);
@@ -56,6 +60,7 @@ export default class Order extends React.Component {
       <OrderComponent
         history={this.props.history}
         order={order}
+        token = {this.state.token}
       />
     );
   }
