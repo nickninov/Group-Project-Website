@@ -7,6 +7,7 @@ import Item from "../Components/results/item";
 
 import { getSearchProduct } from "../API/api";
 
+
 export default class Results extends React.Component {
   constructor(props) {
     super(props);
