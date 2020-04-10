@@ -2,10 +2,8 @@ import React from "react";
 
 import NavBar from "../Components/header/nav_bar";
 
-import { Typography } from "@material-ui/core";
+import { getUser, getSearchCategories } from "../API/api";
 import { Badge } from "@material-ui/core";
-
-import { getUser } from "../API/api";
 
 import { withRouter } from "react-router-dom";
 
@@ -15,6 +13,7 @@ export class Header extends React.Component {
     super(props);
     this.state = {
       data: null,
+      category: []
     };
   }
 
@@ -23,19 +22,27 @@ export class Header extends React.Component {
     console.log("token reset");
   }
 
-  // DEVELOPMENT :: START
+  // #TODO DEVELOPMENT :: START
   async getSomething() {
     var data;
     data = await this.props.getToken();
-    console.log("token: " + data);
+    console.log("The icon of sin!")
   }
   // DEVELOPMENT :: END
 
   async componentDidMount() {
     const token = await this.props.getToken();
 
-    if (token !== null) {
+    if (token != null) {
       await getUser(token).then((res) => this.setState({ data: res.body }));
+    }
+
+    var res = await getSearchCategories();
+    // Check if items are successfully returned
+    if(res.status == 200){
+      this.setState({
+        category: res.body
+      })
     }
   }
 
@@ -61,6 +68,7 @@ export class Header extends React.Component {
           logout={() => this.logout()}
           message={message}
           basketAmount={basketAmount}
+          category={this.state.category}
         />
       </div>
     );

@@ -12,6 +12,7 @@ import {
   apiUser,
   apiLogin,
   apiRegister,
+  apiRating
 } from "./dictionary";
 
 export const getOrders = async (token) => {
@@ -84,6 +85,10 @@ export const postRegister = async (
     confirmPassword: confirm_password,
   });
 };
+
+export const updateRating = async (product, token) => {
+  return await fetchRequest("PUT", apiRating(), product, token);
+}
 
 export const updateUserAccount = async (account, token) => {
   return await fetchRequest("PUT", apiUserAccount(), account, token);

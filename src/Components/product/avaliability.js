@@ -11,13 +11,17 @@ import Price from '../common/price';
 
 import './avaliability.css';
 
+// Star rating
+import Rating from "react-rating";
+import StarIcon from "@material-ui/icons/Star";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+
 const Availability = (props) => (
   <Paper elevation={3} style={{
     // height: '100%',
     borderRadius: '10px',
     backgroundColor: '#F8F8F8',
   }}>
-
     {
       props.stock === 0 ? (
         <div className="data-wrapper" style={{ justifyContent: 'center' }}>
@@ -26,6 +30,14 @@ const Availability = (props) => (
       ) : (
           <div className="data-wrapper">
             <div className="upper-data">
+              {/* Display stars */}
+              <Rating
+                  emptySymbol={<StarBorderIcon />}
+                  fullSymbol={<StarIcon />}
+                  fractions={2}
+                  initialRating={props.rating}
+                  readonly={true}
+                />
 
               {/* stock */}
               <span className="header-label">Availability</span>

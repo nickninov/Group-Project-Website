@@ -20,6 +20,9 @@ export const apiUserCart = () => `${_apiBase}/user/cart`;
 // order
 export const apiOrder = () => `${_apiBase}/user/order`;
 
+// Update stars
+export const apiRating = () => `${_apiBase}/user/rate`;
+
 // products
 export const apiSearchCategory = () => `${_apiBase}/search/category`;
 export const apiSearchCategoryById = id => `${_apiBase}/search/category/${id}`;

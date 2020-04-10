@@ -14,13 +14,20 @@ import Cart from "../Components/checkout/cart";
 import Options from "../Components/checkout/options";
 import Confirm from "../Components/checkout/confirm";
 
-// api calls
+// API calls
 import {
   getUserCart,
   updateUserCart,
   getUserAccount,
   postOrder,
 } from "../API/api";
+
+// Paypal button
+import { PayPalButton } from "react-paypal-button-v2";
+
+// E-mail: n.ninov99-facilitator@gmail.com
+// Password: monkaSmonkaS123
+
 
 export default class Checkout extends React.Component {
   constructor(props) {
@@ -32,6 +39,8 @@ export default class Checkout extends React.Component {
       index: 0,
       deliveryValue: "economy",
       giftValue: false,
+      // Get total price to pass to PayPal
+      paypalTotal: 0
     };
   }
 
@@ -131,14 +140,18 @@ export default class Checkout extends React.Component {
       total += e.subTotal;
     });
     cartData.total = total;
-
+    
+    // Set total amount for PayPal
+    this.setState({
+      paypalTotal: total.toFixed(2)
+    })
     return cartData;
   };
 
   incrementSection = (num) => {
     let i = this.state.index;
     let l = 2;
-
+    
     if (num === 1 || num == null) {
       i === l && this.finishOrder();
       this.setState({ index: i >= l ? l : i + 1 });
@@ -215,7 +228,7 @@ export default class Checkout extends React.Component {
       );
 
       if (res.status == 200) {
-        alert("Thank you for shopping. Your order has been confirmed.");
+        // alert("Thank you for shopping. Your order has been confirmed.");
         this.props.history.push("/order/" + res.body._id);
         window.location.reload();
       } else if (res.status == 400) {
@@ -264,20 +277,47 @@ export default class Checkout extends React.Component {
       />,
     ];
 
-    return (
-      <Wrapper
-        steps={<Steps index={index} />}
-        section={sections[index]}
-        backwardButton={
-          index == 0 ? (
-            <div />
-          ) : (
-            <BackwardButton script={() => this.incrementSection(-1)} />
-          )
-        }
-        forwardButton={<ForwardButton script={() => this.incrementSection()} />}
-      />
-    );
+    // PayPal confirm
+    if (this.state.index == 2){
+      console.log(this.state.paypalTotal)
+      return (
+        <Wrapper
+          steps={<Steps index={index} />}
+          section={sections[index]}
+          backwardButton={
+            index == 0 ? (
+              <div />
+            ) : (
+              <BackwardButton script={() => this.incrementSection(-1)} />
+            )
+          }
+          forwardButton = {<PayPalButton 
+            currency = "USD"
+            amount = {this.state.paypalTotal}
+            onSuccess = {(details, data) => {
+              // Finish order
+              this.finishOrder()
+            }}/>}
+        />
+      ); 
+    }
+    else {
+      return (
+ 
+        <Wrapper
+          steps={<Steps index={index} />}
+          section={sections[index]}
+          backwardButton={
+            index == 0 ? (
+              <div />
+            ) : (
+              <BackwardButton script={() => this.incrementSection(-1)} />
+            )
+          }
+          forwardButton={<ForwardButton script={() => this.incrementSection()} />}
+        />
+      );
+    }
   }
 
   render() {

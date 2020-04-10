@@ -4,3 +4,7 @@
     padding-left: 15px;
 
 } */
+
+.dropdown-toggle::after {
+    display: none;
+}

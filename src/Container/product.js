@@ -26,7 +26,7 @@ export default class Product extends React.Component {
     const { id } = params;
 
     let data = await getSearchProductById(id);
-
+    
     this.setState({
       product: data.body[0],
       loading: false,
@@ -127,6 +127,7 @@ export default class Product extends React.Component {
           <Availability
             // stock={0}
             // stock={5}
+            rating = {this.state.product.rating.stars}
             stock={product.stock}
             quantity={this.state.quantity}
             increaseQuantity={this.increaseQuantity}

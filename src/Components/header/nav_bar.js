@@ -16,9 +16,7 @@ export function NavBar(props) {
   function logout() {
     props.logout();
   }
-
-
-
+  
   return (
     <Navbar className={s.navbar} expand="lg" sticky="top">
       <Navbar.Brand href="/" className="navbar-brand">
@@ -29,7 +27,8 @@ export function NavBar(props) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <SearchForm history={props.history}/>
           <Row>
-            <Categories className={b.button} />
+            <Categories className={b.button} 
+            category = {props.category}/>
           </Row>
         </Col>
       </div>
