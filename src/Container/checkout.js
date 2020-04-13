@@ -22,12 +22,6 @@ import {
   postOrder,
 } from "../API/api";
 
-/**
- * PayPal login details:
- *  email: n.ninov99-facilitator@gmail.com
- *  password: monkaSmonkaS123
- */
-
 export default class Checkout extends React.Component {
   constructor(props) {
     super(props);
@@ -150,7 +144,7 @@ export default class Checkout extends React.Component {
     if (num === 1 || num == null) {
       // increment section (if not already on the last)
       //! when testing without PayPal, re-add the following line:
-      i === l && this.finishOrder();
+      // i === l && this.finishOrder();
 
       if (i === 0 && (num === 1 || num == null)) {
         const token = await this.props.getToken();
@@ -276,6 +270,18 @@ export default class Checkout extends React.Component {
     const account = this.state.account;
     const index = this.state.index;
 
+    var billing = null;
+    var delivery = null;
+    account.addresses.forEach((e) => {
+      e.isBilling && (billing = e);
+      e.isDelivery && (delivery = e);
+    });
+
+    var validAddresses = false;
+    if (billing != null && delivery != null) {
+      validAddresses = true;
+    }
+
     var sections = [
       <Cart
         userCart={cart}
@@ -312,21 +318,30 @@ export default class Checkout extends React.Component {
           )
         }
         forwardButton={
-          //! remove the following line and un-comment the lines following
-          <ForwardButton script={() => this.incrementSection()} />
-          // this.state.index == 2 ? (
-          //   // if on the last page, show PayPal button
-          //   <PayPalButton
-          //     currency="USD"
-          //     amount={this.state.paypalTotal}
-          //     onSuccess={(details, data) => {
-          //       // Finish order
-          //       this.finishOrder();
-          //     }}
-          //   />
-          // ) : (
-          //   <ForwardButton script={() => this.incrementSection()} />
-          // )
+          //! w/o PayPal remove the following line and un-comment the lines following
+          // <ForwardButton script={() => this.incrementSection()} />
+          //! w/ PayPal remote the following lines and un-comment the line above
+          this.state.index == 2 ? (
+            validAddresses ? (
+              // if on the last page, show PayPal button
+              <PayPalButton
+                currency="USD"
+                amount={this.state.paypalTotal}
+                onSuccess={(details, data) => {
+                  // Finish order
+                  this.finishOrder();
+                }}
+              />
+            ) : (
+              <ForwardButton
+                script={() =>
+                  alert("Check your billing and delivery addresses.")
+                }
+              />
+            )
+          ) : (
+            <ForwardButton script={() => this.incrementSection()} />
+          )
         }
       />
     );
