@@ -1,12 +1,14 @@
-
 .confirm-upper-row {
   margin-top: 15px;
 }
 
-table, td, th {
+table,
+td,
+th {
   border: 0px solid black;
 }
-td, th {
+td,
+th {
   padding: 0px 15px 25px 0;
 }
 
@@ -28,7 +30,7 @@ td, th {
 }
 
 .confirm-address {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   padding: 0px;
   margin: 0px;
   width: 225px;
@@ -41,11 +43,12 @@ td, th {
 }
 
 .confirm-address-header {
-  background-color: #E8E8E8;
-  color: #A0A0A0;
+  background-color: #e8e8e8;
+  color: #a0a0a0;
   font-size: 13px;
   padding: 5px;
-  font-weight: 700;color: #A0A0A0;
+  font-weight: 700;
+  color: #a0a0a0;
   width: 100%;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;

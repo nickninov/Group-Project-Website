@@ -1,6 +1,5 @@
 import React from "react";
 
-import * as FeatherIcon from "react-feather";
 import LinesEllipsis from "react-lines-ellipsis";
 import { Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -8,15 +7,17 @@ import { Link } from "react-router-dom";
 import ViewProduct from "../common/buttons/view_product";
 import Price from "../common/price";
 
+// styles
 import "./item.css";
 
 export const Item = (props) => {
+  // item to render from prop
   const item = props.item;
 
   return (
     <Col className="item-wrapper" xs={12} md={4} lg={3}>
       <div className="item">
-        {/* top section */}
+        {/* upper section */}
         <div>
           {/* image, title, price */}
           <img className="item-image" src={item.images[0]} alt="Product" />
@@ -24,7 +25,7 @@ export const Item = (props) => {
           <Price oneLine={true} price={item.price} discount={item.discount} />
         </div>
 
-        {/* bottom section */}
+        {/* lower section */}
         <div className="item-controls">
           <Link style={{ textDecoration: "none" }} to={"/product/" + item._id}>
             <ViewProduct />

@@ -13,7 +13,7 @@ export default class Search extends React.Component {
     super(props);
     this.state = {
       loading: true,
-      products: null
+      products: null,
     };
   }
 
@@ -30,12 +30,14 @@ export default class Search extends React.Component {
   }
 
   components() {
-    const objectResults = this.state.products.map(item => <Item item={item} />);
-    if (this.state.products.length==0) {
-    return <CentredText text="No Results"/> }
+    const objectResults = this.state.products.map((item) => (
+      <Item item={item} />
+    ));
+    if (this.state.products.length == 0) {
+      return <CentredText text="No Results" />;
+    }
 
     return <Layout products={objectResults} />;
-    
   }
 
   render() {

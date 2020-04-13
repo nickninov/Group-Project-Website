@@ -1,19 +1,20 @@
 .slide-container {
-    width: 70%;
-    margin: auto; }
+  width: 70%;
+  margin: auto;
+}
 
 .each-fade {
-    display: flex;
-  }
-  
+  display: flex;
+}
+
 .each-fade .image-container {
-    width: 75%;
-    overflow: hidden;
-  }
-  
+  width: 75%;
+  overflow: hidden;
+}
+
 .each-fade .image-container img {
-    width: 100%;
-  }
+  width: 100%;
+}
 
 .wrapper {
   height: 30vh !important;

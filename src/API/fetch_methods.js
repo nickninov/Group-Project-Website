@@ -1,17 +1,20 @@
-export const _fetch = async req => {
+export const _fetch = async (req) => {
+  // declaration of variable used for function return
   var res = {};
 
   await fetch(req)
-    .then(raw => {
+    .then((raw) => {
+      // add header data
       res.ok = raw.ok;
       res.status = raw.status;
       res.statusText = raw.statusText;
       return raw.json();
     })
-    .then(json => {
+    .then((json) => {
+      // add body data
       res.body = json;
     })
-    .catch(err => {
+    .catch((err) => {
       res = err;
     });
 
@@ -19,15 +22,19 @@ export const _fetch = async req => {
 };
 
 export const fetchRequest = async (reqMethod, apiUrl, body, token) => {
+  // from framework, create new request
   let request = new Request(apiUrl, {
     method: reqMethod,
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
-      Authorization: token
+      Authorization: token,
     },
-    body: body != null ? JSON.stringify(body) : null
+    // if body necessary (for updates, etc.), format and include in request
+    body: body != null ? JSON.stringify(body) : null,
   });
 
+  // pack request into local function _fetch
   return await _fetch(request);
 };
+

@@ -1,14 +1,22 @@
 import React from "react";
-import { Nav, Navbar, Form, Col, Row, NavDropdown } from "react-bootstrap";
-import logo from "../../assets/logo.png";
+
+// components
 import { Categories } from "./categories";
 import SearchForm from "../search/search_form";
+
+// packages
+import { Nav, Navbar, Form, Col, Row, NavDropdown } from "react-bootstrap";
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+
+// assets
+import logo from "../../assets/logo.png";
+
+// styles
 import b from "./categories.css";
 import s from "./nav_bar.css";
 import "mdbreact/dist/css/mdb.css";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-// create two different div after navBrand and before Nav, with row and coloumn structure
 
+// create two different div after navBrand and before Nav, with row and coloumn structure
 export function NavBar(props) {
   function account() {
     props.history.push("/account");

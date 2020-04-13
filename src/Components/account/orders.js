@@ -1,18 +1,24 @@
 import React from "react";
 
-import "./layout.css";
-import { Grid } from "@material-ui/core";
-
+// components
 import CustomButton from "../common/custom_button";
-import ListAltIcon from "@material-ui/icons/ListAlt";
 
+// utility
 import { formatDate } from "../../Utility/formatDateUtility";
 
+// packages
+import { Grid } from "@material-ui/core";
+import ListAltIcon from "@material-ui/icons/ListAlt";
+
+// styles
+import "./layout.css";
 import "./orders.css";
 
 export const Orders = (props) => {
+  // get prop data
   let orders = props.orders;
 
+  // create renderable jsx element
   const renderOrderItems = (item) => (
     <div className="sm-order-item-wrapper">
       <div className="sm-order-item-metadata">
@@ -33,13 +39,16 @@ export const Orders = (props) => {
         />
       </div>
       <div className="sm-order-item-products">
-        {item.products.map((i) => (
-          <img
-            className="sm-order-item-thumbnail"
-            src={i.product.images[0]}
-            alt="product thumbnail"
-          />
-        ))}
+        {
+          // for each item in order, add thumbnail
+          item.products.map((i) => (
+            <img
+              className="sm-order-item-thumbnail"
+              src={i.product.images[0]}
+              alt="product thumbnail"
+            />
+          ))
+        }
       </div>
     </div>
   );
@@ -49,11 +58,12 @@ export const Orders = (props) => {
       {orders.length === 0 ? (
         <p>You have no orders.</p>
       ) : (
+        // generate grid of orders
         <Grid container direction="column" justify="center" alignItems="center">
           {orders
             .slice(0)
             .reverse()
-            .map(item => renderOrderItems(item))}
+            .map((item) => renderOrderItems(item))}
         </Grid>
       )}
     </div>

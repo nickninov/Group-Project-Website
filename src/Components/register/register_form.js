@@ -1,10 +1,14 @@
-import React from "react";
-import { useState } from "react";
-import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
-import "./register_form.css";
+import React, { useState } from "react";
 
-import { useHistory } from "react-router-dom";
+// components
 import CustomButton from "../../Components/common/custom_button";
+
+// packages
+import { useHistory } from "react-router-dom";
+import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
+
+// styles
+import "./register_form.css";
 
 export default function RegisterForm(props) {
   const history = useHistory();
@@ -51,7 +55,7 @@ export default function RegisterForm(props) {
             autoFocus
             type="firstName"
             value={firstName}
-            onChange={e => setFirstName(e.target.value)}
+            onChange={(e) => setFirstName(e.target.value)}
           />
         </FormGroup>
         <FormGroup controlId="lastName" bsSize="large">
@@ -59,7 +63,7 @@ export default function RegisterForm(props) {
           <FormControl
             type="lastName"
             value={lastName}
-            onChange={e => setLastName(e.target.value)}
+            onChange={(e) => setLastName(e.target.value)}
           />
         </FormGroup>
         <FormGroup controlId="email" bsSize="large">
@@ -67,7 +71,7 @@ export default function RegisterForm(props) {
           <FormControl
             type="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </FormGroup>
         <FormGroup controlId="phone" bsSize="large">
@@ -75,7 +79,7 @@ export default function RegisterForm(props) {
           <FormControl
             type="phone"
             value={phone}
-            onChange={e => setPhone(e.target.value)}
+            onChange={(e) => setPhone(e.target.value)}
           />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
@@ -83,7 +87,7 @@ export default function RegisterForm(props) {
           <FormControl
             type="password"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
         <FormGroup controlId="confirm_password" bsSize="large">
@@ -91,9 +95,10 @@ export default function RegisterForm(props) {
           <FormControl
             type="password"
             value={confirm_password}
-            onChange={e => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e.target.value)}
           />
         </FormGroup>
+        {/* custom button to display register button */}
         <CustomButton
           fullWidth={true}
           script={handleCallback}
@@ -106,6 +111,7 @@ export default function RegisterForm(props) {
           <div className="checkout-details-change">
             <span>Already have an account? </span>
             <div className="checkout-details-change-button">
+              {/* custom button to display login button */}
               <CustomButton
                 bgColor="#da7272"
                 textColor="#A72D2D"

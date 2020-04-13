@@ -1,8 +1,10 @@
 import React from "react";
 
+// packages
 import { Button, withStyles } from "@material-ui/core";
 
-export const CustomButton = props => {
+export const CustomButton = (props) => {
+  // applying styles through Material UI
   const CustomButton = withStyles({
     root: {
       backgroundColor: props.bgColor,
@@ -12,9 +14,10 @@ export const CustomButton = props => {
       textTransform: "none",
       "&:hover": {
         backgroundColor: props.textColor,
-        color: props.bgColor
-      }
-    }
+        color: props.bgColor,
+      },
+    },
+    // creating CustomButton element based on button
   })(Button);
 
   return (

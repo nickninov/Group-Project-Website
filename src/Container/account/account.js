@@ -25,6 +25,7 @@ export default class Account extends React.Component {
     };
   }
 
+  // method for saving basic user details
   onSave = async (firstName, lastName, email, phone) => {
     let acc = JSON.parse(JSON.stringify(this.state.account));
 

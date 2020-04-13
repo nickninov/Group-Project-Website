@@ -1,26 +1,23 @@
 import React from "react";
 
+// components
 import Loading from "../Components/common/loading";
-
 import LandingPage from "../Components/home/landing_page";
-import Item from "../Components/results/item";
-
-import { getSearchProductById } from "../API/api";
 
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
+      loading: true, // used to store state of loading
     };
   }
 
   async componentDidMount() {
+    // find if session is guest or logged in
     const guest = (await this.props.getToken()) == null ? true : false;
 
-    const pageData = {
+    const data = {
       guest: guest,
-      // slideshow: [],
       hero: [
         {
           url:
@@ -50,12 +47,13 @@ export default class Home extends React.Component {
           "5e8b73052f6f7e7aa030db7a",
           "5e8b73052f6f7e7aa030db81",
           "5e8b73052f6f7e7aa030db79",
-        ]
+        ],
       },
     };
 
+    // set retrieved data to state
     this.setState({
-      data: pageData,
+      data,
       loading: false,
     });
   }

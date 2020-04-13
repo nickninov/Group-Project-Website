@@ -1,33 +1,40 @@
 import React from "react";
 
+// components
+import CustomButton from "../common/custom_button";
+import { AddressBoxes } from "../common/address_box";
+
+// packages
 import { Container, Col, Row } from "react-bootstrap";
 import PersonIcon from "@material-ui/icons/Person";
 
-import CustomButton from "../common/custom_button";
-
-import { AddressBoxes } from "../common/address_box";
-
+// styles
 import "./confirm.css";
 
 export const Confirm = (props) => {
+  // get prop data
   const cart = props.userCart;
   const account = props.userAccount;
   const deliveryText = props.deliveryText;
   const deliveryCost = props.deliveryCost;
   const giftEnabled = props.giftEnabled;
 
+  // initalise variables
   var billing = null;
   var delivery = null;
   var same = false;
+  var addresses;
 
+  // set billing and delivery to relevant variables
   account.addresses.forEach((e) => {
     e.isBilling && (billing = e);
     e.isDelivery && (delivery = e);
   });
 
+  // check if addresses are the same
   billing === delivery && (same = true);
 
-  var addresses;
+  // set addresses variable to the relevant content
   if (billing == null && delivery == null) {
     addresses = (
       <div className="confirm-address-error">
@@ -69,6 +76,7 @@ export const Confirm = (props) => {
       </Row>
       <Row>
         <Col lg={7}>
+          {/* show addresses */}
           {addresses}
           <div className="checkout-details-change">
             <span>Change these details in your</span>
@@ -86,28 +94,35 @@ export const Confirm = (props) => {
         </Col>
         <Col lg={5}>
           <div>
-            {cart.cart.map((e) => (
-              <div className="checkout-confirm-item" style={{fontWeight: "bold"}}>
-                <div>
-                  {e.quantity}x {e.product.name}
+            {
+              // present each item with their respected quantity and price
+              cart.cart.map((e) => (
+                <div
+                  className="checkout-confirm-item"
+                  style={{ fontWeight: "bold" }}
+                >
+                  <div>
+                    {e.quantity}x {e.product.name}
+                  </div>
+                  <div>£{e.subTotal.toFixed(2)}</div>
                 </div>
-                <div>
-                  £{e.subTotal.toFixed(2)}
-                </div>
-              </div>
-            ))}
+              ))
+            }
             <div className="checkout-confirm-item">
               <div style={{ textTransform: "capitalize" }}>
                 {deliveryText} Shipping
               </div>
               <div>£{deliveryCost.toFixed(2)}</div>
             </div>
-            {giftEnabled && (
-              <div className="checkout-confirm-item">
-                <div>Gift</div>
-                <div>Free</div>
-              </div>
-            )}
+            {
+              // if gift selected, present in confirmation page
+              giftEnabled && (
+                <div className="checkout-confirm-item">
+                  <div>Gift</div>
+                  <div>Free</div>
+                </div>
+              )
+            }
           </div>
           <div>
             <div className="checkout-confirm-total">

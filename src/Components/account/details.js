@@ -1,40 +1,41 @@
 import React, { useState } from "react";
 
-// common
+// components
 import CustomButton from "../../Components/common/custom_button";
 
-// external
+// packages
 import { TextField } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 
+// styles
 import "./details.css";
 
 export default function Details(props) {
+  // get prop data
   let user = props.account;
-
   const errors = props.errors;
   const errEx = errors != null ? true : false;
 
-  console.log("errs in details");
-  console.log(errors);
-
+  // var and setter creation with hooks
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [email, setEmail] = useState(user.email);
   const [phone, setPhone] = useState(user.phone);
 
+  // callback
   function saveDetails() {
     props.onSave(firstName, lastName, email, phone);
   }
 
+  // validation helpers for input fields
   function errCheckBool(attribute) {
     return errEx && errors[attribute] != "" ? true : false;
   }
-
   function errCheckText(attribute) {
     return errEx ? errors[attribute] : "";
   }
 
+  // render
   return (
     <div>
       <div className="details-basic-credentials-wrapper">

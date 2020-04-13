@@ -1,20 +1,19 @@
-
 .option-wrapper {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .option-content-wrapper {
-    padding: 20px;
+  padding: 20px;
 }
 
 .option-content-bottom-wrapper {
-    padding: 12px 20px 5px 20px;
+  padding: 12px 20px 5px 20px;
 }
 
 .option-content-divider {
-    border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
 }
 
 .option-header {
-    font-weight: 600;
+  font-weight: 600;
 }

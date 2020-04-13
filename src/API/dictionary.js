@@ -4,32 +4,25 @@
 
 const _serverDomain = "http://localhost:80";
 const _apiVersion = "/v1";
-const _apiBase = `${_serverDomain}${_apiVersion}`;
+const _base = `${_serverDomain}${_apiVersion}`;
+
+// unprotected
+export const apiSearchCategory = () => `${_base}/search/category`;
+export const apiSearchCategoryById = (id) => `${_base}/search/category/${id}`;
+export const apiSearchProduct = () => `${_base}/search/product`;
+export const apiSearchProductById = (id) => `${_base}/search/product/${id}`;
+export const apiSearchProductBySku = (sku) => `${_base}/search/product/${sku}`;
+export const apiSearchProductByName = (name) =>
+  `${_base}/search/product/${name}`;
 
 // authentication
-export const apiLogin = () => `${_apiBase}/auth/login`;
-export const apiRegister = () => `${_apiBase}/auth/register`;
+export const apiLogin = () => `${_base}/auth/login`;
+export const apiRegister = () => `${_base}/auth/register`;
 
-// account
-export const apiUser = () => `${_apiBase}/user`;
-export const apiUserAccount = () => `${_apiBase}/user/account`;
-
-// cart
-export const apiUserCart = () => `${_apiBase}/user/cart`;
-
-// order
-export const apiOrder = () => `${_apiBase}/user/order`;
-
-// Update stars
-export const apiRating = () => `${_apiBase}/user/rate`;
-
-// products
-export const apiSearchCategory = () => `${_apiBase}/search/category`;
-export const apiSearchCategoryById = id => `${_apiBase}/search/category/${id}`;
-export const apiSearchProduct = () => `${_apiBase}/search/product`;
-export const apiSearchProductById = id => `${_apiBase}/search/product/${id}`;
-export const apiSearchProductBySku = sku => `${_apiBase}/search/product/${sku}`;
-export const apiSearchProductByName = name =>
-  `${_apiBase}/search/product/${name}`;
-
+// protected
+export const apiUser = () => `${_base}/user`;
+export const apiUserAccount = () => `${_base}/user/account`;
+export const apiUserCart = () => `${_base}/user/cart`;
+export const apiOrder = () => `${_base}/user/order`;
+export const apiRating = () => `${_base}/user/rate`;
 

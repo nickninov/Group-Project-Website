@@ -1,18 +1,19 @@
 import React from "react";
 
+// components
+import { Slideshow } from "./slideshow";
+
+// api
+import { getSearchProductById } from "../../API/api";
+
+// packages
 import * as FeatherIcon from "react-feather";
-
 import { Link } from "react-router-dom";
-
-import Item from "../results/item";
 import Results from "../../Container/results";
 import PersonIcon from "@material-ui/icons/Person";
 import CustomButton from "../common/custom_button";
 
-import { getSearchProductById } from "../../API/api";
-
-import { Slideshow } from "./slideshow";
-
+// styles
 import "./landing_page.css";
 
 export const LandingPage = (props) => {
@@ -24,6 +25,7 @@ export const LandingPage = (props) => {
         <Slideshow />
       </div>
 
+      {/* hero */}
       <div className="home-section-hero-alt home-section-hero">
         <img src={data.hero[0].url} />
         <h2>
@@ -33,6 +35,7 @@ export const LandingPage = (props) => {
         </h2>
       </div>
 
+      {/* new releases */}
       <div className="home-section">
         <div>
           <h2>
@@ -55,6 +58,7 @@ export const LandingPage = (props) => {
         </div>
       </div>
 
+      {/* hero */}
       <div className="home-section-hero">
         <img src={data.hero[1].url} />
         <h2>
@@ -64,6 +68,7 @@ export const LandingPage = (props) => {
         </h2>
       </div>
 
+      {/* trending */}
       <div className="home-section-invert home-section ">
         <div>
           {data.highlight.trendingProducts.map((e) => {
@@ -86,6 +91,7 @@ export const LandingPage = (props) => {
         </div>
       </div>
 
+      {/* favourites */}
       <div className="home-section">
         <div>
           <h2>
@@ -108,6 +114,7 @@ export const LandingPage = (props) => {
         </div>
       </div>
 
+      {/* login/register for guests */}
       <div
         className="home-section-login"
         style={{ display: data.guest ? "block" : "none" }}
@@ -137,6 +144,7 @@ export const LandingPage = (props) => {
         </div>
       </div>
 
+      {/* all products */}
       <div className="home-section-products">
         <Results />
       </div>

@@ -1,5 +1,6 @@
 import React from "react";
 
+// styles
 import "./centred_text.css";
 
 const CentredText = (props) => (
