@@ -29,9 +29,6 @@ export default class Account extends React.Component {
   onSave = async (firstName, lastName, email, phone) => {
     let acc = JSON.parse(JSON.stringify(this.state.account));
 
-    console.log("acc in onSave");
-    console.log(acc);
-
     acc.firstName = firstName;
     acc.lastName = lastName;
     acc.email = email;

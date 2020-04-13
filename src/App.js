@@ -20,13 +20,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AsyncStorage } from "AsyncStorage";
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      token: true, // token exists
-    };
-  }
-
   // get from user token from storage
   async getToken() {
     const value = await AsyncStorage.getItem("token");
