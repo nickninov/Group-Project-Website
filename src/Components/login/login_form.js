@@ -1,12 +1,16 @@
-import React from "react";
-import { useState } from "react";
-import { Button, FormGroup, FormControl, FormLabel } from "react-bootstrap";
-import "./login_form.css";
+import React, { useState } from "react";
 
-import { useHistory } from "react-router-dom";
+// components
 import CustomButton from "../../Components/common/custom_button";
 
-export const LoginForm = props => {
+// packages
+import { FormGroup, FormControl, FormLabel } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+
+// styles
+import "./login_form.css";
+
+export const LoginForm = (props) => {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
@@ -16,7 +20,7 @@ export const LoginForm = props => {
     return email.length > 0 && password.length > 0;
   }
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
   };
 
@@ -33,17 +37,18 @@ export const LoginForm = props => {
             autoFocus
             type="email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </FormGroup>
         <FormGroup controlId="password" bsSize="large">
           <FormLabel>Password</FormLabel>
           <FormControl
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
         </FormGroup>
+        {/* custom button to display login button */}
         <CustomButton
           fullWidth={true}
           script={handleCallback}
@@ -57,6 +62,7 @@ export const LoginForm = props => {
           <div className="checkout-details-change">
             <span>Don't have an account? </span>
             <div className="checkout-details-change-button">
+              {/* custom button to display register button */}
               <CustomButton
                 bgColor="#da7272"
                 textColor="#A72D2D"

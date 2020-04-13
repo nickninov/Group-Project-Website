@@ -1,23 +1,21 @@
-
-
 .item-price {
-    margin: 0;
-    padding: 0;
-    text-align: left;
+  margin: 0;
+  padding: 0;
+  text-align: left;
 }
 
 .item-price-current {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .item-price-original-wrapper {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 .item-price-original {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .item-prct-off {
-    font-weight: 800;
+  font-weight: 800;
 }

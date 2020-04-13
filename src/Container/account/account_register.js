@@ -1,8 +1,12 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 
+// components
 import RegisterForm from "../../Components/register/register_form";
 
+// packages
+import { useHistory } from "react-router-dom";
+
+// api
 import { postRegister } from "../../API/api";
 
 export function AccountRegister(props) {
@@ -23,12 +27,15 @@ export function AccountRegister(props) {
       phone,
       password,
       confirm_password
-    ).then(res => {
+    ).then((res) => {
       if (res.body.token != null) {
         props.setToken(res.body.token);
         history.push("/account");
       } else {
-        alert(JSON.stringify(res.body)); // #TODO
+        // show validation error messages
+        for (const property in res.body) {
+          alert(`${res.body[property]}`);
+        }
       }
     });
   }

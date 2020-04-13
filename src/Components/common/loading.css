@@ -1,12 +1,7 @@
-
-/* .loading-wrapper {
-
-} */
-
 .loading-text {
-    font-style: italic;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  font-style: italic;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

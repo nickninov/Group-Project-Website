@@ -1,9 +1,9 @@
 import React from "react";
 
-// common
+// components
 import CustomButton from "../../Components/common/custom_button";
 
-// external
+// packages
 import Modal from "react-bootstrap/Modal";
 import { useState } from "react";
 import { TextField } from "@material-ui/core";
@@ -13,15 +13,18 @@ import CloseIcon from "@material-ui/icons/Close";
 import SaveIcon from "@material-ui/icons/Save";
 import DeleteIcon from "@material-ui/icons/Delete";
 
+// styles
 import "./address.css";
 
 export default function Address(props) {
+  // get prop data
   const show = props.show;
   const errors = props.errors;
   const errEx = errors != null ? true : false;
   const addr = props.address;
   const edit = addr == null ? false : true;
 
+  // setup variable and setters for each variables using hooks
   const [firstLine, setFirstLine] = useState(edit ? addr.firstLine : "");
   const [secondLine, setSecondLine] = useState(edit ? addr.secondLine : "");
   const [townCity, setTownCity] = useState(edit ? addr.townCity : "");
@@ -30,14 +33,13 @@ export default function Address(props) {
   const [isBilling, setIsBilling] = useState(edit ? addr.isBilling : false);
   const [isDelivery, setIsDelivery] = useState(edit ? addr.isDelivery : false);
 
+  // callbacks
   function onHide() {
     props.onHide();
   }
-
   function onDelete() {
     props.onDelete();
   }
-
   function onSave() {
     props.onSave(
       {
@@ -53,10 +55,10 @@ export default function Address(props) {
     );
   }
 
+  // validation formatting helpers for input fields
   function errCheckBool(attribute) {
-    return (errEx && errors[attribute] != "") ? true : false;
-  } 
-
+    return errEx && errors[attribute] != "" ? true : false;
+  }
   function errCheckText(attribute) {
     return errEx ? errors[attribute] : "";
   }
@@ -64,11 +66,13 @@ export default function Address(props) {
   return (
     <Modal show={show} size="lg" onHide={onHide} centered>
       <Modal.Header closeButton>
+        {/* title */}
         <Modal.Title id="containe›d-modal-title-vcenter">
           {edit ? "Edit Address" : "Add Address"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {/* body */}
         <TextField
           className="account-address-textfield"
           id="standard-basic"
@@ -78,7 +82,6 @@ export default function Address(props) {
           error={errCheckBool("firstLine")}
           helperText={errCheckText("firstLine")}
         />
-
         <TextField
           className="account-address-textfield"
           id="standard-basic"
@@ -88,7 +91,6 @@ export default function Address(props) {
           error={errCheckBool("secondLine")}
           helperText={errCheckText("secondLine")}
         />
-
         <TextField
           className="account-address-textfield"
           id="standard-basic"
@@ -98,9 +100,7 @@ export default function Address(props) {
           error={errCheckBool("townCity")}
           helperText={errCheckText("townCity")}
         />
-
         <br />
-
         <TextField
           className="account-address-textfield"
           id="standard-basic"
@@ -110,7 +110,6 @@ export default function Address(props) {
           error={errCheckBool("county")}
           helperText={errCheckText("county")}
         />
-
         <TextField
           className="account-address-textfield"
           id="standard-basic"
@@ -120,9 +119,8 @@ export default function Address(props) {
           error={errCheckBool("postcode")}
           helperText={errCheckText("postcode")}
         />
-        
-
         <br />
+        {/* billing and delivery checkboxes */}
         <div className="account-address-textfield">
           <FormControlLabel
             label="Billing"
@@ -133,7 +131,6 @@ export default function Address(props) {
               />
             }
           />
-
           <FormControlLabel
             label="Delivery"
             control={
@@ -144,9 +141,7 @@ export default function Address(props) {
             }
           />
         </div>
-
         <br />
-
         {edit && (
           <div className="account-address-textfield">
             <CustomButton
@@ -160,6 +155,7 @@ export default function Address(props) {
         )}
       </Modal.Body>
       <Modal.Footer>
+        {/* footer */}
         <CustomButton
           script={onHide}
           bgColor="#EAEFD3"
@@ -167,7 +163,6 @@ export default function Address(props) {
           text="Discard"
           icon={<CloseIcon />}
         />
-
         <CustomButton
           script={onSave}
           bgColor="#A72D2D"

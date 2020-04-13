@@ -10,7 +10,7 @@ const fadeProperties = {
   duration: 5000,
   transitionDuration: 500,
   infinite: true,
-  indicators: true
+  indicators: true,
 };
 
 export const Slideshow = () => {

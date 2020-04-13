@@ -1,37 +1,31 @@
 import React from "react";
 
+// components
 import NavBar from "../Components/header/nav_bar";
 
-import { getUser, getSearchCategories } from "../API/api";
+// packages
 import { Badge } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
-import { withRouter } from "react-router-dom";
+// api
+import { getUser, getSearchCategories } from "../API/api";
 
-// business logic component
 export class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
-      category: [],
+      data: null, // data to populate the personalised account and cart buttons
+      category: [], // categories shown on header
     };
   }
 
   async logout() {
     await this.props.resetToken(null);
-    console.log("token reset");
   }
-
-  // #TODO DEVELOPMENT :: START
-  async getSomething() {
-    var data;
-    data = await this.props.getToken();
-    console.log("The icon of sin!");
-  }
-  // DEVELOPMENT :: END
 
   async componentDidMount() {
+    // get user token
     const token = await this.props.getToken();
 
     if (token != null) {
@@ -50,8 +44,8 @@ export class Header extends React.Component {
   render() {
     const data = this.state.data;
 
+    // set display data to relevant session state, guest or logged in
     const message = data == null ? "Account" : "Welcome " + data.firstName;
-
     const basketAmount =
       data == null ? (
         "Cart"
@@ -62,16 +56,13 @@ export class Header extends React.Component {
       );
 
     return (
-      <div>
-        <button onClick={() => this.getSomething()}>get token</button>
-        <NavBar
-          history={this.props.history}
-          logout={() => this.logout()}
-          message={message}
-          basketAmount={basketAmount}
-          category={this.state.category}
-        />
-      </div>
+      <NavBar
+        history={this.props.history}
+        logout={() => this.logout()}
+        message={message}
+        basketAmount={basketAmount}
+        category={this.state.category}
+      />
     );
   }
 }

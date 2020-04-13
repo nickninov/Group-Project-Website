@@ -1,18 +1,17 @@
-
 .content-wrapper {
-    /* width: 100%; */
-    max-width: 1000px !important;
-    margin: 0 auto;
-    padding: 20px;
+  /* width: 100%; */
+  max-width: 1000px !important;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .content-steps {
-    display: flex;
+  display: flex;
 }
 
 .content-navigator {
-    margin-top: 50px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }

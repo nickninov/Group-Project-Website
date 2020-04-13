@@ -1,20 +1,20 @@
 import React from "react";
 
+// components
 import Loading from "../Components/common/loading";
-
-// misc.
 import Wrapper from "../Components/checkout/wrapper";
 import Steps from "../Components/checkout/steps";
 import BackwardButton from "../Components/common/buttons/backward_button";
 import ForwardButton from "../Components/common/buttons/forward_button";
 import CentredText from "../Components/common/centred_text";
-
-// checkout sections
 import Cart from "../Components/checkout/cart";
 import Options from "../Components/checkout/options";
 import Confirm from "../Components/checkout/confirm";
 
-// API calls
+// packages
+import { PayPalButton } from "react-paypal-button-v2";
+
+// api
 import {
   getUserCart,
   updateUserCart,
@@ -22,25 +22,23 @@ import {
   postOrder,
 } from "../API/api";
 
-// Paypal button
-import { PayPalButton } from "react-paypal-button-v2";
-
-// E-mail: n.ninov99-facilitator@gmail.com
-// Password: monkaSmonkaS123
-
+/**
+ * PayPal login details:
+ *  email: n.ninov99-facilitator@gmail.com
+ *  password: monkaSmonkaS123
+ */
 
 export default class Checkout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: true,
-      networkLoad: false,
-      empty: false,
-      index: 0,
-      deliveryValue: "economy",
-      giftValue: false,
-      // Get total price to pass to PayPal
-      paypalTotal: 0
+      loading: true, // used to store state of loading
+      networkLoad: false, // stating whether network activity is present to disable buttons
+      empty: false, // represent if cart is empty
+      index: 0, // index of section user is in (default 0: cart)
+      deliveryValue: "economy", // represent the delivery choice (default: economy)
+      giftValue: false, // represent the gift option choice (default: none)
+      paypalTotal: 0, // Get total price to pass to PayPal
     };
   }
 
@@ -52,14 +50,16 @@ export default class Checkout extends React.Component {
         this.deleteCartItem(_id);
       }
     } else {
+      // remove the ability to perform more actions while request is processed
       this.setState({
         networkLoad: true,
       });
 
       const token = await this.props.getToken();
       const currentCart = await getUserCart(token);
-      let newCart = [];
 
+      // change relevant quantity (in new cart)
+      let newCart = [];
       currentCart.body.cart.forEach((e) => {
         newCart.push({
           product: e.product._id,
@@ -67,43 +67,29 @@ export default class Checkout extends React.Component {
         });
       });
 
+      // send new cart
       const res = await updateUserCart({ cart: newCart }, token);
 
       if (res.status == 200) {
+        // re-enable ability to perform quantity changes
         this.setState({
           networkLoad: false,
           cart: res.body,
         });
       } else {
         alert("Something went wrong.");
-        // window.location.reload();
+        window.location.reload();
       }
-
-      // let currentCart = this.state.cart;
-      // currentCart.cart.forEach((e) => {
-      //   if (e._id === _id) {
-      //     e.quantity += quanChange;
-      //   }
-      // });
-
-      // const res = await updateUserCart({ cart: currentCart.cart }, token);
-
-      // if (res.status == 200) {
-      //   alert("ok!")
-      //   this.setState({
-      //     cart: this.reformulateData(currentCart),
-      //   });
-      // } else {
-      //   alert("Something went wrong.");
-      // }
     }
   };
 
   deleteCartItem = async (id) => {
+    // get token and current cart data
     const token = await this.props.getToken();
     const currentCart = await getUserCart(token);
-    let newCart = [];
 
+    // remove relevant product (in new cart)
+    let newCart = [];
     currentCart.body.cart.forEach((e) => {
       if (e._id != id) {
         newCart.push({
@@ -113,6 +99,7 @@ export default class Checkout extends React.Component {
       }
     });
 
+    // send new cart
     const res = await updateUserCart({ cart: newCart }, token);
 
     if (res.status == 200) {
@@ -140,57 +127,62 @@ export default class Checkout extends React.Component {
       total += e.subTotal;
     });
     cartData.total = total;
-    
+
     // Set total amount for PayPal
     this.setState({
-      paypalTotal: total.toFixed(2)
-    })
+      paypalTotal: total.toFixed(2),
+    });
     return cartData;
   };
 
-  incrementSection = (num) => {
+  /**
+   * change what section is shown to user.
+   *
+   * checkout process consists of:
+   *  0: cart
+   *  1: options (delivery and gift)
+   *  2: confirm (show address and cart contents)
+   */
+  incrementSection = async (num) => {
     let i = this.state.index;
-    let l = 2;
-    
+    let l = 2; // number of sections
+
     if (num === 1 || num == null) {
+      // increment section (if not already on the last)
+      //! when testing without PayPal, re-add the following line:
       i === l && this.finishOrder();
-      this.setState({ index: i >= l ? l : i + 1 });
+
+      if (i === 0 && (num === 1 || num == null)) {
+        const token = await this.props.getToken();
+        const currentCart = await getUserCart(token);
+
+        let valid = true;
+        currentCart.body.cart.forEach((e) => {
+          if (e.quantity > e.product.stock) {
+            valid = false;
+          }
+        });
+
+        if (valid) {
+          this.setState({ index: i >= l ? l : i + 1 });
+        } else {
+          alert("One of more products exceed their maximum quantity.");
+        }
+      } else {
+        this.setState({ index: i >= l ? l : i + 1 });
+      }
     } else if (num === -1) {
-      i == 0 && alert("end");
+      // decrement section (if not already on the first)
       this.setState({ index: i <= 0 ? 0 : i - 1 });
     }
   };
 
-  async componentDidMount() {
-    const token = await this.props.getToken();
-
-    if (!token) {
-      this.props.history.push("/login");
-    } else {
-      const userCart = await getUserCart(token);
-      const userAccount = await getUserAccount(token);
-
-      if (userCart.body.cart.length === 0 || userCart.body.cart == null) {
-        this.setState({
-          empty: true,
-        });
-      } else {
-        this.setState({
-          cart: this.reformulateData(userCart.body),
-          account: userAccount.body,
-          loading: false,
-          message: "not empty",
-        });
-      }
-    }
-  }
-
+  // methods for changing delivery options
   changeDeliveryOption = (value) => {
     this.setState({
       deliveryValue: value,
     });
   };
-
   changeGiftOption = (bool) => {
     this.setState({
       giftValue: bool,
@@ -198,10 +190,14 @@ export default class Checkout extends React.Component {
   };
 
   finishOrder = async () => {
+    // get user token
     const token = await this.props.getToken();
 
+    // variable declaration
     var billing = null;
     var delivery = null;
+
+    // variable definitions
     const account = this.state.account;
 
     account.addresses.forEach((e) => {
@@ -209,14 +205,10 @@ export default class Checkout extends React.Component {
       e.isDelivery && (delivery = e);
     });
 
-    console.log({
-      shippingAddress: delivery._id,
-      billingAddress: billing._id,
-      isGift: this.state.giftValue,
-      deliveryType: this.state.deliveryValue,
-    });
-
     if (billing != null && delivery != null) {
+      // billing and delivery address present
+
+      // make order
       const res = await postOrder(
         {
           shippingAddress: delivery._id,
@@ -228,19 +220,22 @@ export default class Checkout extends React.Component {
       );
 
       if (res.status == 200) {
-        // alert("Thank you for shopping. Your order has been confirmed.");
+        // on success, redirect user to their order in account
         this.props.history.push("/order/" + res.body._id);
         window.location.reload();
       } else if (res.status == 400) {
         const userCart = await getUserCart(token);
 
-        userCart.body.cart.forEach(e => {
-          res.body.cart.forEach(f => {
+        // provide appropriate feedback if there are too many items
+        userCart.body.cart.forEach((e) => {
+          res.body.cart.forEach((f) => {
             if (e._id == f._id) {
-              alert(`Maximum quantity for "${e.product.name}" is ${e.product.stock}.`);
+              alert(
+                `Maximum quantity for "${e.product.name}" is ${e.product.stock}.`
+              );
             }
           });
-        })
+        });
       } else {
         alert("Error, try again later.");
       }
@@ -248,6 +243,33 @@ export default class Checkout extends React.Component {
       alert("A billing and delivery address is required.");
     }
   };
+
+  async componentDidMount() {
+    // get user token
+    const token = await this.props.getToken();
+
+    if (!token) {
+      // protected route - if no token (guest), redirect to login
+      this.props.history.push("/login");
+    } else {
+      const userCart = await getUserCart(token);
+      const userAccount = await getUserAccount(token);
+
+      // check if cart is empty
+      if (userCart.body.cart.length === 0 || userCart.body.cart == null) {
+        // on empty display appriopriate message
+        this.setState({
+          empty: true,
+        });
+      } else {
+        this.setState({
+          cart: this.reformulateData(userCart.body),
+          account: userAccount.body,
+          loading: false,
+        });
+      }
+    }
+  }
 
   components() {
     const cart = this.state.cart;
@@ -277,47 +299,37 @@ export default class Checkout extends React.Component {
       />,
     ];
 
-    // PayPal confirm
-    if (this.state.index == 2){
-      console.log(this.state.paypalTotal)
-      return (
-        <Wrapper
-          steps={<Steps index={index} />}
-          section={sections[index]}
-          backwardButton={
-            index == 0 ? (
-              <div />
-            ) : (
-              <BackwardButton script={() => this.incrementSection(-1)} />
-            )
-          }
-          forwardButton = {<PayPalButton 
-            currency = "USD"
-            amount = {this.state.paypalTotal}
-            onSuccess = {(details, data) => {
-              // Finish order
-              this.finishOrder()
-            }}/>}
-        />
-      ); 
-    }
-    else {
-      return (
- 
-        <Wrapper
-          steps={<Steps index={index} />}
-          section={sections[index]}
-          backwardButton={
-            index == 0 ? (
-              <div />
-            ) : (
-              <BackwardButton script={() => this.incrementSection(-1)} />
-            )
-          }
-          forwardButton={<ForwardButton script={() => this.incrementSection()} />}
-        />
-      );
-    }
+    return (
+      <Wrapper
+        steps={<Steps index={index} />}
+        section={sections[index]}
+        backwardButton={
+          index == 0 ? (
+            // if on inital section, do not display back button
+            <div />
+          ) : (
+            <BackwardButton script={() => this.incrementSection(-1)} />
+          )
+        }
+        forwardButton={
+          //! remove the following line and un-comment the lines following
+          <ForwardButton script={() => this.incrementSection()} />
+          // this.state.index == 2 ? (
+          //   // if on the last page, show PayPal button
+          //   <PayPalButton
+          //     currency="USD"
+          //     amount={this.state.paypalTotal}
+          //     onSuccess={(details, data) => {
+          //       // Finish order
+          //       this.finishOrder();
+          //     }}
+          //   />
+          // ) : (
+          //   <ForwardButton script={() => this.incrementSection()} />
+          // )
+        }
+      />
+    );
   }
 
   render() {

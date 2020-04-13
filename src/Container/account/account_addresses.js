@@ -2,31 +2,30 @@ import React from "react";
 
 // components
 import Address from "../../Components/account/address";
-
-// common
 import { AddressBox } from "../../Components/common/address_box";
 import CustomButton from "../../Components/common/custom_button";
 
 // utility
 import errorCheck from "../../Utility/checkError";
 
-// api
-import { updateUserAccount } from "../../API/api";
-
-// external 
+// packages
 import EditIcon from "@material-ui/icons/Edit";
 import PlaylistAddIcon from "@material-ui/icons/PlaylistAdd";
+
+// api
+import { updateUserAccount } from "../../API/api";
 
 export default class AccountAddresses extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: null,
-      modalShow: false,
-      modalData: null,
+      errors: null, // used by modal as validation error data
+      modalShow: false, // visibility of modal
+      modalData: null, // modal data
     };
   }
 
+  // toggle visibility of modal
   showModal(modalData) {
     this.setState({
       errors: null,
@@ -34,57 +33,44 @@ export default class AccountAddresses extends React.Component {
       modalData,
     });
   }
-
   hideModal() {
     this.setState({
       modalShow: false,
     });
   }
 
-  onDelete = async (id) => {
-    let acc = JSON.parse(JSON.stringify(this.props.account));
-
-    let indexToDelete = 0;
-    let index = 0;
-    acc.addresses.forEach((e) =>
-      e._id === id ? (indexToDelete = index) : index++
-    );
-    acc.addresses.splice(indexToDelete, indexToDelete + 1);
-
-    let res = await updateUserAccount(acc, this.props.token);
-
-    if (res.status == 200) {
-      window.location.reload();
-    } else {
-      alert("Something went wrong.");
-      window.location.reload();
-    }
-  };
-
   onSave = async (address, id) => {
+    // copy of account data
     let acc = JSON.parse(JSON.stringify(this.props.account));
 
+    // on save of new address, enforce one billing and delivery address
     address.isBilling && acc.addresses.forEach((e) => (e.isBilling = false));
     address.isDelivery && acc.addresses.forEach((e) => (e.isDelivery = false));
 
     if (id != null ? true : false) {
+      // existing address
       let indexToChange = 0;
       let index = 0;
       acc.addresses.forEach((e) => {
         e._id === id ? (indexToChange = index) : index++;
       });
+      // replace the correct address by index
       acc.addresses[indexToChange] = address;
     } else {
+      // new address
       acc.addresses.push(address);
     }
 
+    // send updated account to server
     let res = await updateUserAccount(acc, this.props.token);
 
     if (res.status == 200) {
+      // on success, reload page
       window.location.reload();
     } else if (res.status == 400) {
       let rawErrors = res.body.addresses;
 
+      // format validation errors in line to how address modal expects them
       const errors = {
         firstLine: errorCheck(rawErrors, "firstLine"),
         secondLine: errorCheck(rawErrors, "secondLine"),
@@ -93,6 +79,7 @@ export default class AccountAddresses extends React.Component {
         postcode: errorCheck(rawErrors, "postcode"),
       };
 
+      // update error data in state (to display in modal)
       this.setState({
         errors,
       });
@@ -101,7 +88,34 @@ export default class AccountAddresses extends React.Component {
     }
   };
 
+  onDelete = async (id) => {
+    // copy of account data
+    let acc = JSON.parse(JSON.stringify(this.props.account));
+
+    // get index of address to delete
+    let indexToDelete = 0;
+    let index = 0;
+    acc.addresses.forEach((e) =>
+      e._id === id ? (indexToDelete = index) : index++
+    );
+
+    // cut relevant address from list
+    acc.addresses.splice(indexToDelete, indexToDelete + 1);
+
+    // send updated account
+    let res = await updateUserAccount(acc, this.props.token);
+
+    if (res.status == 200) {
+      // on success, reload page
+      window.location.reload();
+    } else {
+      alert("Something went wrong.");
+      window.location.reload();
+    }
+  };
+
   components() {
+    // render each address as jsx component
     let addresses = this.props.account.addresses.map((e) => {
       const eTitle =
         e.isDelivery && e.isBilling
@@ -127,6 +141,7 @@ export default class AccountAddresses extends React.Component {
       );
     });
 
+    // ability to add new address through jsx element
     addresses.push(
       <div className="details-box-add">
         <CustomButton
@@ -142,16 +157,19 @@ export default class AccountAddresses extends React.Component {
     return (
       <div>
         <div className="details-content">{addresses}</div>
-        {this.state.modalShow && (
-          <Address
-            show={this.state.modalShow}
-            address={this.state.modalData}
-            errors={this.state.errors}
-            onHide={() => this.hideModal()}
-            onDelete={this.onDelete}
-            onSave={this.onSave}
-          />
-        )}
+        {
+          // show address modal when adding or editing an address
+          this.state.modalShow && (
+            <Address
+              show={this.state.modalShow}
+              address={this.state.modalData}
+              errors={this.state.errors}
+              onHide={() => this.hideModal()}
+              onDelete={this.onDelete}
+              onSave={this.onSave}
+            />
+          )
+        }
       </div>
     );
   }

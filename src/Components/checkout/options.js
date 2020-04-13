@@ -1,4 +1,6 @@
 import React from "react";
+
+// packages
 import Paper from "@material-ui/core/Paper";
 import Radio from "@material-ui/core/Radio";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -7,27 +9,28 @@ import FormGroup from "@material-ui/core/FormGroup";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Container, Col, Row } from "react-bootstrap";
 
+// styles
 import "./options.css";
 
-export const Options = props => {
-
+export const Options = (props) => {
+  // get prop data
   let deliveryValue = props.deliveryValue;
   let giftValue = props.giftValue;
 
+  // setup value and setter through hooks
   const [value, setValue] = React.useState(deliveryValue);
   const [state, setState] = React.useState({ gift: giftValue });
+  const { gift } = state;
 
-  const handleDeliveryChange = event => {
+  // callbacks
+  const handleDeliveryChange = (event) => {
     setValue(event.target.value);
     props.changeDeliveryOption(event.target.value);
   };
-
-  const handleGiftChange = name => event => {
+  const handleGiftChange = (name) => (event) => {
     setState({ ...state, [name]: event.target.checked });
     props.changeGiftOption(event.target.checked);
   };
-
-  const { gift } = state;
 
   return (
     <Container className="option-wrapper">
@@ -40,7 +43,7 @@ export const Options = props => {
               style={{
                 height: "100%",
                 borderRadius: "10px",
-                backgroundColor: "#F8F8F8"
+                backgroundColor: "#F8F8F8",
               }}
             >
               <div className="option-content-wrapper">
@@ -52,6 +55,7 @@ export const Options = props => {
               </div>
               <div className="option-content-divider" />
               <div className="option-content-bottom-wrapper">
+                {/* provide two delivery options */}
                 <RadioGroup
                   aria-label="Options"
                   name="delivery"
@@ -80,7 +84,7 @@ export const Options = props => {
               style={{
                 height: "100%",
                 borderRadius: "10px",
-                backgroundColor: "#F8F8F8"
+                backgroundColor: "#F8F8F8",
               }}
             >
               <div className="option-content-wrapper">
@@ -92,6 +96,7 @@ export const Options = props => {
               </div>
               <div className="option-content-divider" />
               <div className="option-content-bottom-wrapper">
+                {/* add gift options */}
                 <FormGroup>
                   <FormControlLabel
                     control={
