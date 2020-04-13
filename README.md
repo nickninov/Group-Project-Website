@@ -17,7 +17,3 @@
 As buyer:
 - n.ninov99-buyer@gmail.com
 - monkaSmonkaS123
-
-As seller:
-- n.ninov99-facilitator@gmail.com
-- monkaSmonkaS123
