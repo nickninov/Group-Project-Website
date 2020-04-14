@@ -1,13 +1,21 @@
-.Login {
-  padding: 10%;
-}
+    .Login {
+        padding: 10%
+    }
 
-.Login form {
-  margin: 0 auto;
-  max-width: 320px;
-}
+    .Login form {
+        margin: 0 auto;
+        max-width: 320px;
+    }
 
-.p {
-  margin-top: 1rem !important;
-  margin-bottom: 1rem;
-}
+    .p {
+        margin-top: 1rem !important;
+        margin-bottom: 1rem
+    }
+
+    input#email.form-control {
+        max-width: 320px;
+    }
+
+    input#password.form-control {
+        max-width: 320px;
+    }
