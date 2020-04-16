@@ -11,19 +11,24 @@ import { useHistory } from "react-router-dom";
 import "./login_form.css";
 
 export const LoginForm = (props) => {
+
   const history = useHistory();
 
+  // setup variables using hooks
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // validation of the form
   function validateForm() {
     return email.length > 0 && password.length > 0;
   }
 
+  // prevent auto-refresh
   const handleSubmit = (event) => {
     event.preventDefault();
   };
 
+  // callback
   function handleCallback() {
     props.callback(email, password);
   }
@@ -31,6 +36,7 @@ export const LoginForm = (props) => {
   return (
     <div className="Login">
       <form onSubmit={handleSubmit}>
+        {/* email */}
         <FormGroup controlId="email" bsSize="large">
           <FormLabel>Email</FormLabel>
           <FormControl
@@ -40,6 +46,7 @@ export const LoginForm = (props) => {
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormGroup>
+        {/* password */}
         <FormGroup controlId="password" bsSize="large">
           <FormLabel>Password</FormLabel>
           <FormControl

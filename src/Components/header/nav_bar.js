@@ -28,22 +28,26 @@ export function NavBar(props) {
 
   return (
     <Navbar className={s.navbar} expand="lg" sticky="top">
+      {/* logo */}
       <Navbar.Brand href="/" className="navbar-brand">
         <img className="logo" src={logo} alt="Logo"></img>
       </Navbar.Brand>
       <div id="header-mid">
         <Col>
+            {/* search */}
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <SearchForm history={props.history} />
           <Row
             style={{ display: "flex", justifyContent: "center", marginTop: 10 }}
           >
+            {/* ategories */}
             <Categories className={b.button} category={props.category} />
           </Row>
         </Col>
       </div>
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="ml-auto">
+          {/* account with login/register dropdown */}
           <Nav.Item>
             {props.message === "Account" ? (
               <NavDropdown title="Account" id="collasible-nav-dropdown">
@@ -75,6 +79,7 @@ export function NavBar(props) {
               </div>
             )}
           </Nav.Item>
+          {/* cart */}
           <Nav.Item>
             <Nav.Link href="/checkout">{props.basketAmount}</Nav.Link>
           </Nav.Item>

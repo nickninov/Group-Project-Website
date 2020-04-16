@@ -13,6 +13,7 @@ import "./register_form.css";
 export default function RegisterForm(props) {
   const history = useHistory();
 
+  // setup variables using hooks
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,6 +21,7 @@ export default function RegisterForm(props) {
   const [password, setPassword] = useState("");
   const [confirm_password, setConfirmPassword] = useState("");
 
+  // validation of the form
   function validateForm() {
     return (
       firstName.length > 0 &&
@@ -31,10 +33,12 @@ export default function RegisterForm(props) {
     );
   }
 
+  // prevent auto-refresh
   function handleSubmit(event) {
     event.preventDefault();
   }
 
+  // callback
   function handleCallback() {
     props.callback(
       firstName,
@@ -49,6 +53,7 @@ export default function RegisterForm(props) {
   return (
     <div className="Register">
       <form onSubmit={handleSubmit}>
+        {/* first name */}
         <FormGroup controlId="firstName" bsSize="large">
           <FormLabel>First Name</FormLabel>
           <FormControl
@@ -58,6 +63,7 @@ export default function RegisterForm(props) {
             onChange={(e) => setFirstName(e.target.value)}
           />
         </FormGroup>
+        {/* last name */}
         <FormGroup controlId="lastName" bsSize="large">
           <FormLabel>Last Name</FormLabel>
           <FormControl
@@ -66,6 +72,7 @@ export default function RegisterForm(props) {
             onChange={(e) => setLastName(e.target.value)}
           />
         </FormGroup>
+        {/* email */}
         <FormGroup controlId="email" bsSize="large">
           <FormLabel>Email</FormLabel>
           <FormControl
@@ -74,6 +81,7 @@ export default function RegisterForm(props) {
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormGroup>
+        {/* phone number */}
         <FormGroup controlId="phone" bsSize="large">
           <FormLabel>Phone Number</FormLabel>
           <FormControl
@@ -82,6 +90,7 @@ export default function RegisterForm(props) {
             onChange={(e) => setPhone(e.target.value)}
           />
         </FormGroup>
+        {/* password */}
         <FormGroup controlId="password" bsSize="large">
           <FormLabel>Password</FormLabel>
           <FormControl
@@ -90,6 +99,7 @@ export default function RegisterForm(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
+        {/* confirm password */}
         <FormGroup controlId="confirm_password" bsSize="large">
           <FormLabel>Confirm Password</FormLabel>
           <FormControl
