@@ -1,0 +1,21 @@
+.product-wrapper {
+  max-width: 1000px !important;
+}
+
+.product-row {
+  margin-top: 50px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.mid {
+  padding: 0 30px;
+}
+
+.right {
+  padding: 0;
+}

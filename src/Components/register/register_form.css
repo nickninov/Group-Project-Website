@@ -1,0 +1,29 @@
+.Register {
+    padding: 5%
+}
+
+.Register form {
+    margin: 0 auto;
+    max-width: 320px;
+}
+
+.p {
+    margin-top: 1rem !important;
+    margin-bottom: 1rem
+}
+
+input#firstName.form-control {
+    max-width: 320px;
+}
+
+input#lastName.form-control {
+    max-width: 320px;
+}
+
+input#phone.form-control {
+    max-width: 320px;
+}
+
+input#confirm_password.form-control {
+    max-width: 320px;
+}

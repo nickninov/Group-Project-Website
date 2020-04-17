@@ -1,0 +1,86 @@
+.confirm-upper-row {
+  margin-top: 15px;
+}
+
+table,
+td,
+th {
+  border: 0px solid black;
+}
+td,
+th {
+  padding: 0px 15px 25px 0;
+}
+
+.confirm-address-error {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.confirm-total {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.confirm-address-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 35px 0;
+}
+
+.confirm-address {
+  background-color: #f5f5f5;
+  padding: 0px;
+  margin: 0px;
+  width: 225px;
+  border-radius: 10px;
+}
+
+.confirm-addresses-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.confirm-address-header {
+  background-color: #e8e8e8;
+  color: #a0a0a0;
+  font-size: 13px;
+  padding: 5px;
+  font-weight: 700;
+  color: #a0a0a0;
+  width: 100%;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  text-align: center;
+}
+
+.confirm-address-details {
+  padding: 15px;
+}
+
+.checkout-details-change {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkout-details-change-button {
+  margin: 0 10px;
+}
+
+.checkout-confirm-item {
+  border-bottom: 1px solid rgb(245, 245, 245);
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.checkout-confirm-total {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  justify-content: space-between;
+  font-weight: bold;
+  font-size: 20px;
+}

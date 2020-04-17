@@ -10,3 +10,10 @@
 
 3) Run the application
 `npm start`
+
+
+### Login details
+
+As buyer:
+- n.ninov99-buyer@gmail.com
+- monkaSmonkaS123

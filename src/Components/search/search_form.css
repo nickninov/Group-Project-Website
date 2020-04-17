@@ -1,0 +1,19 @@
+form.form-inline {
+    border-radius: 10px !important;
+    margin-right: 10px;
+    width: 600px !important;
+    align-items: center;
+}
+
+input.form-control {
+  border-radius: 10px !important;
+  margin-right: 10px;
+  width: 500px !important;
+  align-self: center;
+}
+
+div.pretty-categories.dropdown {
+  display: flex !important;
+  justify-content: space-evenly;
+  width: 669px;
+}

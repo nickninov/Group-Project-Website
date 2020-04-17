@@ -1,0 +1,22 @@
+.slide-container {
+  width: 70%;
+  margin: auto;
+}
+
+.each-fade {
+  display: flex;
+}
+
+.each-fade .image-container {
+  width: 75%;
+  overflow: hidden;
+}
+
+.each-fade .image-container img {
+  width: 100%;
+}
+
+.wrapper {
+  height: 30vh !important;
+  width: 100%;
+}
