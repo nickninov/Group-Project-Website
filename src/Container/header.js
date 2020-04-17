@@ -50,6 +50,7 @@ export class Header extends React.Component {
       data == null ? (
         "Cart"
       ) : (
+        // badge with number of products in the cart
         <Badge color="secondary" badgeContent={data.cartAmount} max={99}>
           <ShoppingCartIcon />
         </Badge>
